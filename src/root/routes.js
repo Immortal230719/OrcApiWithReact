@@ -5,6 +5,7 @@ import Main from 'containers/Main';
 import Header from 'containers/Header';
 import SingleProduct from 'containers/SingleProduct';
 import CastomBackdrop from 'components/Backdrop';
+import MyAlert from 'components/Alert';
 
 const Routes = () => {
   return (
@@ -15,6 +16,7 @@ const Routes = () => {
         <Route path='/products/:slug' component={SingleProduct} />
       </Switch>
       <CastomBackdrop />
+      <MyAlert />
     </div>
   )
 }

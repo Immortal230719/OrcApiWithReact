@@ -43,7 +43,7 @@ export const fetchProducts = () => dispatch => {
         type: FETCH_PRODUCTS_SUCCESS,
         payload: products.data
       })    
-    } catch (error) {
+    } catch (error) {      
       dispatch({
         type: FETCH_PRODUCTS_FAILURE,
         payload: error,
