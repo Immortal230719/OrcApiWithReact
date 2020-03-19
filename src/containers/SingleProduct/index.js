@@ -56,7 +56,7 @@ const SingleProduct = ({ product, fetchSingleProduct, match }) => {
     if (Array.isArray(owners)) {
       return owners.map(({ id, name, email, avatar }) => {
         return (
-          <Link className={styles.wrapper} key={email} to="/owners/">
+          <Link className={styles.wrapper} key={email} to={`/owners/${id}`}>
             <ListItem button>
               <ListItemIcon>
                 <Avatar variant="rounded" src={avatar} />
