@@ -5,7 +5,7 @@ based on [Create-React-App][df1]
 ### Tools:
 
 1. React
-2. Redux, Redux-thunk, Redux-form, Reselect
+2. Redux, Redux-SAGA, Redux-form, Reselect
 3. Material UI
 4. React-router
 5. Axios

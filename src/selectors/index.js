@@ -17,7 +17,13 @@ export const getError = state => {
 };
 
 export const getOwner = state => {
-  console.log(state.products.data);
-
   return R.prop("id", state);
+};
+
+export const getUrl = state => {
+  return R.prop("pathname", state.router.location);
+};
+
+export const getPage = state => {
+  return R.prop("page", state.paginator);
 };

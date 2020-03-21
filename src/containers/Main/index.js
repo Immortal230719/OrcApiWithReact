@@ -1,39 +1,38 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
-import { 
-  Typography,
-  GridList,
-  GridListTile
-} from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
+import { Typography, GridList, GridListTile } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { useDispatch, useSelector } from "react-redux";
+import Layout from "components/Layout";
+import Product from "components/Product";
+import Paginator from "components/Pagination";
 
-import { fetchProducts } from 'actions/apiActions';
-import { getProducts } from 'selectors';
-import Layout from 'components/Layout';
-import Product from 'components/Product';
-import Paginator from 'components/Pagination';
-
+import { loadProducts } from "actions/sagaWatcherActions";
+import { getProducts } from "selectors";
 
 const useStyles = makeStyles(theme => ({
   gridList: {
     width: "100%",
-    height: "fitcontent",
+    height: "fitcontent"
   },
   progress: {
-    width: '100%',
-    height: '6px'
+    width: "100%",
+    height: "6px"
   }
-}))
+}));
 
-const Main = ({ fetchProducts, products: { data } }) => {  
+const Main = () => {
+  const dispatch = useDispatch();
+  const products = useSelector(getProducts);
+  const { data } = products;
+
   useEffect(() => {
-    fetchProducts()
-  }, [fetchProducts])
+    dispatch(loadProducts());
+  }, [dispatch]);
 
-  const styles = useStyles();  
-  
+  const styles = useStyles();
+
   const renderProducts = data => {
-    if ( data ) {
+    if (data) {
       return (
         <>
           <GridList
@@ -42,28 +41,20 @@ const Main = ({ fetchProducts, products: { data } }) => {
             cols={4}
             spacing={4}
           >
-            {
-              data.map((product) => {      
-                return (
-                  <GridListTile 
-                    key={product.id}
-                  >
-                    <Product
-                      product={ product }
-                    />
-                  </GridListTile>
-                )
-              })
-            }
+            {data.map(product => {
+              return (
+                <GridListTile key={product.id}>
+                  <Product product={product} />
+                </GridListTile>
+              );
+            })}
           </GridList>
-          <Paginator/>
+          <Paginator />
         </>
-      )
+      );
     }
-  }
+  };
 
-  
-  
   return (
     <Layout>
       <Typography
@@ -75,19 +66,9 @@ const Main = ({ fetchProducts, products: { data } }) => {
       >
         Products
       </Typography>
-      { renderProducts(data) }
+      {renderProducts(data)}
     </Layout>
-  )
-}
+  );
+};
 
-const mapDispatchToProps = {
-  fetchProducts
-}
-
-const mapStateToProps = state => {
-  return {
-    products: getProducts(state)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default Main;

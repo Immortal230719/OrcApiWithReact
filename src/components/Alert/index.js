@@ -1,6 +1,6 @@
 import React from "react";
 import { Alert, AlertTitle } from "@material-ui/lab";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
@@ -28,13 +28,15 @@ const useStyles = makeStyles({
   }
 });
 
-const MyAlert = ({ error: { error, message }, resetError }) => {
+const MyAlert = () => {
   const styles = useStyles();
+  const dispatch = useDispatch();
+  const { error, message } = useSelector(getError);
 
   const renderError = (error, message) => {
     if (error) {
       return (
-        <div className={styles.wrapper} onClick={() => resetError()}>
+        <div className={styles.wrapper} onClick={() => dispatch(resetError())}>
           <Alert
             className={styles.absolute}
             severity="error"
@@ -42,7 +44,7 @@ const MyAlert = ({ error: { error, message }, resetError }) => {
               <IconButton
                 aria-label="close"
                 color="inherit"
-                onClick={() => resetError()}
+                onClick={() => dispatch(resetError())}
               >
                 <CloseIcon fontSize="inherit" />
               </IconButton>
@@ -60,14 +62,4 @@ const MyAlert = ({ error: { error, message }, resetError }) => {
   return <>{renderError(error, message)}</>;
 };
 
-const mapStateToProps = state => {
-  return {
-    error: getError(state)
-  };
-};
-
-const mapDispatchToProps = {
-  resetError
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(MyAlert);
+export default MyAlert;

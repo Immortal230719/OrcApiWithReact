@@ -11,11 +11,11 @@ import {
   Button
 } from "@material-ui/core";
 import { getProduct } from "selectors";
-import { fetchSingleProduct } from "actions/apiActions";
-import { connect } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 import Layout from "components/Layout";
 import { Link } from "react-router-dom";
+
+import { loadSingleProduct } from "actions/sagaWatcherActions";
 
 const useStyles = makeStyles({
   wrapper: {
@@ -47,10 +47,16 @@ const useStyles = makeStyles({
   }
 });
 
-const SingleProduct = ({ product, fetchSingleProduct, match }) => {
-  const slugInRouter = match.params.slug;
+const SingleProduct = () => {
   const styles = useStyles();
-  const { title, description, owners } = product;
+  const dispatch = useDispatch();
+  const product = useSelector(getProduct);
+
+  let { title, description, owners } = product;
+
+  useEffect(() => {
+    dispatch(loadSingleProduct());
+  }, [dispatch]);
 
   const renderOwners = (owners, styles) => {
     if (Array.isArray(owners)) {
@@ -69,10 +75,6 @@ const SingleProduct = ({ product, fetchSingleProduct, match }) => {
       });
     } else return null;
   };
-
-  useEffect(() => {
-    fetchSingleProduct(slugInRouter);
-  }, [fetchSingleProduct, slugInRouter]);
 
   return (
     <Layout>
@@ -116,14 +118,4 @@ const SingleProduct = ({ product, fetchSingleProduct, match }) => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    product: getProduct(state)
-  };
-};
-
-const mapDispatchToProps = {
-  fetchSingleProduct
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct);
+export default SingleProduct;
