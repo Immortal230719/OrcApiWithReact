@@ -1,7 +1,7 @@
-import { ERROR_RESET } from 'actionTypes';
+import { ERROR_RESET } from "actionTypes";
 
-export const resetError = () => dispatch => {
-  dispatch({
+export const resetError = () => {
+  return {
     type: ERROR_RESET
-  })
-}
+  };
+};
