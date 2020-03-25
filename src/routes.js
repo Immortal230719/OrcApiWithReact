@@ -7,6 +7,7 @@ import SingleProduct from "containers/SingleProduct";
 import Owner from "containers/Owner";
 import CastomBackdrop from "components/Backdrop";
 import MyAlert from "components/Alert";
+import SignUpForm from "containers/Forms/SignUp";
 
 const Routes = () => {
   return (
@@ -16,6 +17,7 @@ const Routes = () => {
         <Route path="/" component={Main} exact />
         <Route path="/products/:slug" component={SingleProduct} />
         <Route path="/owners/:id" component={Owner} />
+        <Route path="/sign-up/" component={SignUpForm} />
       </Switch>
       <CastomBackdrop />
       <MyAlert />

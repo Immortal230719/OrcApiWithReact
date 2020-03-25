@@ -14,6 +14,11 @@ export const fetchProductsPage = async numOfPage => {
 };
 
 export const fetchSingleProduct = async slug => {
-  const resolve = await axios.get(`${url}${slug}`);
+  const resolve = await axios.get(`${url}${slug}`); //1qwe123
+  return resolve;
+};
+
+export const submitSignUpForm = async data => {
+  const resolve = await axios.post(`${url}/auth/signup`, data);
   return resolve;
 };

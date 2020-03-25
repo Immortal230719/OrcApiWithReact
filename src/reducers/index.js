@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import { connectRouter } from "connected-react-router";
+import { reducer as formReducer } from "redux-form";
 
 import products from "reducers/products";
 import product from "reducers/product";
@@ -14,5 +15,6 @@ export default history =>
     product,
     error,
     paginator,
-    router: connectRouter(history)
+    router: connectRouter(history),
+    form: formReducer
   });
