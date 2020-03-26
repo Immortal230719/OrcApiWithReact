@@ -27,3 +27,7 @@ export const getUrl = state => {
 export const getPage = state => {
   return R.prop("page", state.paginator);
 };
+
+export const getSignUpValues = state => {
+  return R.prop("values", state.form.signUp);
+};

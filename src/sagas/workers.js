@@ -1,8 +1,12 @@
 import { put, call, select } from "redux-saga/effects";
 
-import { getUrl, getPage } from "selectors";
-
-import { fetchProducts, fetchSingleProduct, fetchProductsPage } from "api";
+import { getUrl, getPage, getSignUpValues } from "selectors";
+import {
+  fetchProducts,
+  fetchSingleProduct,
+  fetchProductsPage,
+  submitSignUpForm
+} from "api";
 import {
   fetchProductsSuccess,
   fetchProductsFailure,
@@ -13,7 +17,10 @@ import {
   fetchProductsPageStart,
   fetchProductsPageSuccess,
   fetchProductsPageFailure,
-  backdropToggle
+  backdropToggle,
+  submitSignUpFormStart,
+  submitSignUpFormFailure,
+  submitSignUpFormSuccess
 } from "actions/sagaWorkerActions";
 
 export function* workerLoadProducts() {
@@ -51,5 +58,21 @@ export function* workerLoadProductsPage() {
     yield put(backdropToggle());
   } catch (error) {
     yield put(fetchProductsPageFailure());
+  }
+}
+
+export function* workerSubmitSignUp() {
+  try {
+    yield put(backdropToggle());
+    yield put(submitSignUpFormStart());
+    const signUpValues = yield select(getSignUpValues);
+    const {
+      data: { data }
+    } = yield call(submitSignUpForm, signUpValues);
+    console.log(data.message);
+    yield put(submitSignUpFormSuccess());
+    yield put(backdropToggle());
+  } catch (error) {
+    yield put(submitSignUpFormFailure());
   }
 }

@@ -2,13 +2,15 @@ import { takeEvery, all } from "redux-saga/effects";
 import {
   LOAD_PRODUCTS,
   LOAD_SINGLE_PRODUCT,
-  LOAD_PRODUCTS_PAGE
+  LOAD_PRODUCTS_PAGE,
+  LOAD_SIGN_UP_FORM
 } from "actionTypes";
 
 import {
   workerLoadProducts,
   workerLoadSingleProducts,
-  workerLoadProductsPage
+  workerLoadProductsPage,
+  workerSubmitSignUp
 } from "sagas/workers";
 
 function* watchLoadProducts() {
@@ -23,10 +25,15 @@ function* watchLoadProductsPage() {
   yield takeEvery(LOAD_PRODUCTS_PAGE, workerLoadProductsPage);
 }
 
+function* watchLoadSignUpForm() {
+  yield takeEvery(LOAD_SIGN_UP_FORM, workerSubmitSignUp);
+}
+
 export default function* rootSaga() {
   yield all([
     watchLoadProducts(),
     watchLoadSingleProducts(),
-    watchLoadProductsPage()
+    watchLoadProductsPage(),
+    watchLoadSignUpForm()
   ]);
 }

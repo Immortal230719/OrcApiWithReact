@@ -1,13 +1,17 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
+import { useDispatch } from "react-redux";
 
 import Layout from "components/Layout";
 import SignUpComponent from "components/SignUpForm/index";
+import { loadSignUpForm } from "actions/sagaWatcherActions";
 
 const SignUpForm = props => {
+  const dispatch = useDispatch();
+
   const submitHandler = ({ name, email, password, password_confirmation }) => {
     if (password === password_confirmation) {
-      console.log("ok");
+      dispatch(loadSignUpForm());
     } else {
       console.log("error");
     }

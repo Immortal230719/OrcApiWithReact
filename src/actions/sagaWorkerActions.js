@@ -8,6 +8,9 @@ import {
   FETCH_PRODUCTS_PAGE_START,
   FETCH_PRODUCTS_PAGE_SUCCESS,
   FETCH_PRODUCTS_PAGE_FAILURE,
+  SUBMIT_SIGN_UP_FORM_START,
+  SUBMIT_SIGN_UP_FORM_SUCCESS,
+  SUBMIT_SIGN_UP_FORM_FAILURE,
   BACKDROP_TOGGLE
 } from "actionTypes";
 
@@ -75,6 +78,26 @@ export const fetchProductsPageSuccess = product => {
 export const fetchProductsPageFailure = error => {
   return {
     type: FETCH_PRODUCTS_PAGE_FAILURE,
+    payload: error,
+    error: true
+  };
+};
+
+export const submitSignUpFormSuccess = () => {
+  return {
+    type: SUBMIT_SIGN_UP_FORM_SUCCESS
+  };
+};
+
+export const submitSignUpFormStart = data => {
+  return {
+    type: SUBMIT_SIGN_UP_FORM_START
+  };
+};
+
+export const submitSignUpFormFailure = error => {
+  return {
+    type: SUBMIT_SIGN_UP_FORM_FAILURE,
     payload: error,
     error: true
   };

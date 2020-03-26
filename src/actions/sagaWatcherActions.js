@@ -1,7 +1,8 @@
 import {
   LOAD_SINGLE_PRODUCT,
   LOAD_PRODUCTS,
-  LOAD_PRODUCTS_PAGE
+  LOAD_PRODUCTS_PAGE,
+  LOAD_SIGN_UP_FORM
 } from "actionTypes";
 
 export const loadProducts = () => {
@@ -20,5 +21,11 @@ export const loadProductsPage = page => {
   return {
     type: LOAD_PRODUCTS_PAGE,
     payload: page
+  };
+};
+
+export const loadSignUpForm = () => {
+  return {
+    type: LOAD_SIGN_UP_FORM
   };
 };
