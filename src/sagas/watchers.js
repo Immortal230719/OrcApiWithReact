@@ -3,14 +3,16 @@ import {
   LOAD_PRODUCTS,
   LOAD_SINGLE_PRODUCT,
   LOAD_PRODUCTS_PAGE,
-  LOAD_SIGN_UP_FORM
+  LOAD_SIGN_UP_FORM,
+  LOAD_LOGIN_FORM
 } from "actionTypes";
 
 import {
   workerLoadProducts,
   workerLoadSingleProducts,
   workerLoadProductsPage,
-  workerSubmitSignUp
+  workerSubmitSignUp,
+  workerSubmitLogin
 } from "sagas/workers";
 
 function* watchLoadProducts() {
@@ -29,11 +31,16 @@ function* watchLoadSignUpForm() {
   yield takeEvery(LOAD_SIGN_UP_FORM, workerSubmitSignUp);
 }
 
+function* watchLoadLoginForm() {
+  yield takeEvery(LOAD_LOGIN_FORM, workerSubmitLogin);
+}
+
 export default function* rootSaga() {
   yield all([
     watchLoadProducts(),
     watchLoadSingleProducts(),
     watchLoadProductsPage(),
-    watchLoadSignUpForm()
+    watchLoadSignUpForm(),
+    watchLoadLoginForm()
   ]);
 }

@@ -1,11 +1,12 @@
 import { put, call, select } from "redux-saga/effects";
 
-import { getUrl, getPage, getSignUpValues } from "selectors";
+import { getUrl, getPage, getSignUpValues, getLoginValues } from "selectors";
 import {
   fetchProducts,
   fetchSingleProduct,
   fetchProductsPage,
-  submitSignUpForm
+  submitSignUpForm,
+  submitLoginForm
 } from "api";
 import {
   fetchProductsSuccess,
@@ -20,7 +21,10 @@ import {
   backdropToggle,
   submitSignUpFormStart,
   submitSignUpFormFailure,
-  submitSignUpFormSuccess
+  submitSignUpFormSuccess,
+  submitLoginFormStart,
+  submitLoginFormFailure,
+  submitLoginFormSuccess
 } from "actions/sagaWorkerActions";
 
 export function* workerLoadProducts() {
@@ -57,7 +61,7 @@ export function* workerLoadProductsPage() {
     yield put(fetchProductsPageSuccess(products));
     yield put(backdropToggle());
   } catch (error) {
-    yield put(fetchProductsPageFailure());
+    yield put(fetchProductsPageFailure(error));
   }
 }
 
@@ -69,10 +73,26 @@ export function* workerSubmitSignUp() {
     const {
       data: { data }
     } = yield call(submitSignUpForm, signUpValues);
-    console.log(data.message);
-    yield put(submitSignUpFormSuccess());
+    yield put(submitSignUpFormSuccess(data.message));
     yield put(backdropToggle());
   } catch (error) {
-    yield put(submitSignUpFormFailure());
+    yield put(backdropToggle());
+    yield put(submitSignUpFormFailure(error));
+  }
+}
+
+export function* workerSubmitLogin() {
+  try {
+    yield put(backdropToggle());
+    yield put(submitLoginFormStart());
+    const LoginValues = yield select(getLoginValues);
+    const {
+      data: { data }
+    } = yield call(submitLoginForm, LoginValues);
+    yield put(submitLoginFormSuccess(data.message));
+    yield put(backdropToggle());
+  } catch (error) {
+    yield put(backdropToggle());
+    yield put(submitLoginFormFailure(error));
   }
 }

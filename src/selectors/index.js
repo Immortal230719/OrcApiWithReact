@@ -31,3 +31,7 @@ export const getPage = state => {
 export const getSignUpValues = state => {
   return R.prop("values", state.form.signUp);
 };
+
+export const getLoginValues = state => {
+  return R.prop("values", state.form.login);
+};

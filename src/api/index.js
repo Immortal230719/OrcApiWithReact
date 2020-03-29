@@ -19,27 +19,21 @@ export const fetchProductsPage = async numOfPage => {
 };
 
 export const fetchSingleProduct = async slug => {
-  const resolve = await axios.get(`${url}${slug}`); //1qwe123
+  const resolve = await axios.get(`${url}${slug}`);
   return resolve;
 };
-
-// export const submitSignUpForm = async data => {
-//   console.log(data);
-
-//   const body = stringify(data);
-//   console.log(typeof data);
-//   const resolve = await axios({
-//     method: "post",
-//     url: `${url}/auth/signup`,
-//     data: body,
-//     headers: headers
-//   });
-//   return resolve;
-// };
 
 export const submitSignUpForm = async data => {
   const body = stringify(data);
   const resolve = await axios.post(`${url}/auth/signup`, body, {
+    headers: headers
+  });
+  return resolve;
+};
+
+export const submitLoginForm = async data => {
+  const body = stringify(data);
+  const resolve = await axios.post(`${url}/auth/login`, body, {
     headers: headers
   });
   return resolve;

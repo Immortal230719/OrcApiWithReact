@@ -11,6 +11,9 @@ import {
   SUBMIT_SIGN_UP_FORM_START,
   SUBMIT_SIGN_UP_FORM_SUCCESS,
   SUBMIT_SIGN_UP_FORM_FAILURE,
+  SUBMIT_LOGIN_FORM_START,
+  SUBMIT_LOGIN_FORM_SUCCESS,
+  SUBMIT_LOGIN_FORM_FAILURE,
   BACKDROP_TOGGLE
 } from "actionTypes";
 
@@ -83,13 +86,14 @@ export const fetchProductsPageFailure = error => {
   };
 };
 
-export const submitSignUpFormSuccess = () => {
+export const submitSignUpFormSuccess = response => {
   return {
-    type: SUBMIT_SIGN_UP_FORM_SUCCESS
+    type: SUBMIT_SIGN_UP_FORM_SUCCESS,
+    payload: response
   };
 };
 
-export const submitSignUpFormStart = data => {
+export const submitSignUpFormStart = () => {
   return {
     type: SUBMIT_SIGN_UP_FORM_START
   };
@@ -98,6 +102,27 @@ export const submitSignUpFormStart = data => {
 export const submitSignUpFormFailure = error => {
   return {
     type: SUBMIT_SIGN_UP_FORM_FAILURE,
+    payload: error,
+    error: true
+  };
+};
+
+export const submitLoginFormSuccess = response => {
+  return {
+    type: SUBMIT_LOGIN_FORM_SUCCESS,
+    payload: response
+  };
+};
+
+export const submitLoginFormStart = () => {
+  return {
+    type: SUBMIT_LOGIN_FORM_START
+  };
+};
+
+export const submitLoginFormFailure = error => {
+  return {
+    type: SUBMIT_LOGIN_FORM_FAILURE,
     payload: error,
     error: true
   };

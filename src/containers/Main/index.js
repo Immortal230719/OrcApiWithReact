@@ -2,9 +2,11 @@ import React, { useEffect } from "react";
 import { Typography, GridList, GridListTile } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
+
 import Layout from "components/Layout";
 import Product from "components/Product";
 import Paginator from "components/Pagination";
+import Header from "containers/Header";
 
 import { loadProducts } from "actions/sagaWatcherActions";
 import { getProducts } from "selectors";
@@ -35,6 +37,7 @@ const Main = () => {
     if (data) {
       return (
         <>
+          <Header />
           <GridList
             className={styles.gridList}
             cellHeight={360}

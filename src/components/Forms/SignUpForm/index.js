@@ -1,13 +1,16 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
-import { TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+
+import SubmitBtn from "components/Buttons/SubmitBtn";
+import ResetBtn from "components/Buttons/ResetBtn";
+import renderTextField from "components/InputText";
 
 const useStyles = makeStyles({
   form: {
     display: "flex",
     flexDirection: "column",
-    width: "50%",
+    width: "100%",
     margin: "0 auto"
   },
   flex: {
@@ -42,22 +45,6 @@ const validate = values => {
 };
 
 //Validate functions
-
-const renderTextField = ({
-  label,
-  input,
-  meta: { touched, invalid, error },
-  ...custom
-}) => (
-  <TextField
-    label={label}
-    placeholder={label}
-    error={touched && invalid}
-    helperText={touched && error}
-    {...input}
-    {...custom}
-  />
-);
 
 const SignUpComponent = props => {
   const { handleSubmit, pristine, reset, submitting } = props;
@@ -101,23 +88,12 @@ const SignUpComponent = props => {
           component={renderTextField}
         />
         <div className={styles.flex}>
-          <Button
-            variant="outlined"
-            color="secondary"
+          <ResetBtn
             type="reset"
             disabled={pristine || submitting}
             onClick={reset}
-          >
-            Reset
-          </Button>
-          <Button
-            variant="outlined"
-            color="primary"
-            type="submit"
-            disabled={pristine || submitting}
-          >
-            Submit
-          </Button>
+          />
+          <SubmitBtn disabled={pristine || submitting} />
         </div>
       </form>
     </>

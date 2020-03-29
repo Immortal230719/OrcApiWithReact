@@ -7,8 +7,7 @@ import {
   ListItemIcon,
   Avatar,
   ListItemText,
-  ListSubheader,
-  Button
+  ListSubheader
 } from "@material-ui/core";
 import { getProduct } from "selectors";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +15,8 @@ import Layout from "components/Layout";
 import { Link } from "react-router-dom";
 
 import { loadSingleProduct } from "actions/sagaWatcherActions";
+import Header from "containers/Header";
+import BackBtn from "components/Buttons/BackBtn";
 
 const useStyles = makeStyles({
   wrapper: {
@@ -77,44 +78,45 @@ const SingleProduct = () => {
   };
 
   return (
-    <Layout>
-      <Typography
-        align="center"
-        variant="h3"
-        component="h1"
-        gutterBottom={true}
-      >
-        {title}
-      </Typography>
-      <Typography
-        className={styles.text}
-        paragraph={true}
-        align="center"
-        variant="body2"
-        component="p"
-      >
-        {description}
-      </Typography>
-      <List
-        aria-labelledby="nested-list-subheader"
-        subheader={
-          <ListSubheader
-            className={styles.subTitle}
-            component="h2"
-            id="nested-list-subheader"
-          >
-            Owners
-          </ListSubheader>
-        }
-      >
-        {renderOwners(owners, styles)}
-        <Link className={styles.wrapper} to="/">
-          <Button className={styles.btnBack} variant="contained">
-            Back to Products
-          </Button>
-        </Link>
-      </List>
-    </Layout>
+    <>
+      <Header />
+      <Layout>
+        <Typography
+          align="center"
+          variant="h3"
+          component="h1"
+          gutterBottom={true}
+        >
+          {title}
+        </Typography>
+        <Typography
+          className={styles.text}
+          paragraph={true}
+          align="center"
+          variant="body2"
+          component="p"
+        >
+          {description}
+        </Typography>
+        <List
+          aria-labelledby="nested-list-subheader"
+          subheader={
+            <ListSubheader
+              className={styles.subTitle}
+              component="h2"
+              id="nested-list-subheader"
+            >
+              Owners
+            </ListSubheader>
+          }
+        >
+          {renderOwners(owners, styles)}
+          <Link className={styles.wrapper} to="/">
+            <BackBtn />
+          </Link>
+        </List>
+      </Layout>
+    </>
   );
 };
 

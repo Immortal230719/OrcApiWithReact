@@ -22,7 +22,7 @@ const Sign = props => {
 
   return (
     <Box className={styles.root}>
-      <Link to="/" className={styles.links}>
+      <Link to="/login/" className={styles.links}>
         <LoginBtn />
       </Link>
       <Link to="/sign-up/" className={styles.links}>
