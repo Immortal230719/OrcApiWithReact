@@ -35,3 +35,11 @@ export const getSignUpValues = state => {
 export const getLoginValues = state => {
   return R.prop("values", state.form.login);
 };
+
+export const getLoggedIn = state => {
+  return R.prop("loggedIn", state.user);
+};
+
+export const getToken = state => {
+  return R.prop("access_token", state.user);
+};

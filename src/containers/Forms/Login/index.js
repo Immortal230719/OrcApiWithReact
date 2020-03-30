@@ -1,13 +1,14 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { reset } from "redux-form";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 
 import LoginComponent from "components/Forms/LoginForm";
 import BackBtn from "components/Buttons/BackBtn";
 import { loadLoginForm } from "actions/sagaWatcherActions";
+import { getLoggedIn } from "selectors";
 
 const useStyles = makeStyles({
   linkBtn: {
@@ -39,11 +40,16 @@ const useStyles = makeStyles({
 const LoginForm = () => {
   const styles = useStyles();
   const dispatch = useDispatch();
+  const loggedIn = useSelector(getLoggedIn);
 
   const submitHandler = () => {
     dispatch(loadLoginForm());
     dispatch(reset("login"));
   };
+
+  if (loggedIn) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className={styles.wrapper}>

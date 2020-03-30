@@ -1,12 +1,19 @@
 import { put, call, select } from "redux-saga/effects";
 
-import { getUrl, getPage, getSignUpValues, getLoginValues } from "selectors";
+import {
+  getUrl,
+  getPage,
+  getSignUpValues,
+  getLoginValues,
+  getToken
+} from "selectors";
 import {
   fetchProducts,
   fetchSingleProduct,
   fetchProductsPage,
   submitSignUpForm,
-  submitLoginForm
+  submitLoginForm,
+  authMe
 } from "api";
 import {
   fetchProductsSuccess,
@@ -89,10 +96,24 @@ export function* workerSubmitLogin() {
     const {
       data: { data }
     } = yield call(submitLoginForm, LoginValues);
-    yield put(submitLoginFormSuccess(data.message));
+    yield put(submitLoginFormSuccess(data));
     yield put(backdropToggle());
   } catch (error) {
     yield put(backdropToggle());
     yield put(submitLoginFormFailure(error));
+  }
+}
+
+export function* workerAuthMe() {
+  try {
+    yield put(backdropToggle());
+    const token = yield select(getToken);
+    const { data } = yield call(authMe, token);
+    console.log(data);
+
+    yield put(backdropToggle());
+  } catch (error) {
+    yield put(backdropToggle());
+    console.log(error);
   }
 }

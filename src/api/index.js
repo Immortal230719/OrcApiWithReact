@@ -1,7 +1,7 @@
 import axios from "axios";
 import { stringify } from "qs";
 
-const url = "https://api.app2000.host/api/v1";
+const url = "http://api.app2000.host/api/v1";
 
 const headers = {
   "Content-Type": "application/x-www-form-urlencoded"
@@ -37,4 +37,17 @@ export const submitLoginForm = async data => {
     headers: headers
   });
   return resolve;
+};
+
+export const authMe = async token => {
+  const response = await axios({
+    method: "POST",
+    url: `${url}/auth/me`,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorizaton: `Bearer ${token}`
+    }
+  });
+
+  return response;
 };

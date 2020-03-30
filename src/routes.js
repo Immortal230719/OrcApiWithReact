@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route } from "react-router";
+import { Switch, Route, Redirect } from "react-router";
 
 import Main from "containers/Main";
 import SingleProduct from "containers/SingleProduct";
@@ -18,6 +18,7 @@ const Routes = () => {
         <Route path="/owners/:id" component={Owner} />
         <Route path="/sign-up/" component={SignUpForm} />
         <Route path="/login/" component={LoginForm} />
+        <Redirect to="/" />
       </Switch>
       <CastomBackdrop />
       <MyAlert />

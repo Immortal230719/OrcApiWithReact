@@ -8,8 +8,9 @@ import Product from "components/Product";
 import Paginator from "components/Pagination";
 import Header from "containers/Header";
 
-import { loadProducts } from "actions/sagaWatcherActions";
+import { loadProducts, loadAuthMe } from "actions/sagaWatcherActions";
 import { getProducts } from "selectors";
+import { getLoggedIn } from "selectors";
 
 const useStyles = makeStyles(theme => ({
   gridList: {
@@ -25,11 +26,15 @@ const useStyles = makeStyles(theme => ({
 const Main = () => {
   const dispatch = useDispatch();
   const products = useSelector(getProducts);
+  const loggedIn = useSelector(getLoggedIn);
   const { data } = products;
 
   useEffect(() => {
     dispatch(loadProducts());
-  }, [dispatch]);
+    if (loggedIn) {
+      dispatch(loadAuthMe());
+    }
+  }, [dispatch, loggedIn]);
 
   const styles = useStyles();
 
