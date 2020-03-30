@@ -5,6 +5,8 @@ import { reset } from "redux-form";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 
+import { useSpring, animated } from "react-spring";
+
 import SignUpComponent from "components/Forms/SignUpForm/index";
 import BackBtn from "components/Buttons/BackBtn";
 import { loadSignUpForm } from "actions/sagaWatcherActions";
@@ -33,6 +35,16 @@ const useStyles = makeStyles({
     padding: "15px",
     background: "rgba(246, 246, 246)",
     borderRadius: "15px"
+  },
+  animatedBox: {
+    display: "block",
+    height: "100vh",
+    width: "34%",
+    background: "rgb(205, 42, 255)",
+    borderRadius: "15px",
+    position: "absolute",
+    top: "0",
+    left: "0"
   }
 });
 
@@ -40,6 +52,18 @@ const SignUpForm = () => {
   const styles = useStyles();
   const dispatch = useDispatch();
   const [success, setSuccess] = useState(false);
+
+  const [animate, toggle] = useState(false);
+  const { trans, shadow, back } = useSpring({
+    from: {
+      transform: "skew(20deg, 20deg) scale(1)",
+      boxShadow: "2px 50px 50px rgb(205, 42, 255)"
+    },
+    trans: animate ? [20, 1.8, -45] : [20, 2, 0],
+    shadow: animate ? [31, 176, 233] : [205, 42, 255],
+    back: animate ? [31, 176, 233] : [205, 42, 255],
+    config: { duration: 1200 }
+  });
 
   const submitHandler = ({ name, email, password, password_confirmation }) => {
     if (password === password_confirmation) {
@@ -53,6 +77,20 @@ const SignUpForm = () => {
 
   return (
     <div className={styles.wrapper}>
+      <div>
+        <animated.div
+          className={styles.animatedBox}
+          style={{
+            transform: trans.interpolate(
+              (x, y, z) => `skew(${x}deg) scale(${y}) rotate(${z}deg)`
+            ),
+            boxShadow: shadow.interpolate(
+              (x, y, z) => `2px 10px 25px rgb(${x}, ${y}, ${z})`
+            ),
+            background: back.interpolate((x, y, z) => `rgb(${x}, ${y}, ${z})`)
+          }}
+        />
+      </div>
       {!success ? (
         <div className={styles.formWrapper}>
           <Typography
@@ -71,7 +109,10 @@ const SignUpForm = () => {
           >
             Please, enter all Fields
           </Typography>
-          <SignUpComponent onSubmit={submitHandler} />
+          <SignUpComponent
+            onClick={() => toggle(!animate)}
+            onSubmit={submitHandler}
+          />
           <Link className={styles.linkBtn} to="/">
             <BackBtn />
           </Link>
