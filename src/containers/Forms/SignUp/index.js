@@ -26,15 +26,14 @@ const useStyles = makeStyles({
     alignItems: "center",
     width: "100%",
     height: "100vh",
-    background:
-      "linear-gradient(45deg, rgb(255, 184, 251)) 30%, rgb(255, 153, 241) 90%)"
+    background: "linear-gradient(120deg, rgb(22, 22, 22), rgb(0, 0, 0))"
   },
   formWrapper: {
     position: "relative",
     width: "600px",
     padding: "15px",
-    background: "rgba(246, 246, 246)",
-    borderRadius: "15px"
+    borderRadius: "15px",
+    color: "#fff"
   },
   animatedBox: {
     display: "block",

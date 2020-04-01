@@ -17,6 +17,11 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     height: "fitcontent"
   },
+  title: {
+    textShadow: "2px 2px 5px #acacac",
+    color: "#cecece",
+    padding: "100px 0 0 0"
+  },
   progress: {
     width: "100%",
     height: "6px"
@@ -66,6 +71,7 @@ const Main = () => {
   return (
     <Layout>
       <Typography
+        className={styles.title}
         color="textSecondary"
         variant="h2"
         component="h2"

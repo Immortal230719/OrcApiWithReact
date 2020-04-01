@@ -13,10 +13,15 @@ import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
+    position: "relative",
+    overflow: "inherit",
     width: "90%",
-    height: "90%"
+    height: "90%",
+    background: "linear-gradient(120deg, rgba(32, 32, 32), rgb(25, 25, 25))"
   },
   wrapper: {
+    position: "relative",
+    zIndex: "100",
     width: "100%",
     height: "100%",
     display: "flex",
@@ -41,6 +46,10 @@ const useStyles = makeStyles({
   },
   cardHeader: {
     textDecoration: "none"
+  },
+  textColor: {
+    color: "#fff",
+    textShadow: "1px 1px 3px #aaa"
   },
   link: {
     display: "flex",
@@ -73,12 +82,12 @@ const Product = ({
 
   return (
     <div className={styles.wrapper}>
-      <Card className={styles.root}>
+      <Card className={`${styles.root} coolShadow`}>
         <Link className={styles.cardHeader} to={`/products/${slug}`}>
           <CardActionArea className={styles.actionArea}>
             <CardContent>
               <Typography
-                color="textPrimary"
+                className={styles.textColor}
                 align="center"
                 gutterBottom
                 variant="subtitle2"
@@ -86,7 +95,11 @@ const Product = ({
               >
                 {title}
               </Typography>
-              <Typography variant="caption" color="textSecondary" component="p">
+              <Typography
+                className={styles.textColor}
+                variant="caption"
+                component="p"
+              >
                 {shortDescripton}...
               </Typography>
             </CardContent>

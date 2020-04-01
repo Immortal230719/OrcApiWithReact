@@ -17,6 +17,18 @@ const useStyles = makeStyles({
     display: "flex",
     justifyContent: "space-between",
     marginTop: "15px"
+  },
+  inputText: {
+    "& label": {
+      color: "#fff"
+    },
+    "& div": {
+      color: "#fff",
+      "& fieldset": {
+        border: "none",
+        background: "inherit"
+      }
+    }
   }
 });
 
@@ -54,6 +66,7 @@ const SignUpComponent = props => {
     <>
       <form className={styles.form} onSubmit={handleSubmit}>
         <Field
+          classStyles={styles.inputText}
           margin="dense"
           id="Name"
           name="name"
@@ -63,6 +76,7 @@ const SignUpComponent = props => {
           component={renderTextField}
         />
         <Field
+          className={styles.inputText}
           margin="dense"
           id="Email"
           name="email"
@@ -72,6 +86,7 @@ const SignUpComponent = props => {
           component={renderTextField}
         />
         <Field
+          className={styles.inputText}
           margin="dense"
           id="Password"
           name="password"
@@ -82,6 +97,7 @@ const SignUpComponent = props => {
           component={renderTextField}
         />
         <Field
+          className={styles.inputText}
           margin="dense"
           id="ConfirmPassword"
           name="password_confirmation"
