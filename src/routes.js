@@ -1,28 +1,32 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { Switch, Route, Redirect } from "react-router";
 
 import Main from "containers/Main";
-import SingleProduct from "containers/SingleProduct";
-import Owner from "containers/Owner";
 import CastomBackdrop from "components/Backdrop";
 import MyAlert from "components/Alert";
-import SignUpForm from "containers/Forms/SignUp";
-import LoginForm from "containers/Forms/Login";
+import ErrorBoundary from "components/ErrorBoundary";
+
+const Owner = lazy(() => import("containers/Owner"));
+const SignUpForm = lazy(() => import("containers/Forms/SignUp"));
+const LoginForm = lazy(() => import("containers/Forms/Login"));
+const SingleProduct = lazy(() => import("containers/SingleProduct"));
 
 const Routes = () => {
   return (
-    <div>
-      <Switch>
-        <Route path="/" component={Main} exact />
-        <Route path="/products/:slug" component={SingleProduct} />
-        <Route path="/owners/:id" component={Owner} />
-        <Route path="/sign-up/" component={SignUpForm} />
-        <Route path="/login/" component={LoginForm} />
-        <Redirect to="/" />
-      </Switch>
+    <ErrorBoundary>
+      <Suspense fallback={<CastomBackdrop />}>
+        <Switch>
+          <Route path="/" component={Main} exact />
+          <Route path="/products/:slug" component={SingleProduct} />
+          <Route path="/owners/:id" component={Owner} />
+          <Route path="/sign-up/" component={SignUpForm} />
+          <Route path="/login/" component={LoginForm} />
+          <Redirect to="/" />
+        </Switch>
+      </Suspense>
       <CastomBackdrop />
       <MyAlert />
-    </div>
+    </ErrorBoundary>
   );
 };
 
