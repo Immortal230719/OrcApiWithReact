@@ -21,7 +21,7 @@ import BackBtn from "components/Buttons/BackBtn";
 const useStyles = makeStyles({
   wrapper: {
     textDecoration: "none",
-    color: "#acacac"
+    color: "#ddd"
   },
   text: {
     width: "50%",
@@ -82,6 +82,7 @@ const SingleProduct = () => {
       <Header />
       <Layout>
         <Typography
+          color="primary"
           align="center"
           variant="h3"
           component="h1"
@@ -90,7 +91,7 @@ const SingleProduct = () => {
           {title}
         </Typography>
         <Typography
-          className={styles.text}
+          color="primary"
           paragraph={true}
           align="center"
           variant="body2"

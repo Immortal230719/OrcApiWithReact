@@ -25,14 +25,12 @@ const useStyles = makeStyles({
     alignItems: "center",
     width: "100%",
     height: "100vh",
-    background:
-      "linear-gradient(45deg, rgb(255, 184, 251)) 30%, rgb(255, 153, 241) 90%)"
+    background: "linear-gradient(45deg, #111, #000)"
   },
   formWrapper: {
     position: "relative",
     width: "600px",
     padding: "15px",
-    background: "rgba(246, 246, 246)",
     borderRadius: "15px"
   }
 });
@@ -55,6 +53,7 @@ const LoginForm = () => {
     <div className={styles.wrapper}>
       <div className={styles.formWrapper}>
         <Typography
+          color="primary"
           align="center"
           variant="h3"
           component="h1"
@@ -63,6 +62,7 @@ const LoginForm = () => {
           Login
         </Typography>
         <Typography
+          color="primary"
           align="center"
           gutterBottom={true}
           variant="subtitle1"

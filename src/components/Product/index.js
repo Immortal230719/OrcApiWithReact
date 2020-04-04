@@ -90,14 +90,14 @@ const Product = ({
                 className={styles.textColor}
                 align="center"
                 gutterBottom
-                variant="subtitle2"
+                variant="h5"
                 component="h3"
               >
                 {title}
               </Typography>
               <Typography
                 className={styles.textColor}
-                variant="caption"
+                variant="subtitle2"
                 component="p"
               >
                 {shortDescripton}...

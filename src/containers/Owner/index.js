@@ -22,6 +22,7 @@ const Owner = ({ match }) => {
       <Header />
       <Layout>
         <Typography
+          color="primary"
           gutterBottom={true}
           align="center"
           variant="h3"
@@ -29,10 +30,20 @@ const Owner = ({ match }) => {
         >
           Owner: {id}
         </Typography>
-        <Typography paragraph={true} variant="h5" component="strong">
+        <Typography
+          color="primary"
+          paragraph={true}
+          variant="h5"
+          component="strong"
+        >
           Email
         </Typography>
-        <Typography paragraph={true} variant="body2" component="p">
+        <Typography
+          className={styles.title}
+          paragraph={true}
+          variant="body2"
+          component="p"
+        >
           "Sed ut perspiciatis unde omnis iste natus error sit voluptatem
           accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae
           ab illo inventore veritatis et quasi architecto beatae vitae dicta

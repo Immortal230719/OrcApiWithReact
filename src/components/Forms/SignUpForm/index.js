@@ -59,20 +59,29 @@ const validate = values => {
 //Validate functions
 
 const SignUpComponent = props => {
-  const { onClick, handleSubmit, pristine, reset, submitting } = props;
+  const {
+    animate1,
+    animate2,
+    animate3,
+    animate4,
+    handleSubmit,
+    pristine,
+    reset,
+    submitting
+  } = props;
   const styles = useStyles();
 
   return (
     <>
       <form className={styles.form} onSubmit={handleSubmit}>
         <Field
-          classStyles={styles.inputText}
+          className={styles.inputText}
           margin="dense"
           id="Name"
           name="name"
           label="Name"
           variant="outlined"
-          onBlur={onClick}
+          onBlur={animate1}
           component={renderTextField}
         />
         <Field
@@ -82,7 +91,7 @@ const SignUpComponent = props => {
           name="email"
           label="Email"
           variant="outlined"
-          onBlur={onClick}
+          onBlur={animate2}
           component={renderTextField}
         />
         <Field
@@ -93,7 +102,7 @@ const SignUpComponent = props => {
           label="Password"
           variant="outlined"
           type="password"
-          onBlur={onClick}
+          onBlur={animate3}
           component={renderTextField}
         />
         <Field
@@ -104,7 +113,7 @@ const SignUpComponent = props => {
           label="ConfirmPassword"
           variant="outlined"
           type="password"
-          onBlur={onClick}
+          onBlur={animate4}
           component={renderTextField}
         />
         <div className={styles.flex}>

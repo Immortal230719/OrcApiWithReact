@@ -10,6 +10,7 @@ import { useSpring, animated } from "react-spring";
 import SignUpComponent from "components/Forms/SignUpForm/index";
 import BackBtn from "components/Buttons/BackBtn";
 import { loadSignUpForm } from "actions/sagaWatcherActions";
+import { animateTrans, animateColor } from "utils/animation";
 
 const useStyles = makeStyles({
   linkBtn: {
@@ -52,16 +53,16 @@ const SignUpForm = () => {
   const dispatch = useDispatch();
   const [success, setSuccess] = useState(false);
 
-  const [animate, toggle] = useState(false);
+  const [animate, setAnimate] = useState("animate");
   const { trans, shadow, back } = useSpring({
     from: {
       transform: "skew(20deg, 20deg) scale(1)",
       boxShadow: "2px 50px 50px rgb(205, 42, 255)"
     },
-    trans: animate ? [20, 1.8, -45] : [20, 2, 0],
-    shadow: animate ? [31, 176, 233] : [205, 42, 255],
-    back: animate ? [31, 176, 233] : [205, 42, 255],
-    config: { duration: 1200 }
+    trans: animateTrans(animate),
+    shadow: animateColor(animate),
+    back: animateColor(animate),
+    config: { duration: 1300 }
   });
 
   const submitHandler = ({ name, email, password, password_confirmation }) => {
@@ -109,7 +110,10 @@ const SignUpForm = () => {
             Please, enter all Fields
           </Typography>
           <SignUpComponent
-            onClick={() => toggle(!animate)}
+            animate1={() => setAnimate("animate1")}
+            animate2={() => setAnimate("animate2")}
+            animate3={() => setAnimate("animate3")}
+            animate4={() => setAnimate("animate4")}
             onSubmit={submitHandler}
           />
           <Link className={styles.linkBtn} to="/">

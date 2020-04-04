@@ -17,8 +17,7 @@ const useStyles = makeStyles({
     display: "flex",
     alignItems: "center",
     textTransform: "uppercase",
-    textDecoration: "none",
-    color: "rgb(114, 114, 114)"
+    textDecoration: "none"
   }
 });
 
@@ -27,7 +26,7 @@ const Logo = props => {
   return (
     <Link className={styles.wrapper} to="/">
       <img className={styles.logo} src={logo} alt="logo" />
-      <Typography varian="h3" component="h1">
+      <Typography color="primary" varian="h2" component="h1">
         Orc Api
       </Typography>
     </Link>

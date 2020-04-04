@@ -27,7 +27,8 @@ const Paginator = () => {
   return (
     <div>
       <Pagination
-        className={styles.wrapper}
+        color="primary"
+        className={`${styles.wrapper} ${styles.root}`}
         count={meta.last_page}
         shape="rounded"
         size="large"

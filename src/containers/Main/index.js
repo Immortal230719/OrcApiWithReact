@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => ({
     height: "fitcontent"
   },
   title: {
+    fontFamily: "Ubuntu",
     textShadow: "2px 2px 5px #acacac",
     color: "#cecece",
     padding: "100px 0 0 0"
