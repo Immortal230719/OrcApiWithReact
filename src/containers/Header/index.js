@@ -5,6 +5,7 @@ import { Grid } from "@material-ui/core";
 
 import Logo from "components/Logo";
 import Sign from "components/Sign";
+import User from 'containers/Header/User';
 
 const useStyles = makeStyles({
   header: {
@@ -13,7 +14,7 @@ const useStyles = makeStyles({
   }
 });
 
-const Header = props => {
+const Header = ({ auth }) => {
   const styles = useStyles();
 
   return (
@@ -28,9 +29,16 @@ const Header = props => {
           <Grid item>
             <Logo />
           </Grid>
-          <Grid item>
-            <Sign />
-          </Grid>
+          { auth
+            ?
+            <Grid item>
+              <User />
+            </Grid>
+            :           
+            <Grid item>
+              <Sign />
+            </Grid>            
+          }
         </Grid>
       </Container>
     </header>

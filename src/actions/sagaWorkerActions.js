@@ -14,7 +14,9 @@ import {
   SUBMIT_LOGIN_FORM_START,
   SUBMIT_LOGIN_FORM_SUCCESS,
   SUBMIT_LOGIN_FORM_FAILURE,
-  BACKDROP_TOGGLE
+  BACKDROP_TOGGLE,
+  AUTH_ME_SUCCESS,
+  LOGOUT_SUCCESS,
 } from "actionTypes";
 
 export const backdropToggle = () => {
@@ -127,3 +129,16 @@ export const submitLoginFormFailure = error => {
     error: true
   };
 };
+
+export const authMeSuccess = data => {
+  return {
+    type: AUTH_ME_SUCCESS,
+    payload: data
+  }
+}
+
+export const logoutSuccess = () => {
+  return {
+    type: LOGOUT_SUCCESS
+  }
+}

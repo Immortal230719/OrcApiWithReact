@@ -1,11 +1,13 @@
 import { put, call, select } from "redux-saga/effects";
+import Cookies from 'js-cookie';
+
+import { changeToken, returnToken } from 'utils/changeToken';
 
 import {
   getUrl,
   getPage,
   getSignUpValues,
-  getLoginValues,
-  getToken
+  getLoginValues
 } from "selectors";
 import {
   fetchProducts,
@@ -13,7 +15,8 @@ import {
   fetchProductsPage,
   submitSignUpForm,
   submitLoginForm,
-  authMe
+  authMe,
+  logout
 } from "api";
 import {
   fetchProductsSuccess,
@@ -31,7 +34,9 @@ import {
   submitSignUpFormSuccess,
   submitLoginFormStart,
   submitLoginFormFailure,
-  submitLoginFormSuccess
+  submitLoginFormSuccess,
+  authMeSuccess,
+  logoutSuccess
 } from "actions/sagaWorkerActions";
 
 export function* workerLoadProducts() {
@@ -95,7 +100,12 @@ export function* workerSubmitLogin() {
     const LoginValues = yield select(getLoginValues);
     const {
       data: { data }
-    } = yield call(submitLoginForm, LoginValues);
+    } = yield call(submitLoginForm, LoginValues); 
+    const newToken = changeToken(data.access_token);  
+    const inSixtyMinutes = new Date(new Date().getTime() + 60 * 60 * 1000);
+    Cookies.set('token', newToken, {
+      expires: inSixtyMinutes
+    })
     yield put(submitLoginFormSuccess(data));
     yield put(backdropToggle());
   } catch (error) {
@@ -107,10 +117,26 @@ export function* workerSubmitLogin() {
 export function* workerAuthMe() {
   try {
     yield put(backdropToggle());
-    const token = yield select(getToken);
-    const { data } = yield call(authMe, token);
-    console.log(data);
+    const newToken = Cookies.get('token')
+    const oldToken = returnToken(newToken)  
+    const { data: { data } } = yield call(authMe, oldToken);
+    yield put(authMeSuccess(data))
 
+    yield put(backdropToggle());
+  } catch (error) {
+    yield put(backdropToggle());
+    console.log(error);
+  }
+}
+
+export function* workerLogout() {
+  try {
+    yield put(backdropToggle());
+    const newToken = Cookies.get('token')
+    const oldToken = returnToken(newToken)
+    const { data: {data} } = yield call(logout, oldToken)
+    Cookies.remove('token');
+    yield put(logoutSuccess())    
     yield put(backdropToggle());
   } catch (error) {
     yield put(backdropToggle());

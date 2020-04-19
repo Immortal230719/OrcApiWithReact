@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { Typography, GridList, GridListTile } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
+import Cookies from 'js-cookie';
+
 
 import Layout from "components/Layout";
 import Product from "components/Product";
@@ -12,21 +14,21 @@ import { loadProducts, loadAuthMe } from "actions/sagaWatcherActions";
 import { getProducts } from "selectors";
 import { getLoggedIn } from "selectors";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   gridList: {
     width: "100%",
-    height: "fitcontent"
+    height: "fitcontent",
   },
   title: {
     fontFamily: "Ubuntu",
     textShadow: "2px 2px 5px #acacac",
     color: "#cecece",
-    padding: "100px 0 0 0"
+    padding: "100px 0 0 0",
   },
   progress: {
     width: "100%",
-    height: "6px"
-  }
+    height: "6px",
+  },
 }));
 
 const Main = () => {
@@ -34,28 +36,29 @@ const Main = () => {
   const products = useSelector(getProducts);
   const loggedIn = useSelector(getLoggedIn);
   const { data } = products;
+  const token = Cookies.get('token')
 
-  useEffect(() => {
+  useEffect(() => {  
     dispatch(loadProducts());
-    if (loggedIn) {
+    if (token) {
       dispatch(loadAuthMe());
     }
-  }, [dispatch, loggedIn]);
+  }, [dispatch, loggedIn, token]);
 
   const styles = useStyles();
 
-  const renderProducts = data => {
+  const renderProducts = (data) => {
     if (data) {
       return (
         <>
-          <Header />
+          <Header auth={loggedIn} />
           <GridList
             className={styles.gridList}
             cellHeight={360}
             cols={4}
             spacing={4}
           >
-            {data.map(product => {
+            {data.map((product) => {
               return (
                 <GridListTile key={product.id}>
                   <Product product={product} />

@@ -4,7 +4,8 @@ import {
   LOAD_PRODUCTS_PAGE,
   LOAD_SIGN_UP_FORM,
   LOAD_LOGIN_FORM,
-  LOAD_AUTH_ME
+  LOAD_AUTH_ME,
+  LOGOUT
 } from "actionTypes";
 
 export const loadProducts = () => {
@@ -43,3 +44,9 @@ export const loadAuthMe = () => {
     type: LOAD_AUTH_ME
   };
 };
+
+export const logoutAction = () => {
+  return {
+    type: LOGOUT
+  }
+}

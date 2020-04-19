@@ -5,7 +5,8 @@ import {
   LOAD_PRODUCTS_PAGE,
   LOAD_SIGN_UP_FORM,
   LOAD_LOGIN_FORM,
-  LOAD_AUTH_ME
+  LOAD_AUTH_ME,
+  LOGOUT
 } from "actionTypes";
 
 import {
@@ -14,7 +15,8 @@ import {
   workerLoadProductsPage,
   workerSubmitSignUp,
   workerSubmitLogin,
-  workerAuthMe
+  workerAuthMe,
+  workerLogout
 } from "sagas/workers";
 
 function* watchLoadProducts() {
@@ -41,6 +43,10 @@ function* watchLoadAuthMe() {
   yield takeEvery(LOAD_AUTH_ME, workerAuthMe);
 }
 
+function* watchLogout() {
+  yield takeEvery(LOGOUT, workerLogout);
+}
+
 export default function* rootSaga() {
   yield all([
     watchLoadProducts(),
@@ -48,6 +54,7 @@ export default function* rootSaga() {
     watchLoadProductsPage(),
     watchLoadSignUpForm(),
     watchLoadLoginForm(),
-    watchLoadAuthMe()
+    watchLoadAuthMe(),
+    watchLogout()
   ]);
 }

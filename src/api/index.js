@@ -1,11 +1,6 @@
 import axios from "axios";
-import { stringify } from "qs";
 
-const url = "http://api.app2000.host/api/v1";
-
-const headers = {
-  "Content-Type": "application/x-www-form-urlencoded"
-};
+const url = "https://api.app2000.host/api/v1";
 
 export const fetchProducts = async () => {
   return await axios.get(`${url}/products`);
@@ -24,30 +19,31 @@ export const fetchSingleProduct = async slug => {
 };
 
 export const submitSignUpForm = async data => {
-  const body = stringify(data);
-  const resolve = await axios.post(`${url}/auth/signup`, body, {
-    headers: headers
-  });
+  const resolve = await axios.post(`${url}/auth/signup`, data);
   return resolve;
 };
 
-export const submitLoginForm = async data => {
-  const body = stringify(data);
-  const resolve = await axios.post(`${url}/auth/login`, body, {
-    headers: headers
-  });
+export const submitLoginForm = async data => {  
+  const resolve = await axios.post(`${url}/auth/login`, data)
   return resolve;
 };
 
 export const authMe = async token => {
-  const response = await axios({
-    method: "POST",
-    url: `${url}/auth/me`,
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      Authorizaton: `Bearer ${token}`
+  const response = await axios.post(`${url}/auth/me`, {}, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
     }
-  });
-
+  );
   return response;
 };
+
+export const logout = async token => {
+  const response = await axios.post(`${url}/auth/logout`, {}, {
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  }
+);
+return response;
+}
