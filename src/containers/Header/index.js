@@ -2,6 +2,9 @@ import React from "react";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
+import { useSelector } from 'react-redux';
+
+import { getLoggedIn } from 'selectors';
 
 import Logo from "components/Logo";
 import Sign from "components/Sign";
@@ -14,8 +17,10 @@ const useStyles = makeStyles({
   }
 });
 
-const Header = ({ auth }) => {
+const Header = () => {
+  const loggedIn = useSelector(getLoggedIn);
   const styles = useStyles();
+  
 
   return (
     <header>
@@ -29,7 +34,7 @@ const Header = ({ auth }) => {
           <Grid item>
             <Logo />
           </Grid>
-          { auth
+          { loggedIn
             ?
             <Grid item>
               <User />

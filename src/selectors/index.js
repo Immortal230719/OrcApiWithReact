@@ -43,3 +43,7 @@ export const getLoggedIn = state => {
 export const getToken = state => {
   return R.prop("access_token", state.user);
 };
+
+export const getUser = state => {
+  return R.prop("user", state);
+}

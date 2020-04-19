@@ -82,7 +82,7 @@ const Product = ({
 
   return (
     <div className={styles.wrapper}>
-      <Card className={`${styles.root} coolShadow`}>
+      <Card className={styles.root}>
         <Link className={styles.cardHeader} to={`/products/${slug}`}>
           <CardActionArea className={styles.actionArea}>
             <CardContent>

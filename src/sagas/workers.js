@@ -134,7 +134,7 @@ export function* workerLogout() {
     yield put(backdropToggle());
     const newToken = Cookies.get('token')
     const oldToken = returnToken(newToken)
-    const { data: {data} } = yield call(logout, oldToken)
+    yield call(logout, oldToken)
     Cookies.remove('token');
     yield put(logoutSuccess())    
     yield put(backdropToggle());

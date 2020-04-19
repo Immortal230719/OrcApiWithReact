@@ -51,7 +51,7 @@ const Main = () => {
     if (data) {
       return (
         <>
-          <Header auth={loggedIn} />
+          <Header />
           <GridList
             className={styles.gridList}
             cellHeight={360}
