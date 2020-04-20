@@ -1,9 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Typography, GridList, GridListTile } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
-import Cookies from 'js-cookie';
-
 
 import Layout from "components/Layout";
 import Product from "components/Product";
@@ -11,8 +9,27 @@ import Paginator from "components/Pagination";
 import Header from "containers/Header";
 
 import { loadProducts, loadAuthMe } from "actions/sagaWatcherActions";
-import { getProducts } from "selectors";
-import { getLoggedIn } from "selectors";
+import { getProducts, getLoggedIn, getExpires } from "selectors";
+import { checkTimeLifeToken, getAuthToken } from 'utils/tokenUtils';
+import { refreshToken } from "actions/sagaWatcherActions";
+
+function useInterval(callback, delay) {
+  const savedCallback = useRef();
+
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  useEffect(() => {
+    function tick() {
+      savedCallback.current();
+    }
+    if (delay !== null) {
+      let id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
+}
 
 const useStyles = makeStyles((theme) => ({
   gridList: {
@@ -32,18 +49,34 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Main = () => {
+  const [count, setCount] = useState(0);
   const dispatch = useDispatch();
-  const products = useSelector(getProducts);
+  const products = useSelector(getProducts);  
   const loggedIn = useSelector(getLoggedIn);
+  const expire_in = useSelector(getExpires)
   const { data } = products;
-  const token = Cookies.get('token')
+  const token = getAuthToken()
 
-  useEffect(() => {  
-    dispatch(loadProducts());
-    if (token) {
+  useInterval(() => {
+    setCount(count + 1);
+    let expired = checkTimeLifeToken(expire_in);  
+    if (expired) {
+      dispatch(refreshToken())
+    }
+    
+  }, 60000);
+
+  useEffect(() => { 
+    if ( !data ) {
+      dispatch(loadProducts());
+    }       
+  }, [dispatch, data]);
+
+  useEffect(() => {
+    if (!loggedIn) {
       dispatch(loadAuthMe());
     }
-  }, [dispatch, loggedIn, token]);
+  }, [dispatch, loggedIn, token])
 
   const styles = useStyles();
 

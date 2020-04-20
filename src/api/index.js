@@ -40,10 +40,20 @@ export const authMe = async token => {
 
 export const logout = async token => {
   const response = await axios.post(`${url}/auth/logout`, {}, {
-    headers: {
-      "Authorization": `Bearer ${token}`
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
     }
-  }
-);
-return response;
+  );
+  return response;
+}
+
+export const refresh = async token => {
+  const response = await axios.post(`${url}/auth/refresh`, {}, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    }
+  );
+  return response;
 }

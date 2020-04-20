@@ -3,7 +3,7 @@ import Pagination from "@material-ui/lab/Pagination";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getProducts } from "selectors";
+import { memoProducts } from "selectors";
 import { loadProductsPage } from "actions/sagaWatcherActions";
 
 const useStyles = makeStyles(theme => ({
@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 
 const Paginator = () => {
   const styles = useStyles();
-  const { meta } = useSelector(getProducts);
+  const { meta } = useSelector(memoProducts);
   const dispatch = useDispatch();
 
   const handleChange = (event, page) => {

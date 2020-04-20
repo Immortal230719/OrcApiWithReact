@@ -1,13 +1,17 @@
-import { put, call, select } from "redux-saga/effects";
-import Cookies from 'js-cookie';
+import { put, call, select} from "redux-saga/effects";
 
-import { changeToken, returnToken } from 'utils/changeToken';
+import {
+  getAuthToken, 
+  setAuthToken, 
+  removeAuthToken,
+  setTimeLifeToken,
+} from 'utils/tokenUtils';
 
 import {
   getUrl,
   getPage,
   getSignUpValues,
-  getLoginValues
+  getLoginValues,
 } from "selectors";
 import {
   fetchProducts,
@@ -16,7 +20,8 @@ import {
   submitSignUpForm,
   submitLoginForm,
   authMe,
-  logout
+  logout,
+  refresh
 } from "api";
 import {
   fetchProductsSuccess,
@@ -98,14 +103,11 @@ export function* workerSubmitLogin() {
     yield put(backdropToggle());
     yield put(submitLoginFormStart());
     const LoginValues = yield select(getLoginValues);
-    const {
+    let {
       data: { data }
     } = yield call(submitLoginForm, LoginValues); 
-    const newToken = changeToken(data.access_token);  
-    const inSixtyMinutes = new Date(new Date().getTime() + 60 * 60 * 1000);
-    Cookies.set('token', newToken, {
-      expires: inSixtyMinutes
-    })
+    yield call(setAuthToken, data.access_token)
+    yield call(setTimeLifeToken)
     yield put(submitLoginFormSuccess(data));
     yield put(backdropToggle());
   } catch (error) {
@@ -114,14 +116,25 @@ export function* workerSubmitLogin() {
   }
 }
 
+export function* workerRefreshToken() {
+  try {
+    let token = yield call(getAuthToken)
+    const { data: { data } } = yield call(refresh, token);
+    yield call(setAuthToken, data.access_token)
+    const { data: { user } } = yield call(authMe, data.access_token);
+    yield put(authMeSuccess(user))
+  } catch (error) {
+    console.log(error);
+    
+  }
+}
+
 export function* workerAuthMe() {
   try {
     yield put(backdropToggle());
-    const newToken = Cookies.get('token')
-    const oldToken = returnToken(newToken)  
-    const { data: { data } } = yield call(authMe, oldToken);
+    let token = yield call(getAuthToken) 
+    const { data: { data } } = yield call(authMe, token);
     yield put(authMeSuccess(data))
-
     yield put(backdropToggle());
   } catch (error) {
     yield put(backdropToggle());
@@ -132,10 +145,9 @@ export function* workerAuthMe() {
 export function* workerLogout() {
   try {
     yield put(backdropToggle());
-    const newToken = Cookies.get('token')
-    const oldToken = returnToken(newToken)
-    yield call(logout, oldToken)
-    Cookies.remove('token');
+    let token = yield call(getAuthToken)
+    yield call(logout, token)
+    yield call(removeAuthToken)
     yield put(logoutSuccess())    
     yield put(backdropToggle());
   } catch (error) {

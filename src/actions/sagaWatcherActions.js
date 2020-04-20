@@ -5,7 +5,8 @@ import {
   LOAD_SIGN_UP_FORM,
   LOAD_LOGIN_FORM,
   LOAD_AUTH_ME,
-  LOGOUT
+  LOGOUT,
+  REFRESH_TOKEN
 } from "actionTypes";
 
 export const loadProducts = () => {
@@ -48,5 +49,11 @@ export const loadAuthMe = () => {
 export const logoutAction = () => {
   return {
     type: LOGOUT
+  }
+}
+
+export const refreshToken = () => {
+  return {
+    type: REFRESH_TOKEN
   }
 }

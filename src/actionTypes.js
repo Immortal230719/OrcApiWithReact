@@ -31,5 +31,7 @@ export const SUBMIT_LOGIN_FORM_FAILURE = "SUBMIT_LOGIN_FORM_FAILURE";
 export const LOAD_AUTH_ME = "LOAD_AUTH_ME";
 export const AUTH_ME_SUCCESS = "AUTH_ME_SUCCESS";
 
-export const LOGOUT = 'LOGOUT';
-export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const LOGOUT = "LOGOUT";
+export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+
+export const REFRESH_TOKEN = "REFRESH_TOKEN"

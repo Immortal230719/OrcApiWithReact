@@ -6,7 +6,8 @@ const initialState = {
   id: null,
   name: "",
   email: "",
-  loggedIn: false
+  loggedIn: false,
+  expires_in: 3600
 };
 
 export default (state = initialState, { type, payload }) => {

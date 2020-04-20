@@ -1,8 +1,14 @@
 import * as R from "ramda";
+import { createSelector } from 'reselect';
 
 export const getProducts = state => {
   return R.prop("products", state);
 };
+
+export const memoProducts = createSelector(
+  getProducts,
+  products => products
+)
 
 export const getProduct = state => {
   return R.prop("product", state);
@@ -46,4 +52,8 @@ export const getToken = state => {
 
 export const getUser = state => {
   return R.prop("user", state);
+}
+
+export const getExpires = state => {
+  return R.prop('expires_in', state.user)
 }
