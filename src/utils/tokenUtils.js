@@ -35,11 +35,15 @@ export function setTimeLifeToken() {
 
 export function checkTimeLifeToken(expires_in) {
   expires_in = Number(expires_in) * 1000;
+  const percent = expires_in / 100;
   let time = Math.abs(Number(Cookies.get('_time')) - new Date().getTime());
-  let percent = expires_in / 100;
-  let checkoutPercent = Math.ceil((expires_in - time) / percent)
-  if( checkoutPercent <= 10 ) {
+  let checkoutPercent = 0;
+  if( time ) {  
+    checkoutPercent = Math.ceil((expires_in - time) / percent)
+  }    
+  if( checkoutPercent && checkoutPercent <= 10 ) {
     return true
-  }  
+  }
+   
   return false;
 }

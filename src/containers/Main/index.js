@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect } from "react";
 import { Typography, GridList, GridListTile } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,27 +9,9 @@ import Paginator from "components/Pagination";
 import Header from "containers/Header";
 
 import { loadProducts, loadAuthMe } from "actions/sagaWatcherActions";
-import { getProducts, getLoggedIn, getExpires } from "selectors";
-import { checkTimeLifeToken, getAuthToken } from 'utils/tokenUtils';
-import { refreshToken } from "actions/sagaWatcherActions";
+import { getProducts,  getUser } from "selectors";
+import {  getAuthToken } from 'utils/tokenUtils';
 
-function useInterval(callback, delay) {
-  const savedCallback = useRef();
-
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
-
-  useEffect(() => {
-    function tick() {
-      savedCallback.current();
-    }
-    if (delay !== null) {
-      let id = setInterval(tick, delay);
-      return () => clearInterval(id);
-    }
-  }, [delay]);
-}
 
 const useStyles = makeStyles((theme) => ({
   gridList: {
@@ -49,38 +31,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Main = () => {
-  const [count, setCount] = useState(0);
   const dispatch = useDispatch();
-  const products = useSelector(getProducts);  
-  const loggedIn = useSelector(getLoggedIn);
-  const expire_in = useSelector(getExpires)
+  const products = useSelector(getProducts);
+  const { id, loggedIn } = useSelector(getUser);
   const { data } = products;
   const token = getAuthToken()
+  
 
-  useInterval(() => {
-    setCount(count + 1);
-    let expired = checkTimeLifeToken(expire_in);  
-    if (expired) {
-      dispatch(refreshToken())
-    }
-    
-  }, 60000);
-
-  useEffect(() => { 
+  useEffect(() => {
     if ( !data ) {
       dispatch(loadProducts());
     }       
   }, [dispatch, data]);
 
   useEffect(() => {
-    if (!loggedIn) {
+    if (token && !loggedIn && !id) {
       dispatch(loadAuthMe());
     }
-  }, [dispatch, loggedIn, token])
+  }, [dispatch, loggedIn, id, token])
+
+  
 
   const styles = useStyles();
 
-  const renderProducts = (data) => {
+  const renderProducts = (data) => {  
     if (data) {
       return (
         <>

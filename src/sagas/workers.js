@@ -5,6 +5,7 @@ import {
   setAuthToken, 
   removeAuthToken,
   setTimeLifeToken,
+  checkTimeLifeToken
 } from 'utils/tokenUtils';
 
 import {
@@ -12,6 +13,7 @@ import {
   getPage,
   getSignUpValues,
   getLoginValues,
+  getUser
 } from "selectors";
 import {
   fetchProducts,
@@ -44,9 +46,23 @@ import {
   logoutSuccess
 } from "actions/sagaWorkerActions";
 
+function* checkRefresh() {
+  try {
+    const { expires_in } = yield select(getUser)
+    let expired = checkTimeLifeToken(expires_in)
+    if ( expired ) {
+      yield call(workerRefreshToken)
+      return
+    }  
+  } catch (error) {
+    console.log(error);  
+  }
+}
+
 export function* workerLoadProducts() {
   try {
     yield put(backdropToggle());
+    yield call(checkRefresh);
     yield put(fetchProductsStart());
     const data = yield call(fetchProducts);
     yield put(fetchProductsSuccess(data));
@@ -59,6 +75,7 @@ export function* workerLoadProducts() {
 export function* workerLoadSingleProducts() {
   try {
     yield put(backdropToggle());
+    yield call(checkRefresh);
     yield put(fetchSingleProductStart());
     const url = yield select(getUrl);
     const product = yield call(fetchSingleProduct, url);
@@ -72,6 +89,7 @@ export function* workerLoadSingleProducts() {
 export function* workerLoadProductsPage() {
   try {
     yield put(backdropToggle());
+    yield call(checkRefresh)
     yield put(fetchProductsPageStart());
     const numOfPage = yield select(getPage);
     const products = yield call(fetchProductsPage, numOfPage);
@@ -132,6 +150,7 @@ export function* workerRefreshToken() {
 export function* workerAuthMe() {
   try {
     yield put(backdropToggle());
+    yield call(checkRefresh)
     let token = yield call(getAuthToken) 
     const { data: { data } } = yield call(authMe, token);
     yield put(authMeSuccess(data))

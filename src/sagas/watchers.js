@@ -6,8 +6,7 @@ import {
   LOAD_SIGN_UP_FORM,
   LOAD_LOGIN_FORM,
   LOAD_AUTH_ME,
-  LOGOUT,
-  REFRESH_TOKEN
+  LOGOUT
 } from "actionTypes";
 
 import {
@@ -17,8 +16,7 @@ import {
   workerSubmitSignUp,
   workerSubmitLogin,
   workerAuthMe,
-  workerLogout,
-  workerRefreshToken
+  workerLogout
 } from "sagas/workers";
 
 function* watchLoadProducts() {
@@ -49,10 +47,6 @@ function* watchLogout() {
   yield takeEvery(LOGOUT, workerLogout);
 }
 
-function* watchRefreshToken() {
-  yield takeEvery(REFRESH_TOKEN, workerRefreshToken)
-}
-
 export default function* rootSaga() {
   yield all([
     watchLoadProducts(),
@@ -61,7 +55,6 @@ export default function* rootSaga() {
     watchLoadSignUpForm(),
     watchLoadLoginForm(),
     watchLogout(),
-    watchLoadAuthMe(),
-    watchRefreshToken()
+    watchLoadAuthMe()
   ]);
 }

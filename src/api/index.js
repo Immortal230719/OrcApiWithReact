@@ -7,8 +7,6 @@ export const fetchProducts = async () => {
 };
 
 export const fetchProductsPage = async numOfPage => {
-  console.log(`${url}/products?page=${numOfPage}`);
-
   const resolve = await axios.get(`${url}/products?page=${numOfPage}`);
   return resolve;
 };
