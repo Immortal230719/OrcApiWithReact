@@ -5,12 +5,12 @@ import Main from "containers/Main";
 import CastomBackdrop from "components/Backdrop";
 import MyAlert from "components/Alert";
 import ErrorBoundary from "components/ErrorBoundary";
+import LoginForm from "containers/Forms/Login";
+import SignUpForm from "containers/Forms/SignUp";
+import Profile from "containers/Profile";
 
 const Owner = lazy(() => import("containers/Owner"));
-const SignUpForm = lazy(() => import("containers/Forms/SignUp"));
-const LoginForm = lazy(() => import("containers/Forms/Login"));
 const SingleProduct = lazy(() => import("containers/SingleProduct"));
-const Profile = lazy(() => import("containers/Profile"));
 
 const Routes = () => {
   return (

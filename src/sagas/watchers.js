@@ -1,4 +1,4 @@
-import { takeEvery, all } from "redux-saga/effects";
+import { takeEvery, all, takeLeading  } from "redux-saga/effects";
 import {
   LOAD_PRODUCTS,
   LOAD_SINGLE_PRODUCT,
@@ -24,11 +24,11 @@ function* watchLoadProducts() {
 }
 
 function* watchLoadSingleProducts() {
-  yield takeEvery(LOAD_SINGLE_PRODUCT, workerLoadSingleProducts);
+  yield takeLeading(LOAD_SINGLE_PRODUCT, workerLoadSingleProducts);
 }
 
 function* watchLoadProductsPage() {
-  yield takeEvery(LOAD_PRODUCTS_PAGE, workerLoadProductsPage);
+  yield takeLeading(LOAD_PRODUCTS_PAGE, workerLoadProductsPage);
 }
 
 function* watchLoadSignUpForm() {

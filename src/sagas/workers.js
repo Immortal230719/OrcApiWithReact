@@ -74,13 +74,11 @@ export function* workerLoadProducts() {
 
 export function* workerLoadSingleProducts() {
   try {
-    yield put(backdropToggle());
     yield call(checkRefresh);
     yield put(fetchSingleProductStart());
     const url = yield select(getUrl);
     const product = yield call(fetchSingleProduct, url);
     yield put(fetchSingleProductSuccess(product));
-    yield put(backdropToggle());
   } catch (error) {
     yield put(fetchSingleProductFailure(error));
   }
@@ -88,13 +86,11 @@ export function* workerLoadSingleProducts() {
 
 export function* workerLoadProductsPage() {
   try {
-    yield put(backdropToggle());
     yield call(checkRefresh)
     yield put(fetchProductsPageStart());
     const numOfPage = yield select(getPage);
     const products = yield call(fetchProductsPage, numOfPage);
     yield put(fetchProductsPageSuccess(products));
-    yield put(backdropToggle());
   } catch (error) {
     yield put(fetchProductsPageFailure(error));
   }

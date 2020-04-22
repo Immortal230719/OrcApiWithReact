@@ -35,8 +35,7 @@ const Main = () => {
   const products = useSelector(getProducts);
   const { id, loggedIn } = useSelector(getUser);
   const { data } = products;
-  const token = getAuthToken()
-  
+  let token = getAuthToken();  
 
   useEffect(() => {
     if ( !data ) {
@@ -44,13 +43,12 @@ const Main = () => {
     }       
   }, [dispatch, data]);
 
-  useEffect(() => {
-    if (token && !loggedIn && !id) {
+  useEffect(() => {  
+    if (token && !id) {
+      
       dispatch(loadAuthMe());
     }
-  }, [dispatch, loggedIn, id, token])
-
-  
+  }, [dispatch, loggedIn, id, token])  
 
   const styles = useStyles();
 
