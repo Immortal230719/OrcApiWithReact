@@ -6,52 +6,70 @@ export const fetchProducts = async () => {
   return await axios.get(`${url}/products`);
 };
 
-export const fetchProductsPage = async numOfPage => {
+export const fetchUploadAvatar = async (file, token) => {
+  return await axios.post(`${url}/avatars`, file, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+export const fetchProductsPage = async (numOfPage) => {
   const resolve = await axios.get(`${url}/products?page=${numOfPage}`);
   return resolve;
 };
 
-export const fetchSingleProduct = async slug => {
+export const fetchSingleProduct = async (slug) => {
   const resolve = await axios.get(`${url}${slug}`);
   return resolve;
 };
 
-export const submitSignUpForm = async data => {
+export const submitSignUpForm = async (data) => {
   const resolve = await axios.post(`${url}/auth/signup`, data);
   return resolve;
 };
 
-export const submitLoginForm = async data => {  
-  const resolve = await axios.post(`${url}/auth/login`, data)
+export const submitLoginForm = async (data) => {
+  const resolve = await axios.post(`${url}/auth/login`, data);
   return resolve;
 };
 
-export const authMe = async token => {
-  const response = await axios.post(`${url}/auth/me`, {}, {
+export const authMe = async (token) => {
+  const response = await axios.post(
+    `${url}/auth/me`,
+    {},
+    {
       headers: {
-        "Authorization": `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     }
   );
   return response;
 };
 
-export const logout = async token => {
-  const response = await axios.post(`${url}/auth/logout`, {}, {
+export const logout = async (token) => {
+  const response = await axios.post(
+    `${url}/auth/logout`,
+    {},
+    {
       headers: {
-        "Authorization": `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     }
   );
   return response;
-}
+};
 
-export const refresh = async token => {
-  const response = await axios.post(`${url}/auth/refresh`, {}, {
+export const refresh = async (token) => {
+  const response = await axios.post(
+    `${url}/auth/refresh`,
+    {},
+    {
       headers: {
-        "Authorization": `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     }
   );
   return response;
-}
+};

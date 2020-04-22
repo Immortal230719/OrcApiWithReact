@@ -1,19 +1,19 @@
-import { put, call, select} from "redux-saga/effects";
+import { put, call, select } from "redux-saga/effects";
 
 import {
-  getAuthToken, 
-  setAuthToken, 
+  getAuthToken,
+  setAuthToken,
   removeAuthToken,
   setTimeLifeToken,
-  checkTimeLifeToken
-} from 'utils/tokenUtils';
+  checkTimeLifeToken,
+} from "utils/tokenUtils";
 
 import {
   getUrl,
   getPage,
   getSignUpValues,
   getLoginValues,
-  getUser
+  getUser,
 } from "selectors";
 import {
   fetchProducts,
@@ -23,7 +23,8 @@ import {
   submitLoginForm,
   authMe,
   logout,
-  refresh
+  refresh,
+  fetchUploadAvatar,
 } from "api";
 import {
   fetchProductsSuccess,
@@ -43,20 +44,34 @@ import {
   submitLoginFormFailure,
   submitLoginFormSuccess,
   authMeSuccess,
-  logoutSuccess
+  logoutSuccess,
+  uploadAvatar,
 } from "actions/sagaWorkerActions";
 
 function* checkRefresh() {
   try {
-    const { expires_in } = yield select(getUser)
-    let expired = checkTimeLifeToken(expires_in)
-    if ( expired ) {
-      yield call(workerRefreshToken)
-      return
-    }  
+    const { expires_in } = yield select(getUser);
+    let expired = checkTimeLifeToken(expires_in);
+    if (expired) {
+      yield call(workerRefreshToken);
+      return;
+    }
   } catch (error) {
-    console.log(error);  
+    console.log(error);
   }
+}
+
+export function* workerUploadAvatar({ payload }) {
+  if (!payload.type.match("image.*")) {
+    return;
+  }
+  let formData = new FormData();
+  formData.append("avatar", payload);
+  const token = yield call(getAuthToken);
+  const {
+    data: { data },
+  } = yield call(fetchUploadAvatar, formData, token);
+  yield put(uploadAvatar(data.avatar));
 }
 
 export function* workerLoadProducts() {
@@ -86,7 +101,7 @@ export function* workerLoadSingleProducts() {
 
 export function* workerLoadProductsPage() {
   try {
-    yield call(checkRefresh)
+    yield call(checkRefresh);
     yield put(fetchProductsPageStart());
     const numOfPage = yield select(getPage);
     const products = yield call(fetchProductsPage, numOfPage);
@@ -102,7 +117,7 @@ export function* workerSubmitSignUp() {
     yield put(submitSignUpFormStart());
     const signUpValues = yield select(getSignUpValues);
     const {
-      data: { data }
+      data: { data },
     } = yield call(submitSignUpForm, signUpValues);
     yield put(submitSignUpFormSuccess(data.message));
     yield put(backdropToggle());
@@ -118,10 +133,10 @@ export function* workerSubmitLogin() {
     yield put(submitLoginFormStart());
     const LoginValues = yield select(getLoginValues);
     let {
-      data: { data }
-    } = yield call(submitLoginForm, LoginValues); 
-    yield call(setAuthToken, data.access_token)
-    yield call(setTimeLifeToken)
+      data: { data },
+    } = yield call(submitLoginForm, LoginValues);
+    yield call(setAuthToken, data.access_token);
+    yield call(setTimeLifeToken);
     yield put(submitLoginFormSuccess(data));
     yield put(backdropToggle());
   } catch (error) {
@@ -132,24 +147,29 @@ export function* workerSubmitLogin() {
 
 export function* workerRefreshToken() {
   try {
-    let token = yield call(getAuthToken)
-    const { data: { data } } = yield call(refresh, token);
-    yield call(setAuthToken, data.access_token)
-    const { data: { user } } = yield call(authMe, data.access_token);
-    yield put(authMeSuccess(user))
+    let token = yield call(getAuthToken);
+    const {
+      data: { data },
+    } = yield call(refresh, token);
+    yield call(setAuthToken, data.access_token);
+    const {
+      data: { user },
+    } = yield call(authMe, data.access_token);
+    yield put(authMeSuccess(user));
   } catch (error) {
     console.log(error);
-    
   }
 }
 
 export function* workerAuthMe() {
   try {
     yield put(backdropToggle());
-    yield call(checkRefresh)
-    let token = yield call(getAuthToken) 
-    const { data: { data } } = yield call(authMe, token);
-    yield put(authMeSuccess(data))
+    yield call(checkRefresh);
+    let token = yield call(getAuthToken);
+    const {
+      data: { data },
+    } = yield call(authMe, token);
+    yield put(authMeSuccess(data));
     yield put(backdropToggle());
   } catch (error) {
     yield put(backdropToggle());
@@ -160,10 +180,10 @@ export function* workerAuthMe() {
 export function* workerLogout() {
   try {
     yield put(backdropToggle());
-    let token = yield call(getAuthToken)
-    yield call(logout, token)
-    yield call(removeAuthToken)
-    yield put(logoutSuccess())    
+    let token = yield call(getAuthToken);
+    yield call(logout, token);
+    yield call(removeAuthToken);
+    yield put(logoutSuccess());
     yield put(backdropToggle());
   } catch (error) {
     yield put(backdropToggle());

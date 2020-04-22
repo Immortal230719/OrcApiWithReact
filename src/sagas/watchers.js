@@ -1,4 +1,4 @@
-import { takeEvery, all, takeLeading  } from "redux-saga/effects";
+import { takeEvery, all, takeLeading } from "redux-saga/effects";
 import {
   LOAD_PRODUCTS,
   LOAD_SINGLE_PRODUCT,
@@ -6,7 +6,8 @@ import {
   LOAD_SIGN_UP_FORM,
   LOAD_LOGIN_FORM,
   LOAD_AUTH_ME,
-  LOGOUT
+  LOGOUT,
+  REQUEST_UPLOAD_AVATAR,
 } from "actionTypes";
 
 import {
@@ -16,7 +17,8 @@ import {
   workerSubmitSignUp,
   workerSubmitLogin,
   workerAuthMe,
-  workerLogout
+  workerLogout,
+  workerUploadAvatar,
 } from "sagas/workers";
 
 function* watchLoadProducts() {
@@ -25,6 +27,10 @@ function* watchLoadProducts() {
 
 function* watchLoadSingleProducts() {
   yield takeLeading(LOAD_SINGLE_PRODUCT, workerLoadSingleProducts);
+}
+
+function* watchLoadAvatar() {
+  yield takeLeading(REQUEST_UPLOAD_AVATAR, workerUploadAvatar);
 }
 
 function* watchLoadProductsPage() {
@@ -55,6 +61,7 @@ export default function* rootSaga() {
     watchLoadSignUpForm(),
     watchLoadLoginForm(),
     watchLogout(),
-    watchLoadAuthMe()
+    watchLoadAuthMe(),
+    watchLoadAvatar(),
   ]);
 }

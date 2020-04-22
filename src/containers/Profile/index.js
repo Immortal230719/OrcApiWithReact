@@ -4,9 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Typography, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-import Avatar from '@material-ui/core/Avatar';
+import AvatarUploader from 'components/AvatarUploader';
 
-// import Header from "containers/Header";
 import BackBtn from "components/Buttons/BackBtn";
 import Layout from "components/Layout";
 import Header from 'containers/Header';
@@ -18,12 +17,6 @@ import { loadAuthMe } from "actions/sagaWatcherActions";
 const useStyles = makeStyles({
   wrapper: {
     textDecoration: "none"
-  },
-  avatar: {
-    height: "100%",
-    width: "100%",
-    maxHeight: "300px",
-    borderRadius: '10px'
   }
 });
 
@@ -45,7 +38,9 @@ const Profile = ({ match }) => {
       <Header />
       <Grid container spacing={3}>
         <Grid item sm={4} xs={12} md={3}>
-          <Avatar className={styles.avatar} src={avatar} alt={name} variant="square"/>
+          <AvatarUploader
+           src={avatar}
+          />
         </Grid>
         <Grid item sm={8} xs={12} md={9}>
           <Typography
