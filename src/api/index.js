@@ -43,6 +43,15 @@ export const submitLoginForm = async (data) => {
   return resolve;
 };
 
+export const submitCreateProductForm = async (data, token) => {
+  const resolve = await axios.post(`${url}/products`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return resolve;
+};
+
 export const authMe = async (token) => {
   const response = await axios.post(
     `${url}/auth/me`,

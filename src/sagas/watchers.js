@@ -9,6 +9,7 @@ import {
   LOGOUT,
   REQUEST_UPLOAD_AVATAR,
   DELETE_AVATAR,
+  LOAD_CREATE_PRODUCT,
 } from "actionTypes";
 
 import {
@@ -21,7 +22,12 @@ import {
   workerLogout,
   workerUploadAvatar,
   workerDeleteAvatar,
+  workerCreateProduct,
 } from "sagas/workers";
+
+function* watchLoadCreateProduct() {
+  yield takeEvery(LOAD_CREATE_PRODUCT, workerCreateProduct);
+}
 
 function* watchLoadProducts() {
   yield takeEvery(LOAD_PRODUCTS, workerLoadProducts);
@@ -70,5 +76,6 @@ export default function* rootSaga() {
     watchLoadAuthMe(),
     watchLoadAvatar(),
     watchDeleteAvatar(),
+    watchLoadCreateProduct(),
   ]);
 }

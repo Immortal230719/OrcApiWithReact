@@ -14,6 +14,7 @@ import {
   getSignUpValues,
   getLoginValues,
   getUser,
+  getCreateProductForm,
 } from "selectors";
 import {
   fetchProducts,
@@ -26,6 +27,7 @@ import {
   refresh,
   fetchUploadAvatar,
   fetchDeleteAvatar,
+  submitCreateProductForm,
 } from "api";
 import {
   fetchProductsSuccess,
@@ -48,6 +50,9 @@ import {
   logoutSuccess,
   uploadAvatar,
   deleteAvatarSuccess,
+  createProductStart,
+  createProductSuccess,
+  createProductFailure,
 } from "actions/sagaWorkerActions";
 
 function* checkRefresh() {
@@ -60,6 +65,20 @@ function* checkRefresh() {
     }
   } catch (error) {
     console.log(error);
+  }
+}
+
+export function* workerCreateProduct() {
+  try {
+    yield put(createProductStart());
+    const values = yield select(getCreateProductForm);
+    const token = yield call(getAuthToken);
+    const {
+      data: { data },
+    } = yield call(submitCreateProductForm, values, token);
+    yield put(createProductSuccess(data));
+  } catch (error) {
+    yield put(createProductFailure(error));
   }
 }
 

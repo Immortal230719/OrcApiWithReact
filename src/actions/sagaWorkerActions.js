@@ -19,7 +19,31 @@ import {
   LOGOUT_SUCCESS,
   UPLOAD_AVATAR_SUCCESS,
   DELETE_AVATAR_SUCCESS,
+  CREATE_PRODUCT_START,
+  CREATE_PRODUCT_SUCCESS,
+  CREATE_PRODUCT_FAILURE,
 } from "actionTypes";
+
+export const createProductStart = () => {
+  return {
+    type: CREATE_PRODUCT_START,
+  };
+};
+
+export const createProductSuccess = (data) => {
+  return {
+    type: CREATE_PRODUCT_SUCCESS,
+    payload: data,
+  };
+};
+
+export const createProductFailure = (error) => {
+  return {
+    type: CREATE_PRODUCT_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
 
 export const uploadAvatar = (img) => {
   return {

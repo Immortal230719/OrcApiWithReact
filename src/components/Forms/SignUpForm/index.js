@@ -11,32 +11,32 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     width: "100%",
-    margin: "0 auto"
+    margin: "0 auto",
   },
   flex: {
     display: "flex",
     justifyContent: "space-between",
-    marginTop: "15px"
+    marginTop: "15px",
   },
   inputText: {
     "& label": {
-      color: "#fff"
+      color: "#fff",
     },
     "& div": {
       color: "#fff",
       "& fieldset": {
         border: "none",
-        background: "inherit"
-      }
-    }
-  }
+        background: "inherit",
+      },
+    },
+  },
 });
 
-const validate = values => {
+const validate = (values) => {
   const errors = {};
   const requiredFields = ["name", "email", "password", "password_confirmation"];
 
-  requiredFields.forEach(field => {
+  requiredFields.forEach((field) => {
     if (!values[field]) {
       errors[field] = "Required";
     }
@@ -58,7 +58,7 @@ const validate = values => {
 
 //Validate functions
 
-const SignUpComponent = props => {
+const SignUpComponent = (props) => {
   const {
     animate1,
     animate2,
@@ -67,7 +67,7 @@ const SignUpComponent = props => {
     handleSubmit,
     pristine,
     reset,
-    submitting
+    submitting,
   } = props;
   const styles = useStyles();
 
@@ -122,7 +122,7 @@ const SignUpComponent = props => {
             disabled={pristine || submitting}
             onClick={reset}
           />
-          <SubmitBtn disabled={pristine || submitting} />
+          <SubmitBtn text="Submit" disabled={pristine || submitting} />
         </div>
       </form>
     </>
@@ -131,5 +131,5 @@ const SignUpComponent = props => {
 
 export default reduxForm({
   form: "signUp",
-  validate
+  validate,
 })(SignUpComponent);

@@ -6,6 +6,8 @@ import {
   LOGOUT_SUCCESS,
   UPLOAD_AVATAR_SUCCESS,
   DELETE_AVATAR_SUCCESS,
+  CREATE_PRODUCT_SUCCESS,
+  SET_CREATED_TO_FALSE,
 } from "actionTypes";
 
 const initialState = {
@@ -15,6 +17,7 @@ const initialState = {
   loggedIn: false,
   expires_in: 3600,
   avatar: "",
+  created: false,
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -29,6 +32,10 @@ export default (state = initialState, { type, payload }) => {
       return R.merge(state, { avatar: payload });
     case DELETE_AVATAR_SUCCESS:
       return R.merge(state, { avatar: "" });
+    case CREATE_PRODUCT_SUCCESS:
+      return R.merge(state, { created: true });
+    case SET_CREATED_TO_FALSE:
+      return R.merge(state, { created: false });
     default:
       return state;
   }

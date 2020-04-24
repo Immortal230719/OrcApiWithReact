@@ -3,16 +3,16 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import SendRoundedIcon from "@material-ui/icons/SendRounded";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   btnSubmit: {
     margin: theme.spacing(2),
     background:
       "linear-gradient(45deg, rgb(64, 238, 107) 30%,rgb(6, 235, 120) 90%)",
-    color: "#fff"
-  }
+    color: "#fff",
+  },
 }));
 
-const SubmitBtn = props => {
+const SubmitBtn = ({ text, ...props }) => {
   const styles = useStyles();
 
   return (
@@ -25,7 +25,7 @@ const SubmitBtn = props => {
       endIcon={<SendRoundedIcon fontSize="large" color="inherit" />}
       {...props}
     >
-      Submit
+      {text}
     </Button>
   );
 };

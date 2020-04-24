@@ -5,6 +5,7 @@ import DeleteForeverOutlinedIcon from "@material-ui/icons/DeleteForeverOutlined"
 import AddAPhotoOutlinedIcon from "@material-ui/icons/AddAPhotoOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import { deleteAvatar } from "actions/sagaWatcherActions";
 import { requestUploadAvatar } from "actions/sagaWatcherActions";
@@ -13,6 +14,10 @@ const useStyles = makeStyles({
   wrapper: {
     position: "relative",
   },
+  tooltip: {
+    zIndex: "1000",
+    fontSize: "30px",
+  },
   fileInput: {
     opacity: "0",
     height: "100%",
@@ -20,7 +25,7 @@ const useStyles = makeStyles({
   },
   hoverWrapper: {
     position: "absolute",
-    zIndex: "10000",
+    zIndex: "10",
     top: "0",
     width: "100%",
     height: "100%",
@@ -62,6 +67,7 @@ const useStyles = makeStyles({
     left: "50%",
     fontSize: "18px",
     transform: "translate(-50%, -50%)",
+    userSelect: "none",
   },
   hoverEffect: {
     display: "none",
@@ -72,6 +78,7 @@ const AvatarUploader = ({ hovered, className, src, ...props }) => {
   const styles = useStyles();
   const fileInput = useRef(null);
   const dispatch = useDispatch();
+
   let fileReader = new FileReader();
 
   const dropHandler = (e) => {
@@ -119,18 +126,32 @@ const AvatarUploader = ({ hovered, className, src, ...props }) => {
         />
         <div className={styles.hoverEffect}>
           <div className={styles.hoverWrapper}>
-            <DeleteForeverOutlinedIcon
-              onClick={deleteHandler}
-              className={styles.deleteIcon}
-            />
+            <Tooltip
+              className={styles.tooltip}
+              title="Delete Avatar"
+              aria-label="Delete Avatar"
+              arrow
+            >
+              <DeleteForeverOutlinedIcon
+                onClick={deleteHandler}
+                className={styles.deleteIcon}
+              />
+            </Tooltip>
             <Typography className={styles.text} variant="h3" color="inherit">
               Drag & Drop <br />
               Your Photo
             </Typography>
-            <AddAPhotoOutlinedIcon
-              onClick={() => fileInput.current.click()}
-              className={styles.uploadIcon}
-            />
+            <Tooltip
+              className={styles.tooltip}
+              title="Add New Avatar"
+              aria-label="Add New Avatar"
+              arrow
+            >
+              <AddAPhotoOutlinedIcon
+                onClick={() => fileInput.current.click()}
+                className={styles.uploadIcon}
+              />
+            </Tooltip>
           </div>
         </div>
       </div>
