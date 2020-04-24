@@ -15,6 +15,14 @@ export const fetchUploadAvatar = async (file, token) => {
   });
 };
 
+export const fetchDeleteAvatar = async (token) => {
+  return await axios.delete(`${url}/avatars`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const fetchProductsPage = async (numOfPage) => {
   const resolve = await axios.get(`${url}/products?page=${numOfPage}`);
   return resolve;

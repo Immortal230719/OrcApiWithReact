@@ -5,7 +5,7 @@ import {
   SUBMIT_LOGIN_FORM_SUCCESS,
   LOGOUT_SUCCESS,
   UPLOAD_AVATAR_SUCCESS,
-  DELETE_AVATAR,
+  DELETE_AVATAR_SUCCESS,
 } from "actionTypes";
 
 const initialState = {
@@ -27,7 +27,7 @@ export default (state = initialState, { type, payload }) => {
       return R.merge(state, initialState);
     case UPLOAD_AVATAR_SUCCESS:
       return R.merge(state, { avatar: payload });
-    case DELETE_AVATAR:
+    case DELETE_AVATAR_SUCCESS:
       return R.merge(state, { avatar: "" });
     default:
       return state;

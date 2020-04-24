@@ -18,7 +18,7 @@ import {
   AUTH_ME_SUCCESS,
   LOGOUT_SUCCESS,
   UPLOAD_AVATAR_SUCCESS,
-  DELETE_AVATAR,
+  DELETE_AVATAR_SUCCESS,
 } from "actionTypes";
 
 export const uploadAvatar = (img) => {
@@ -28,9 +28,10 @@ export const uploadAvatar = (img) => {
   };
 };
 
-export const deleteAvatar = () => {
+export const deleteAvatarSuccess = (payload) => {
   return {
-    type: DELETE_AVATAR,
+    type: DELETE_AVATAR_SUCCESS,
+    payload: payload,
   };
 };
 

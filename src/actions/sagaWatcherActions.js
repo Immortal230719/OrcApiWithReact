@@ -8,6 +8,7 @@ import {
   LOGOUT,
   REFRESH_TOKEN,
   REQUEST_UPLOAD_AVATAR,
+  DELETE_AVATAR,
 } from "actionTypes";
 
 export const loadProducts = () => {
@@ -63,5 +64,11 @@ export const requestUploadAvatar = (file) => {
   return {
     type: REQUEST_UPLOAD_AVATAR,
     payload: file,
+  };
+};
+
+export const deleteAvatar = () => {
+  return {
+    type: DELETE_AVATAR,
   };
 };

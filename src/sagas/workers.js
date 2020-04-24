@@ -25,6 +25,7 @@ import {
   logout,
   refresh,
   fetchUploadAvatar,
+  fetchDeleteAvatar,
 } from "api";
 import {
   fetchProductsSuccess,
@@ -46,6 +47,7 @@ import {
   authMeSuccess,
   logoutSuccess,
   uploadAvatar,
+  deleteAvatarSuccess,
 } from "actions/sagaWorkerActions";
 
 function* checkRefresh() {
@@ -56,6 +58,16 @@ function* checkRefresh() {
       yield call(workerRefreshToken);
       return;
     }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* workerDeleteAvatar() {
+  try {
+    const token = yield call(getAuthToken);
+    yield call(fetchDeleteAvatar, token);
+    yield put(deleteAvatarSuccess());
   } catch (error) {
     console.log(error);
   }

@@ -8,6 +8,7 @@ import {
   LOAD_AUTH_ME,
   LOGOUT,
   REQUEST_UPLOAD_AVATAR,
+  DELETE_AVATAR,
 } from "actionTypes";
 
 import {
@@ -19,6 +20,7 @@ import {
   workerAuthMe,
   workerLogout,
   workerUploadAvatar,
+  workerDeleteAvatar,
 } from "sagas/workers";
 
 function* watchLoadProducts() {
@@ -31,6 +33,10 @@ function* watchLoadSingleProducts() {
 
 function* watchLoadAvatar() {
   yield takeLeading(REQUEST_UPLOAD_AVATAR, workerUploadAvatar);
+}
+
+function* watchDeleteAvatar() {
+  yield takeLeading(DELETE_AVATAR, workerDeleteAvatar);
 }
 
 function* watchLoadProductsPage() {
@@ -63,5 +69,6 @@ export default function* rootSaga() {
     watchLogout(),
     watchLoadAuthMe(),
     watchLoadAvatar(),
+    watchDeleteAvatar(),
   ]);
 }

@@ -6,7 +6,7 @@ import AddAPhotoOutlinedIcon from "@material-ui/icons/AddAPhotoOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { uploadAvatar, deleteAvatar } from "actions/sagaWorkerActions";
+import { deleteAvatar } from "actions/sagaWatcherActions";
 import { requestUploadAvatar } from "actions/sagaWatcherActions";
 
 const useStyles = makeStyles({
@@ -76,10 +76,6 @@ const AvatarUploader = ({ hovered, className, src, ...props }) => {
 
   const dropHandler = (e) => {
     const files = e.currentTarget.files;
-
-    // fileReader.onload = () => {
-    //   dispatch(uploadAvatar(fileReader.result));
-    // };
     fileReader.onabort = () => {
       console.log("File reading error!");
     };
@@ -87,7 +83,6 @@ const AvatarUploader = ({ hovered, className, src, ...props }) => {
       console.log("Reading error!");
     };
     if (files.length === 1) {
-      fileReader.readAsDataURL(files[0]);
       dispatch(requestUploadAvatar(files[0]));
       e.currentTarget.value = "";
     }
