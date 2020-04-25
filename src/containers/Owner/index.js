@@ -9,8 +9,8 @@ import BackBtn from "components/Buttons/BackBtn";
 
 const useStyles = makeStyles({
   wrapper: {
-    textDecoration: "none"
-  }
+    textDecoration: "none",
+  },
 });
 
 const Owner = ({ match }) => {
@@ -51,7 +51,7 @@ const Owner = ({ match }) => {
           aspernatur aut odit aut fugit, sed quia consequuntur
         </Typography>
         <Link className={styles.wrapper} to="/">
-          <BackBtn />
+          <BackBtn text="Go to Products" />
         </Link>
       </Layout>
     </>

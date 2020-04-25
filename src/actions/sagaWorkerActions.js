@@ -22,21 +22,40 @@ import {
   CREATE_PRODUCT_START,
   CREATE_PRODUCT_SUCCESS,
   CREATE_PRODUCT_FAILURE,
+  DELETE_PRODUCT_START,
+  DELETE_PRODUCT_SUCCESS,
+  DELETE_PRODUCT_FAILURE,
 } from "actionTypes";
+
+export const deleteProductStart = () => {
+  return {
+    type: DELETE_PRODUCT_START,
+  };
+};
+export const deleteProductSuccess = () => {
+  return {
+    type: DELETE_PRODUCT_SUCCESS,
+  };
+};
+export const deleteProductFailure = (error) => {
+  return {
+    type: DELETE_PRODUCT_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
 
 export const createProductStart = () => {
   return {
     type: CREATE_PRODUCT_START,
   };
 };
-
 export const createProductSuccess = (data) => {
   return {
     type: CREATE_PRODUCT_SUCCESS,
     payload: data,
   };
 };
-
 export const createProductFailure = (error) => {
   return {
     type: CREATE_PRODUCT_FAILURE,
@@ -51,7 +70,6 @@ export const uploadAvatar = (img) => {
     payload: img,
   };
 };
-
 export const deleteAvatarSuccess = (payload) => {
   return {
     type: DELETE_AVATAR_SUCCESS,
@@ -70,14 +88,12 @@ export const fetchProductsStart = () => {
     type: FETCH_PRODUCTS_START,
   };
 };
-
 export const fetchProductsSuccess = (products) => {
   return {
     type: FETCH_PRODUCTS_SUCCESS,
     payload: products.data,
   };
 };
-
 export const fetchProductsFailure = (error) => {
   return {
     type: FETCH_PRODUCTS_FAILURE,
@@ -91,14 +107,12 @@ export const fetchSingleProductStart = () => {
     type: FETCH_SINGLE_PRODUCT_START,
   };
 };
-
 export const fetchSingleProductSuccess = (product) => {
   return {
     type: FETCH_SINGLE_PRODUCT_SUCCESS,
     payload: product.data,
   };
 };
-
 export const fetchSingleProductFailure = (error) => {
   return {
     type: FETCH_SINGLE_PRODUCT_FAILURE,
@@ -112,14 +126,12 @@ export const fetchProductsPageStart = () => {
     type: FETCH_PRODUCTS_PAGE_START,
   };
 };
-
 export const fetchProductsPageSuccess = (product) => {
   return {
     type: FETCH_PRODUCTS_PAGE_SUCCESS,
     payload: product.data,
   };
 };
-
 export const fetchProductsPageFailure = (error) => {
   return {
     type: FETCH_PRODUCTS_PAGE_FAILURE,
@@ -134,13 +146,11 @@ export const submitSignUpFormSuccess = (response) => {
     payload: response,
   };
 };
-
 export const submitSignUpFormStart = () => {
   return {
     type: SUBMIT_SIGN_UP_FORM_START,
   };
 };
-
 export const submitSignUpFormFailure = (error) => {
   return {
     type: SUBMIT_SIGN_UP_FORM_FAILURE,
@@ -155,13 +165,11 @@ export const submitLoginFormSuccess = (response) => {
     payload: response,
   };
 };
-
 export const submitLoginFormStart = () => {
   return {
     type: SUBMIT_LOGIN_FORM_START,
   };
 };
-
 export const submitLoginFormFailure = (error) => {
   return {
     type: SUBMIT_LOGIN_FORM_FAILURE,

@@ -10,6 +10,7 @@ import {
   REQUEST_UPLOAD_AVATAR,
   DELETE_AVATAR,
   LOAD_CREATE_PRODUCT,
+  DELETE_PRODUCT,
 } from "actionTypes";
 
 export const loadProducts = () => {
@@ -77,5 +78,11 @@ export const deleteAvatar = () => {
 export const loadCreateProductForm = () => {
   return {
     type: LOAD_CREATE_PRODUCT,
+  };
+};
+
+export const deleteProduct = () => {
+  return {
+    type: DELETE_PRODUCT,
   };
 };

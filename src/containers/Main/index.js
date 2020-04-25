@@ -8,10 +8,10 @@ import Product from "components/Product";
 import Paginator from "components/Pagination";
 import Header from "containers/Header";
 
-import { loadProducts, loadAuthMe } from "actions/sagaWatcherActions";
-import { getProducts,  getUser } from "selectors";
-import {  getAuthToken } from 'utils/tokenUtils';
-
+import { loadAuthMe, loadProductsPage } from "actions/sagaWatcherActions";
+import { resetDeletedProduct } from "actions/syncActions";
+import { getProducts, getUser, getPage } from "selectors";
+import { getAuthToken } from "utils/tokenUtils";
 
 const useStyles = makeStyles((theme) => ({
   gridList: {
@@ -31,28 +31,43 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Main = () => {
+  const styles = useStyles();
   const dispatch = useDispatch();
+
+  const page = useSelector(getPage);
   const products = useSelector(getProducts);
   const { id, loggedIn } = useSelector(getUser);
   const { data } = products;
-  let token = getAuthToken();  
+  let token = getAuthToken();
 
   useEffect(() => {
-    if ( !data ) {
-      dispatch(loadProducts());
-    }       
-  }, [dispatch, data]);
+    if (page === 1) {
+      dispatch(loadProductsPage(1));
+    }
+  }, [dispatch, page]);
 
-  useEffect(() => {  
+  useEffect(() => {
+    if (page !== 1) {
+      dispatch(loadProductsPage(page));
+    }
+  }, [dispatch, page]);
+
+  useEffect(() => {
     if (token && !id) {
-      
       dispatch(loadAuthMe());
     }
-  }, [dispatch, loggedIn, id, token])  
+  }, [dispatch, loggedIn, id, token]);
 
-  const styles = useStyles();
+  useEffect(() => {
+    dispatch(resetDeletedProduct());
+  });
 
-  const renderProducts = (data) => {  
+  const handleChange = (event, page) => {
+    event.preventDefault();
+    dispatch(loadProductsPage(page));
+  };
+
+  const renderProducts = (data) => {
     if (data) {
       return (
         <>
@@ -66,12 +81,12 @@ const Main = () => {
             {data.map((product) => {
               return (
                 <GridListTile key={product.id}>
-                  <Product product={product} />
+                  <Product product={product} userId={id} />
                 </GridListTile>
               );
             })}
           </GridList>
-          <Paginator />
+          <Paginator onChange={handleChange} />
         </>
       );
     }

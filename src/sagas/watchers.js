@@ -10,6 +10,7 @@ import {
   REQUEST_UPLOAD_AVATAR,
   DELETE_AVATAR,
   LOAD_CREATE_PRODUCT,
+  DELETE_PRODUCT,
 } from "actionTypes";
 
 import {
@@ -23,10 +24,15 @@ import {
   workerUploadAvatar,
   workerDeleteAvatar,
   workerCreateProduct,
+  workerDeleteProduct,
 } from "sagas/workers";
 
 function* watchLoadCreateProduct() {
   yield takeEvery(LOAD_CREATE_PRODUCT, workerCreateProduct);
+}
+
+function* watchDeleteProduct() {
+  yield takeEvery(DELETE_PRODUCT, workerDeleteProduct);
 }
 
 function* watchLoadProducts() {
@@ -77,5 +83,6 @@ export default function* rootSaga() {
     watchLoadAvatar(),
     watchDeleteAvatar(),
     watchLoadCreateProduct(),
+    watchDeleteProduct(),
   ]);
 }

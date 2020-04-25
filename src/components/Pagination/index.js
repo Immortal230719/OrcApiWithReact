@@ -1,28 +1,23 @@
 import React from "react";
 import Pagination from "@material-ui/lab/Pagination";
+import PaginationItem from "@material-ui/lab/PaginationItem";
 import { makeStyles } from "@material-ui/core/styles";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-import { memoProducts } from "selectors";
-import { loadProductsPage } from "actions/sagaWatcherActions";
+import { memoProducts, getPage } from "selectors";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   wrapper: {
     "& ul": {
-      justifyContent: "center"
-    }
-  }
+      justifyContent: "center",
+    },
+  },
 }));
 
-const Paginator = () => {
+const Paginator = ({ onChange }) => {
   const styles = useStyles();
   const { meta } = useSelector(memoProducts);
-  const dispatch = useDispatch();
-
-  const handleChange = (event, page) => {
-    event.preventDefault();
-    dispatch(loadProductsPage(page));
-  };
+  const page = useSelector(getPage);
 
   return (
     <div>
@@ -31,10 +26,15 @@ const Paginator = () => {
         className={`${styles.wrapper} ${styles.root}`}
         count={meta.last_page}
         shape="rounded"
-        size="large"
         hidePrevButton
         hideNextButton
-        onChange={handleChange}
+        onChange={onChange}
+        renderItem={(item) => {
+          item.selected = item.page === page ? true : false;
+          return (
+            <PaginationItem size="large" selected={item.selected} {...item} />
+          );
+        }}
       />
     </div>
   );

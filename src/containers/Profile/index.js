@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Typography, Grid } from "@material-ui/core";
 import DoneOutlineRoundedIcon from "@material-ui/icons/DoneOutlineRounded";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
 import AvatarUploader from "components/AvatarUploader";
@@ -58,6 +58,10 @@ const Profile = ({ match }) => {
   const closeHandler = () => {
     dispatch(setCreatedToFalse());
   };
+
+  if (!loggedIn && !token) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <Layout>
@@ -132,7 +136,7 @@ const Profile = ({ match }) => {
         </Grid>
       </Grid>
       <Link className={styles.wrapper} to="/">
-        <BackBtn />
+        <BackBtn text="Go to Products" />
       </Link>
     </Layout>
   );

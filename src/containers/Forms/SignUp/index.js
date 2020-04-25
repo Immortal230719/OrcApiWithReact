@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     textDecoration: "none",
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   wrapper: {
     position: "fixed",
@@ -27,14 +27,14 @@ const useStyles = makeStyles({
     alignItems: "center",
     width: "100%",
     height: "100vh",
-    background: "linear-gradient(120deg, rgb(22, 22, 22), rgb(0, 0, 0))"
+    background: "linear-gradient(120deg, rgb(22, 22, 22), rgb(0, 0, 0))",
   },
   formWrapper: {
     position: "relative",
     width: "600px",
     padding: "15px",
     borderRadius: "15px",
-    color: "#fff"
+    color: "#fff",
   },
   animatedBox: {
     display: "block",
@@ -44,8 +44,8 @@ const useStyles = makeStyles({
     borderRadius: "15px",
     position: "absolute",
     top: "0",
-    left: "0"
-  }
+    left: "0",
+  },
 });
 
 const SignUpForm = () => {
@@ -57,12 +57,12 @@ const SignUpForm = () => {
   const { trans, shadow, back } = useSpring({
     from: {
       transform: "skew(20deg, 20deg) scale(1)",
-      boxShadow: "2px 50px 50px rgb(205, 42, 255)"
+      boxShadow: "2px 50px 50px rgb(205, 42, 255)",
     },
     trans: animateTrans(animate),
     shadow: animateColor(animate),
     back: animateColor(animate),
-    config: { duration: 1300 }
+    config: { duration: 1300 },
   });
 
   const submitHandler = ({ name, email, password, password_confirmation }) => {
@@ -87,7 +87,7 @@ const SignUpForm = () => {
             boxShadow: shadow.interpolate(
               (x, y, z) => `2px 10px 25px rgb(${x}, ${y}, ${z})`
             ),
-            background: back.interpolate((x, y, z) => `rgb(${x}, ${y}, ${z})`)
+            background: back.interpolate((x, y, z) => `rgb(${x}, ${y}, ${z})`),
           }}
         />
       </div>
@@ -133,7 +133,7 @@ const SignUpForm = () => {
             Please, check your email.
           </Typography>
           <Link className={styles.linkBtn} to="/">
-            <BackBtn />
+            <BackBtn text="Back" />
           </Link>
         </div>
       )}

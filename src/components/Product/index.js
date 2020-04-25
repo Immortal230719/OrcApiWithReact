@@ -10,6 +10,8 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
+import EditIcon from "@material-ui/icons/Edit";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles({
   root: {
@@ -52,6 +54,12 @@ const useStyles = makeStyles({
     textShadow: "1px 1px 3px #aaa",
     overflow: "hidden",
   },
+  delete: {
+    position: "absolute",
+    top: "10px",
+    right: "10px",
+    cursor: "pointer",
+  },
   link: {
     display: "flex",
     width: "100%",
@@ -67,10 +75,12 @@ const useStyles = makeStyles({
 });
 
 const Product = ({
+  userId,
   product: { id, title, slug, description, owners, status },
 }) => {
   const styles = useStyles();
   const shortDescripton = R.take(60, description);
+  const hasOwnerId = owners.some((owner) => owner.id === userId);
 
   const renderOwner = ({ id, name, email, avatar }) => {
     return (
@@ -95,6 +105,11 @@ const Product = ({
                 component="h3"
               >
                 {title}
+                {hasOwnerId ? (
+                  <Tooltip title="Editable for you" arrow>
+                    <EditIcon className={styles.delete} />
+                  </Tooltip>
+                ) : null}
               </Typography>
               <Typography
                 className={styles.textColor}

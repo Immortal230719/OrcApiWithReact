@@ -15,7 +15,7 @@ const useStyles = makeStyles({
     textDecoration: "none",
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   wrapper: {
     position: "fixed",
@@ -25,14 +25,14 @@ const useStyles = makeStyles({
     alignItems: "center",
     width: "100%",
     height: "100vh",
-    background: "linear-gradient(45deg, #111, #000)"
+    background: "linear-gradient(45deg, #111, #000)",
   },
   formWrapper: {
     position: "relative",
     width: "600px",
     padding: "15px",
-    borderRadius: "15px"
-  }
+    borderRadius: "15px",
+  },
 });
 
 const LoginForm = () => {
@@ -72,7 +72,7 @@ const LoginForm = () => {
         </Typography>
         <LoginComponent onSubmit={submitHandler} />
         <Link className={styles.linkBtn} to="/">
-          <BackBtn />
+          <BackBtn text="Back" />
         </Link>
       </div>
     </div>

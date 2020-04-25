@@ -9,21 +9,21 @@ const useStyles = makeStyles({
       "linear-gradient(45deg, rgb(91, 163, 246) 30%, rgb(7, 103, 212) 90%)",
     color: "#fff",
     width: "100%",
-    marginTop: "15px"
-  }
+    marginTop: "15px",
+  },
 });
 
-const BackBtn = () => {
+const BackBtn = ({ text, className }) => {
   const styles = useStyles();
 
   return (
     <Button
       variant="contained"
       size="large"
-      className={styles.btnBack}
+      className={`${styles.btnBack} ${className}`}
       endIcon={<HomeSharpIcon fontSize="large" color="inherit" />}
     >
-      Back
+      {text}
     </Button>
   );
 };
