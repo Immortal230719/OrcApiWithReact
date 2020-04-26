@@ -58,3 +58,7 @@ export const getExpires = (state) => {
 export const getCreateProductForm = (state) => {
   return R.prop("values", state.form.createP);
 };
+
+export const getPatchProductForm = (state) => {
+  return R.prop("values", state.form.patchP);
+};

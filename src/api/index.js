@@ -21,6 +21,14 @@ export const fetchDeleteProduct = async (slug, token) => {
   });
   return resolve;
 };
+export const fetchPatchProduct = async (data, token, slug) => {
+  const resolve = await axios.patch(`${url}/products/${slug}`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return resolve;
+};
 
 export const fetchUploadAvatar = async (file, token) => {
   return await axios.post(`${url}/avatars`, file, {

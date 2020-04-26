@@ -68,6 +68,7 @@ const SignUpComponent = (props) => {
     pristine,
     reset,
     submitting,
+    invalid,
   } = props;
   const styles = useStyles();
 
@@ -117,12 +118,12 @@ const SignUpComponent = (props) => {
           component={renderTextField}
         />
         <div className={styles.flex}>
-          <ResetBtn
-            type="reset"
-            disabled={pristine || submitting}
-            onClick={reset}
-          />
-          <SubmitBtn text="Submit" disabled={pristine || submitting} />
+          <ResetBtn disabled={pristine || submitting} onClick={reset}>
+            Reset
+          </ResetBtn>
+          <SubmitBtn disabled={pristine || submitting || invalid}>
+            Submit
+          </SubmitBtn>
         </div>
       </form>
     </>

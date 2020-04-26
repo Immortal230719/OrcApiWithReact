@@ -16,6 +16,7 @@ import {
   getUser,
   getCreateProductForm,
   getProduct,
+  getPatchProductForm,
 } from "selectors";
 import {
   fetchProducts,
@@ -30,6 +31,7 @@ import {
   fetchDeleteAvatar,
   submitCreateProductForm,
   fetchDeleteProduct,
+  fetchPatchProduct,
 } from "api";
 import {
   fetchProductsSuccess,
@@ -58,6 +60,9 @@ import {
   deleteProductStart,
   deleteProductSuccess,
   deleteProductFailure,
+  patchProductStart,
+  patchProductSuccess,
+  patchProductFailure,
 } from "actions/sagaWorkerActions";
 
 import { deleteFromProductsStore } from "actions/syncActions";
@@ -72,6 +77,24 @@ function* checkRefresh() {
     }
   } catch (error) {
     console.log(error);
+  }
+}
+
+export function* workerPatchProduct() {
+  try {
+    yield put(backdropToggle());
+    yield put(patchProductStart());
+    const values = yield select(getPatchProductForm);
+    const product = yield select(getProduct);
+    const token = yield call(getAuthToken);
+    const {
+      data: { data },
+    } = yield call(fetchPatchProduct, values, token, product.slug);
+    yield put(patchProductSuccess(data));
+    yield put(backdropToggle());
+  } catch (error) {
+    yield put(backdropToggle());
+    yield put(patchProductFailure(error));
   }
 }
 

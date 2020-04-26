@@ -13,7 +13,7 @@ const useStyles = makeStyles({
   },
 });
 
-const BackBtn = ({ text, className }) => {
+const BackBtn = ({ children, className }) => {
   const styles = useStyles();
 
   return (
@@ -23,7 +23,7 @@ const BackBtn = ({ text, className }) => {
       className={`${styles.btnBack} ${className}`}
       endIcon={<HomeSharpIcon fontSize="large" color="inherit" />}
     >
-      {text}
+      {children}
     </Button>
   );
 };

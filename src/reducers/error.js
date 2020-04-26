@@ -8,6 +8,7 @@ import {
   SUBMIT_LOGIN_FORM_FAILURE,
   ERROR_RESET,
   CREATE_PRODUCT_FAILURE,
+  PATCH_PRODUCT_FAILURE,
 } from "actionTypes";
 
 const initialState = {
@@ -44,6 +45,18 @@ export default (state = initialState, { type, payload, error }) => {
     case SUBMIT_LOGIN_FORM_FAILURE:
       return R.merge(state, errorPayloadSelector(error, payload));
     case CREATE_PRODUCT_FAILURE:
+      if (payload.response.status === 422) {
+        const message = payload.response.data.errors.title;
+        return R.merge(state, {
+          error: error,
+          message: message,
+        });
+      }
+      return R.merge(state, {
+        error: error,
+        message: payload.message,
+      });
+    case PATCH_PRODUCT_FAILURE:
       if (payload.response.status === 422) {
         const message = payload.response.data.errors.title;
         return R.merge(state, {

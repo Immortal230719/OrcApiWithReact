@@ -51,7 +51,7 @@ const Owner = ({ match }) => {
           aspernatur aut odit aut fugit, sed quia consequuntur
         </Typography>
         <Link className={styles.wrapper} to="/">
-          <BackBtn text="Go to Products" />
+          <BackBtn>Go to Products</BackBtn>
         </Link>
       </Layout>
     </>

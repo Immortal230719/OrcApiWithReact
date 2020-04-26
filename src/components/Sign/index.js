@@ -6,27 +6,27 @@ import { Link } from "react-router-dom";
 import SignUpBtn from "components/Buttons/SignUpBtn";
 import LoginBtn from "components/Buttons/LoginBtn";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     alignItems: "center",
-    color: "rgb(112, 112, 112)"
+    color: "rgb(112, 112, 112)",
   },
   links: {
-    textDecoration: "none"
-  }
+    textDecoration: "none",
+  },
 }));
 
-const Sign = props => {
+const Sign = (props) => {
   const styles = useStyles();
 
   return (
     <Box className={styles.root}>
       <Link to="/login/" className={styles.links}>
-        <LoginBtn />
+        <LoginBtn>Login</LoginBtn>
       </Link>
       <Link to="/sign-up/" className={styles.links}>
-        <SignUpBtn />
+        <SignUpBtn>Sign Up</SignUpBtn>
       </Link>
     </Box>
   );

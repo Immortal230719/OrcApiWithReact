@@ -25,7 +25,29 @@ import {
   DELETE_PRODUCT_START,
   DELETE_PRODUCT_SUCCESS,
   DELETE_PRODUCT_FAILURE,
+  PATCH_PRODUCT_START,
+  PATCH_PRODUCT_SUCCESS,
+  PATCH_PRODUCT_FAILURE,
 } from "actionTypes";
+
+export const patchProductStart = () => {
+  return {
+    type: PATCH_PRODUCT_START,
+  };
+};
+export const patchProductSuccess = (product) => {
+  return {
+    type: PATCH_PRODUCT_SUCCESS,
+    payload: product,
+  };
+};
+export const patchProductFailure = (error) => {
+  return {
+    type: PATCH_PRODUCT_FAILURE,
+    payload: error,
+    error: true,
+  };
+};
 
 export const deleteProductStart = () => {
   return {

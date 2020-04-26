@@ -9,8 +9,9 @@ import {
   REFRESH_TOKEN,
   REQUEST_UPLOAD_AVATAR,
   DELETE_AVATAR,
-  LOAD_CREATE_PRODUCT,
+  CREATE_PRODUCT,
   DELETE_PRODUCT,
+  PATCH_PRODUCT,
 } from "actionTypes";
 
 export const loadProducts = () => {
@@ -77,7 +78,13 @@ export const deleteAvatar = () => {
 
 export const loadCreateProductForm = () => {
   return {
-    type: LOAD_CREATE_PRODUCT,
+    type: CREATE_PRODUCT,
+  };
+};
+
+export const loadPatchProductForm = () => {
+  return {
+    type: PATCH_PRODUCT,
   };
 };
 

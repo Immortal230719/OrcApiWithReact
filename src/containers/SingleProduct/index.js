@@ -16,14 +16,16 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import BuildIcon from "@material-ui/icons/Build";
 import { useDispatch, useSelector } from "react-redux";
 import Layout from "components/Layout";
+import PatchProduct from "containers/Forms/PatchProduct";
 import { Link } from "react-router-dom";
 
-import { loadSingleProduct } from "actions/sagaWatcherActions";
+import { loadSingleProduct, loadAuthMe } from "actions/sagaWatcherActions";
 import Header from "containers/Header";
 import BackBtn from "components/Buttons/BackBtn";
 import { getProduct, getUser } from "selectors";
 import { deleteProduct } from "actions/sagaWatcherActions";
 import { productHasOwnerId } from "utils/filters";
+import { getAuthToken } from "utils/tokenUtils";
 
 const useStyles = makeStyles({
   wrapper: {
@@ -51,11 +53,17 @@ const SingleProduct = () => {
   const styles = useStyles();
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
-  console.log(show);
 
   let { title, description, owners, deleted } = useSelector(getProduct);
-  const user = useSelector(getUser);
-  const hasOwnerId = productHasOwnerId(owners, user.id);
+  const { id, loggedIn } = useSelector(getUser);
+  let token = getAuthToken();
+  const hasOwnerId = productHasOwnerId(owners, id);
+
+  useEffect(() => {
+    if (token && !id) {
+      dispatch(loadAuthMe());
+    }
+  }, [dispatch, loggedIn, id, token]);
 
   useEffect(() => {
     dispatch(loadSingleProduct());
@@ -143,8 +151,9 @@ const SingleProduct = () => {
             }
           >
             {renderOwners(owners, styles)}
+            {show ? <PatchProduct /> : null}
             <Link className={styles.wrapper} to="/">
-              <BackBtn text="Back" />
+              <BackBtn>Back</BackBtn>
             </Link>
           </List>
         </Layout>
@@ -157,7 +166,7 @@ const SingleProduct = () => {
             <Grid item xs={1} md={8}></Grid>
             <Grid item xs={11} md={4}>
               <Link className={styles.wrapper} to="/">
-                <BackBtn text="Go to Products" />
+                <BackBtn>Go to Products</BackBtn>
               </Link>
             </Grid>
           </Grid>

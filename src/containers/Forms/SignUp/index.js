@@ -117,7 +117,7 @@ const SignUpForm = () => {
             onSubmit={submitHandler}
           />
           <Link className={styles.linkBtn} to="/">
-            <BackBtn />
+            <BackBtn>Back</BackBtn>
           </Link>
         </div>
       ) : (
@@ -133,7 +133,7 @@ const SignUpForm = () => {
             Please, check your email.
           </Typography>
           <Link className={styles.linkBtn} to="/">
-            <BackBtn text="Back" />
+            <BackBtn>Back</BackBtn>
           </Link>
         </div>
       )}

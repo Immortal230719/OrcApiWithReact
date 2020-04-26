@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SubmitBtn = ({ text, ...props }) => {
+const SubmitBtn = ({ children, ...props }) => {
   const styles = useStyles();
 
   return (
@@ -25,7 +25,7 @@ const SubmitBtn = ({ text, ...props }) => {
       endIcon={<SendRoundedIcon fontSize="large" color="inherit" />}
       {...props}
     >
-      {text}
+      {children}
     </Button>
   );
 };

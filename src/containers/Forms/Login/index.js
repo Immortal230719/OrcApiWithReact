@@ -72,7 +72,7 @@ const LoginForm = () => {
         </Typography>
         <LoginComponent onSubmit={submitHandler} />
         <Link className={styles.linkBtn} to="/">
-          <BackBtn text="Back" />
+          <BackBtn>Back</BackBtn>
         </Link>
       </div>
     </div>

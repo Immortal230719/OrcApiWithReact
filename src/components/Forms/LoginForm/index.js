@@ -44,7 +44,7 @@ const validate = (values) => {
 //Validate functions
 
 const LoginComponent = (props) => {
-  const { handleSubmit, pristine, reset, submitting } = props;
+  const { handleSubmit, pristine, reset, submitting, invalid } = props;
   const styles = useStyles();
 
   return (
@@ -68,12 +68,12 @@ const LoginComponent = (props) => {
           component={renderTextField}
         />
         <div className={styles.flex}>
-          <ResetBtn
-            type="reset"
-            disabled={pristine || submitting}
-            onClick={reset}
-          />
-          <SubmitBtn text="Login" disabled={pristine || submitting} />
+          <ResetBtn disabled={pristine || submitting} onClick={reset}>
+            Reset
+          </ResetBtn>
+          <SubmitBtn disabled={pristine || submitting || invalid}>
+            Login
+          </SubmitBtn>
         </div>
       </form>
     </>
