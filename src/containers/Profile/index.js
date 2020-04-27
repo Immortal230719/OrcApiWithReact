@@ -136,7 +136,7 @@ const Profile = ({ match }) => {
         </Grid>
       </Grid>
       <Link className={styles.wrapper} to="/">
-        <BackBtn text="Go to Products" />
+        <BackBtn>Go to Products</BackBtn>
       </Link>
     </Layout>
   );

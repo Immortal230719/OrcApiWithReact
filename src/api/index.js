@@ -1,37 +1,47 @@
 import axios from "axios";
 
-const url = "https://api.app2000.host/api/v1";
+const apiKey = "d6fbdf9b-1f67-436a-91a7-0cc32628f339";
 
-export const fetchProducts = async () => {
-  return await axios.get(`${url}/products`);
+const headers = (token) => {
+  return {
+    Authorization: `Bearer ${token}`,
+  };
 };
+
+//Products API
+const products = axios.create({
+  baseURL: "https://api.app2000.host/api/v1/products",
+});
+
 export const fetchProductsPage = async (numOfPage) => {
-  const resolve = await axios.get(`${url}/products?page=${numOfPage}`);
-  return resolve;
+  return await products.get(`?page=${numOfPage}`);
 };
 export const fetchSingleProduct = async (slug) => {
-  const resolve = await axios.get(`${url}${slug}`);
-  return resolve;
+  return await products.get(slug);
 };
 export const fetchDeleteProduct = async (slug, token) => {
-  const resolve = await axios.delete(`${url}/products/${slug}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  return await products.delete(slug, {
+    headers: headers(token),
   });
-  return resolve;
 };
 export const fetchPatchProduct = async (data, token, slug) => {
-  const resolve = await axios.patch(`${url}/products/${slug}`, data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  return await products.patch(slug, data, {
+    headers: headers(token),
   });
-  return resolve;
+};
+export const submitCreateProductForm = async (data, token) => {
+  return await products.post("", data, {
+    headers: headers(token),
+  });
 };
 
+//Avatar API
+const avatar = axios.create({
+  baseURL: "https://api.app2000.host/api/v1/avatars",
+});
+
 export const fetchUploadAvatar = async (file, token) => {
-  return await axios.post(`${url}/avatars`, file, {
+  return await avatar.post("", file, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "multipart/form-data",
@@ -39,63 +49,28 @@ export const fetchUploadAvatar = async (file, token) => {
   });
 };
 export const fetchDeleteAvatar = async (token) => {
-  return await axios.delete(`${url}/avatars`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  return await avatar.delete("", {
+    headers: headers(token),
   });
 };
+
+//Auth API
+const auth = axios.create({
+  baseURL: "https://api.app2000.host/api/v1/auth/",
+});
 
 export const submitSignUpForm = async (data) => {
-  const resolve = await axios.post(`${url}/auth/signup`, data);
-  return resolve;
+  return await auth.post("signup", data);
 };
 export const submitLoginForm = async (data) => {
-  const resolve = await axios.post(`${url}/auth/login`, data);
-  return resolve;
+  return await auth.post("login", data);
 };
-export const submitCreateProductForm = async (data, token) => {
-  const resolve = await axios.post(`${url}/products`, data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return resolve;
-};
-
 export const authMe = async (token) => {
-  const response = await axios.post(
-    `${url}/auth/me`,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  return response;
+  return await auth.post("me", {}, { headers: headers(token) });
 };
 export const logout = async (token) => {
-  const response = await axios.post(
-    `${url}/auth/logout`,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  return response;
+  return await auth.post("logout", {}, { headers: headers(token) });
 };
 export const refresh = async (token) => {
-  const response = await axios.post(
-    `${url}/auth/refresh`,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  return response;
+  return await auth.post("refresh", {}, { headers: headers(token) });
 };

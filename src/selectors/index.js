@@ -24,7 +24,10 @@ export const getOwner = (state) => {
 };
 
 export const getUrl = (state) => {
-  return R.prop("pathname", state.router.location);
+  return R.compose(
+    R.replace("/products/", ""),
+    R.prop("pathname")
+  )(state.router.location);
 };
 
 export const getPage = (state) => {

@@ -19,7 +19,6 @@ import {
   getPatchProductForm,
 } from "selectors";
 import {
-  fetchProducts,
   fetchSingleProduct,
   fetchProductsPage,
   submitSignUpForm,
@@ -148,19 +147,6 @@ export function* workerUploadAvatar({ payload }) {
     data: { data },
   } = yield call(fetchUploadAvatar, formData, token);
   yield put(uploadAvatar(data.avatar));
-}
-
-export function* workerLoadProducts() {
-  try {
-    yield put(backdropToggle());
-    yield call(checkRefresh);
-    yield put(fetchProductsStart());
-    const data = yield call(fetchProducts);
-    yield put(fetchProductsSuccess(data));
-    yield put(backdropToggle());
-  } catch (error) {
-    yield put(fetchProductsFailure(error));
-  }
 }
 
 export function* workerLoadSingleProducts() {

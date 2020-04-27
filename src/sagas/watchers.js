@@ -15,7 +15,6 @@ import {
 } from "actionTypes";
 
 import {
-  workerLoadProducts,
   workerLoadSingleProducts,
   workerLoadProductsPage,
   workerSubmitSignUp,
@@ -39,10 +38,6 @@ function* watchPatchProduct() {
 
 function* watchDeleteProduct() {
   yield takeEvery(DELETE_PRODUCT, workerDeleteProduct);
-}
-
-function* watchLoadProducts() {
-  yield takeEvery(LOAD_PRODUCTS, workerLoadProducts);
 }
 
 function* watchLoadSingleProducts() {
@@ -79,7 +74,6 @@ function* watchLogout() {
 
 export default function* rootSaga() {
   yield all([
-    watchLoadProducts(),
     watchLoadSingleProducts(),
     watchLoadProductsPage(),
     watchLoadSignUpForm(),
