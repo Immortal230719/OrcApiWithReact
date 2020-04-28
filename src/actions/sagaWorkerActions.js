@@ -1,19 +1,12 @@
 import {
-  FETCH_PRODUCTS_START,
-  FETCH_PRODUCTS_SUCCESS,
-  FETCH_PRODUCTS_FAILURE,
   FETCH_SINGLE_PRODUCT_START,
   FETCH_SINGLE_PRODUCT_SUCCESS,
-  FETCH_SINGLE_PRODUCT_FAILURE,
   FETCH_PRODUCTS_PAGE_START,
   FETCH_PRODUCTS_PAGE_SUCCESS,
-  FETCH_PRODUCTS_PAGE_FAILURE,
   SUBMIT_SIGN_UP_FORM_START,
   SUBMIT_SIGN_UP_FORM_SUCCESS,
-  SUBMIT_SIGN_UP_FORM_FAILURE,
   SUBMIT_LOGIN_FORM_START,
   SUBMIT_LOGIN_FORM_SUCCESS,
-  SUBMIT_LOGIN_FORM_FAILURE,
   BACKDROP_TOGGLE,
   AUTH_ME_SUCCESS,
   LOGOUT_SUCCESS,
@@ -21,14 +14,13 @@ import {
   DELETE_AVATAR_SUCCESS,
   CREATE_PRODUCT_START,
   CREATE_PRODUCT_SUCCESS,
-  CREATE_PRODUCT_FAILURE,
   DELETE_PRODUCT_START,
   DELETE_PRODUCT_SUCCESS,
-  DELETE_PRODUCT_FAILURE,
   PATCH_PRODUCT_START,
   PATCH_PRODUCT_SUCCESS,
-  PATCH_PRODUCT_FAILURE,
 } from "actionTypes";
+
+//Products actions
 
 export const patchProductStart = () => {
   return {
@@ -41,13 +33,6 @@ export const patchProductSuccess = (product) => {
     payload: product,
   };
 };
-export const patchProductFailure = (error) => {
-  return {
-    type: PATCH_PRODUCT_FAILURE,
-    payload: error,
-    error: true,
-  };
-};
 
 export const deleteProductStart = () => {
   return {
@@ -57,13 +42,6 @@ export const deleteProductStart = () => {
 export const deleteProductSuccess = () => {
   return {
     type: DELETE_PRODUCT_SUCCESS,
-  };
-};
-export const deleteProductFailure = (error) => {
-  return {
-    type: DELETE_PRODUCT_FAILURE,
-    payload: error,
-    error: true,
   };
 };
 
@@ -78,51 +56,6 @@ export const createProductSuccess = (data) => {
     payload: data,
   };
 };
-export const createProductFailure = (error) => {
-  return {
-    type: CREATE_PRODUCT_FAILURE,
-    payload: error,
-    error: true,
-  };
-};
-
-export const uploadAvatar = (img) => {
-  return {
-    type: UPLOAD_AVATAR_SUCCESS,
-    payload: img,
-  };
-};
-export const deleteAvatarSuccess = (payload) => {
-  return {
-    type: DELETE_AVATAR_SUCCESS,
-    payload: payload,
-  };
-};
-
-export const backdropToggle = () => {
-  return {
-    type: BACKDROP_TOGGLE,
-  };
-};
-
-export const fetchProductsStart = () => {
-  return {
-    type: FETCH_PRODUCTS_START,
-  };
-};
-export const fetchProductsSuccess = (products) => {
-  return {
-    type: FETCH_PRODUCTS_SUCCESS,
-    payload: products.data,
-  };
-};
-export const fetchProductsFailure = (error) => {
-  return {
-    type: FETCH_PRODUCTS_FAILURE,
-    payload: error,
-    error: true,
-  };
-};
 
 export const fetchSingleProductStart = () => {
   return {
@@ -133,13 +66,6 @@ export const fetchSingleProductSuccess = (product) => {
   return {
     type: FETCH_SINGLE_PRODUCT_SUCCESS,
     payload: product.data,
-  };
-};
-export const fetchSingleProductFailure = (error) => {
-  return {
-    type: FETCH_SINGLE_PRODUCT_FAILURE,
-    payload: error,
-    error: true,
   };
 };
 
@@ -154,13 +80,31 @@ export const fetchProductsPageSuccess = (product) => {
     payload: product.data,
   };
 };
-export const fetchProductsPageFailure = (error) => {
+
+//Avatar actions
+
+export const uploadAvatar = (img) => {
   return {
-    type: FETCH_PRODUCTS_PAGE_FAILURE,
-    payload: error,
-    error: true,
+    type: UPLOAD_AVATAR_SUCCESS,
+    payload: img,
   };
 };
+export const deleteAvatarSuccess = (payload) => {
+  return {
+    type: DELETE_AVATAR_SUCCESS,
+    payload: payload,
+  };
+};
+
+//Backdrop toggle action
+
+export const backdropToggle = () => {
+  return {
+    type: BACKDROP_TOGGLE,
+  };
+};
+
+//Auth actions
 
 export const submitSignUpFormSuccess = (response) => {
   return {
@@ -173,14 +117,6 @@ export const submitSignUpFormStart = () => {
     type: SUBMIT_SIGN_UP_FORM_START,
   };
 };
-export const submitSignUpFormFailure = (error) => {
-  return {
-    type: SUBMIT_SIGN_UP_FORM_FAILURE,
-    payload: error,
-    error: true,
-  };
-};
-
 export const submitLoginFormSuccess = (response) => {
   return {
     type: SUBMIT_LOGIN_FORM_SUCCESS,
@@ -190,13 +126,6 @@ export const submitLoginFormSuccess = (response) => {
 export const submitLoginFormStart = () => {
   return {
     type: SUBMIT_LOGIN_FORM_START,
-  };
-};
-export const submitLoginFormFailure = (error) => {
-  return {
-    type: SUBMIT_LOGIN_FORM_FAILURE,
-    payload: error,
-    error: true,
   };
 };
 

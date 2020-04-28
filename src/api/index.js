@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const apiKey = "d6fbdf9b-1f67-436a-91a7-0cc32628f339";
-
+const baseUrl = "https://api.app2000.host/api/v1";
 const headers = (token) => {
   return {
     Authorization: `Bearer ${token}`,
@@ -10,7 +9,7 @@ const headers = (token) => {
 
 //Products API
 const products = axios.create({
-  baseURL: "https://api.app2000.host/api/v1/products",
+  baseURL: `${baseUrl}/products`,
 });
 
 export const fetchProductsPage = async (numOfPage) => {
@@ -37,7 +36,7 @@ export const submitCreateProductForm = async (data, token) => {
 
 //Avatar API
 const avatar = axios.create({
-  baseURL: "https://api.app2000.host/api/v1/avatars",
+  baseURL: `${baseUrl}/avatars`,
 });
 
 export const fetchUploadAvatar = async (file, token) => {
@@ -56,7 +55,7 @@ export const fetchDeleteAvatar = async (token) => {
 
 //Auth API
 const auth = axios.create({
-  baseURL: "https://api.app2000.host/api/v1/auth/",
+  baseURL: `${baseUrl}/auth`,
 });
 
 export const submitSignUpForm = async (data) => {

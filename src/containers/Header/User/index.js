@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 const User = () => {
   const styles = useStyles();
-  const { name, avatar, id } = useSelector(getUser);
+  const { name, avatar } = useSelector(getUser);
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -72,7 +72,7 @@ const User = () => {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <Link className={styles.link} to={`/profile/:${id}`}>
+        <Link className={styles.link} to={"/profile/"}>
           <MenuItem onClick={handleClose}>
             <AccountBoxIcon className={styles.marginR} />
             Profile

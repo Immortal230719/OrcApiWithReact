@@ -72,6 +72,7 @@ const Main = () => {
       return (
         <>
           <Header />
+          <Paginator onChange={handleChange} />
           <GridList
             className={styles.gridList}
             cellHeight={360}

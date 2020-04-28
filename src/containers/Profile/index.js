@@ -12,6 +12,7 @@ import BackBtn from "components/Buttons/BackBtn";
 import Layout from "components/Layout";
 import Header from "containers/Header";
 import CreateProduct from "containers/Forms/CreateProduct";
+import { Map, Placemark, SearchControl, RouteButton } from "react-yandex-maps";
 
 import { getUser } from "selectors";
 import { getAuthToken } from "utils/tokenUtils";
@@ -21,6 +22,10 @@ import { setCreatedToFalse } from "actions/syncActions";
 const useStyles = makeStyles({
   wrapper: {
     textDecoration: "none",
+  },
+  map: {
+    width: "100%",
+    height: "600px",
   },
   icon: {
     marginLeft: "15px",
@@ -43,8 +48,16 @@ const useStyles = makeStyles({
   },
 });
 
-const Profile = ({ match }) => {
-  const { id, name, email, loggedIn, avatar, created } = useSelector(getUser);
+const Profile = () => {
+  const {
+    id,
+    name,
+    email,
+    loggedIn,
+    avatar,
+    created,
+    office_coords: { lat, long },
+  } = useSelector(getUser);
   const dispatch = useDispatch();
   const styles = useStyles();
   let token = getAuthToken();
@@ -135,6 +148,19 @@ const Profile = ({ match }) => {
           ) : null}
         </Grid>
       </Grid>
+      <Map
+        className={styles.map}
+        defaultState={{
+          center: [lat, long],
+          zoom: 13,
+          controls: ["zoomControl", "fullscreenControl"],
+        }}
+        modules={["control.ZoomControl", "control.FullscreenControl"]}
+      >
+        <Placemark geometry={[lat, long]} />
+        <SearchControl options={{ float: "right" }} />
+        <RouteButton options={{ float: "right" }} />
+      </Map>
       <Link className={styles.wrapper} to="/">
         <BackBtn>Go to Products</BackBtn>
       </Link>

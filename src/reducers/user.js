@@ -18,6 +18,10 @@ const initialState = {
   expires_in: 3600,
   avatar: "",
   created: false,
+  office_coords: {
+    lat: "55.7543",
+    long: "37.5744",
+  },
 };
 
 export default (state = initialState, { type, payload }) => {

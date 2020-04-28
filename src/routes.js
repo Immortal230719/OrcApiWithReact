@@ -22,7 +22,7 @@ const Routes = () => {
           <Route path="/owners/:id" component={Owner} />
           <Route path="/sign-up/" component={SignUpForm} />
           <Route path="/login/" component={LoginForm} />
-          <Route path="/profile/:id" component={Profile} />
+          <Route path="/profile" component={Profile} />
           <Redirect to="/" />
         </Switch>
       </Suspense>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Typography } from "@material-ui/core";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { reset } from "redux-form";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -11,6 +11,7 @@ import SignUpComponent from "components/Forms/SignUpForm/index";
 import BackBtn from "components/Buttons/BackBtn";
 import { loadSignUpForm } from "actions/sagaWatcherActions";
 import { animateTrans, animateColor } from "utils/animation";
+import { getError } from "selectors";
 
 const useStyles = makeStyles({
   linkBtn: {
@@ -51,7 +52,7 @@ const useStyles = makeStyles({
 const SignUpForm = () => {
   const styles = useStyles();
   const dispatch = useDispatch();
-  const [success, setSuccess] = useState(false);
+  const { error, submitSucceeded } = useSelector(getError);
 
   const [animate, setAnimate] = useState("animate");
   const { trans, shadow, back } = useSpring({
@@ -65,14 +66,9 @@ const SignUpForm = () => {
     config: { duration: 1300 },
   });
 
-  const submitHandler = ({ name, email, password, password_confirmation }) => {
-    if (password === password_confirmation) {
-      dispatch(loadSignUpForm());
-      dispatch(reset("signUp"));
-      setSuccess(true);
-    } else {
-      console.log("error");
-    }
+  const submitHandler = () => {
+    dispatch(loadSignUpForm());
+    dispatch(reset("signUp"));
   };
 
   return (
@@ -91,7 +87,7 @@ const SignUpForm = () => {
           }}
         />
       </div>
-      {!success ? (
+      {!submitSucceeded && !error ? (
         <div className={styles.formWrapper}>
           <Typography
             align="center"

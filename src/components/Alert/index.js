@@ -6,26 +6,26 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
 import { getError } from "selectors";
-import { resetError } from "actions/errorActions";
+import { resetError } from "reducers/error";
 
 const useStyles = makeStyles({
   absolute: {
     width: "100%",
     height: "150px",
-    fontSize: "30px"
+    fontSize: "30px",
   },
   wrapper: {
     position: "fixed",
     top: "0",
     width: "100%",
     height: "100vh",
-    zIndex: "5",
+    zIndex: "1000",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     background: "#ccc",
-    padding: "15%"
-  }
+    padding: "15%",
+  },
 });
 
 const MyAlert = () => {

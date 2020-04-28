@@ -1,6 +1,5 @@
 import { takeEvery, all, takeLeading } from "redux-saga/effects";
 import {
-  LOAD_PRODUCTS,
   LOAD_SINGLE_PRODUCT,
   LOAD_PRODUCTS_PAGE,
   LOAD_SIGN_UP_FORM,

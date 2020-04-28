@@ -33,21 +33,14 @@ import {
   fetchPatchProduct,
 } from "api";
 import {
-  fetchProductsSuccess,
-  fetchProductsFailure,
-  fetchProductsStart,
   fetchSingleProductSuccess,
-  fetchSingleProductFailure,
   fetchSingleProductStart,
   fetchProductsPageStart,
   fetchProductsPageSuccess,
-  fetchProductsPageFailure,
   backdropToggle,
   submitSignUpFormStart,
-  submitSignUpFormFailure,
   submitSignUpFormSuccess,
   submitLoginFormStart,
-  submitLoginFormFailure,
   submitLoginFormSuccess,
   authMeSuccess,
   logoutSuccess,
@@ -55,29 +48,48 @@ import {
   deleteAvatarSuccess,
   createProductStart,
   createProductSuccess,
-  createProductFailure,
   deleteProductStart,
   deleteProductSuccess,
-  deleteProductFailure,
   patchProductStart,
   patchProductSuccess,
-  patchProductFailure,
 } from "actions/sagaWorkerActions";
+
+import { errorAction } from "reducers/error";
 
 import { deleteFromProductsStore } from "actions/syncActions";
 
-function* checkRefresh() {
-  try {
-    const { expires_in } = yield select(getUser);
-    let expired = checkTimeLifeToken(expires_in);
-    if (expired) {
-      yield call(workerRefreshToken);
-      return;
-    }
-  } catch (error) {
-    console.log(error);
+//Error workers
+
+function* ErrorHandling(error) {
+  const status = error.response.status;
+  let message = error.response.data.error;
+  switch (status) {
+    case 404:
+      yield put(errorAction({ error: true, message }));
+      break;
+    case 400:
+      yield put(errorAction({ error: true, message }));
+      break;
+    case 401:
+      yield put(errorAction({ error: true, message }));
+      break;
+    case 403:
+      yield put(errorAction({ error: true, message }));
+      break;
+    case 422:
+      message = "";
+      let errors = error.response.data.errors;
+      for (let key in errors) {
+        message += `${errors[key]} `;
+      }
+      yield put(errorAction({ error: true, message }));
+      break;
+    default:
+      throw error;
   }
 }
+
+//Products workers
 
 export function* workerPatchProduct() {
   try {
@@ -93,10 +105,9 @@ export function* workerPatchProduct() {
     yield put(backdropToggle());
   } catch (error) {
     yield put(backdropToggle());
-    yield put(patchProductFailure(error));
+    yield call(ErrorHandling, error);
   }
 }
-
 export function* workerDeleteProduct() {
   try {
     yield put(deleteProductStart());
@@ -108,10 +119,9 @@ export function* workerDeleteProduct() {
       yield put(deleteFromProductsStore(product.id));
     }
   } catch (error) {
-    yield put(deleteProductFailure(error));
+    yield call(ErrorHandling, error);
   }
 }
-
 export function* workerCreateProduct() {
   try {
     yield put(createProductStart());
@@ -122,33 +132,9 @@ export function* workerCreateProduct() {
     } = yield call(submitCreateProductForm, values, token);
     yield put(createProductSuccess(data));
   } catch (error) {
-    yield put(createProductFailure(error));
+    yield call(ErrorHandling, error);
   }
 }
-
-export function* workerDeleteAvatar() {
-  try {
-    const token = yield call(getAuthToken);
-    yield call(fetchDeleteAvatar, token);
-    yield put(deleteAvatarSuccess());
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export function* workerUploadAvatar({ payload }) {
-  if (!payload.type.match("image.*")) {
-    return;
-  }
-  let formData = new FormData();
-  formData.append("avatar", payload);
-  const token = yield call(getAuthToken);
-  const {
-    data: { data },
-  } = yield call(fetchUploadAvatar, formData, token);
-  yield put(uploadAvatar(data.avatar));
-}
-
 export function* workerLoadSingleProducts() {
   try {
     yield call(checkRefresh);
@@ -157,10 +143,9 @@ export function* workerLoadSingleProducts() {
     const product = yield call(fetchSingleProduct, url);
     yield put(fetchSingleProductSuccess(product));
   } catch (error) {
-    yield put(fetchSingleProductFailure(error));
+    yield call(ErrorHandling, error);
   }
 }
-
 export function* workerLoadProductsPage() {
   try {
     yield call(checkRefresh);
@@ -169,41 +154,50 @@ export function* workerLoadProductsPage() {
     const products = yield call(fetchProductsPage, numOfPage);
     yield put(fetchProductsPageSuccess(products));
   } catch (error) {
-    yield put(fetchProductsPageFailure(error));
+    yield call(ErrorHandling, error);
   }
 }
 
-export function* workerSubmitSignUp() {
+//Avatar workers
+
+export function* workerDeleteAvatar() {
   try {
-    yield put(backdropToggle());
-    yield put(submitSignUpFormStart());
-    const signUpValues = yield select(getSignUpValues);
+    const token = yield call(getAuthToken);
+    yield call(fetchDeleteAvatar, token);
+    yield put(deleteAvatarSuccess());
+  } catch (error) {
+    yield call(ErrorHandling, error);
+  }
+}
+export function* workerUploadAvatar({ payload }) {
+  try {
+    if (!payload.type.match("image.*")) {
+      return;
+    }
+    let formData = new FormData();
+    formData.append("avatar", payload);
+    const token = yield call(getAuthToken);
     const {
       data: { data },
-    } = yield call(submitSignUpForm, signUpValues);
-    yield put(submitSignUpFormSuccess(data.message));
-    yield put(backdropToggle());
+    } = yield call(fetchUploadAvatar, formData, token);
+    yield put(uploadAvatar(data.avatar));
   } catch (error) {
-    yield put(backdropToggle());
-    yield put(submitSignUpFormFailure(error));
+    yield call(ErrorHandling, error);
   }
 }
 
-export function* workerSubmitLogin() {
+// Auth workers
+
+function* checkRefresh() {
   try {
-    yield put(backdropToggle());
-    yield put(submitLoginFormStart());
-    const LoginValues = yield select(getLoginValues);
-    let {
-      data: { data },
-    } = yield call(submitLoginForm, LoginValues);
-    yield call(setAuthToken, data.access_token);
-    yield call(setTimeLifeToken);
-    yield put(submitLoginFormSuccess(data));
-    yield put(backdropToggle());
+    const { expires_in } = yield select(getUser);
+    let expired = checkTimeLifeToken(expires_in);
+    if (expired) {
+      yield call(workerRefreshToken);
+      return;
+    }
   } catch (error) {
-    yield put(backdropToggle());
-    yield put(submitLoginFormFailure(error));
+    yield call(ErrorHandling, error);
   }
 }
 
@@ -219,10 +213,41 @@ export function* workerRefreshToken() {
     } = yield call(authMe, data.access_token);
     yield put(authMeSuccess(user));
   } catch (error) {
-    console.log(error);
+    yield call(ErrorHandling, error);
   }
 }
-
+export function* workerSubmitSignUp() {
+  try {
+    yield put(backdropToggle());
+    yield put(submitSignUpFormStart());
+    const signUpValues = yield select(getSignUpValues);
+    const {
+      data: { data },
+    } = yield call(submitSignUpForm, signUpValues);
+    yield put(submitSignUpFormSuccess(data.message));
+    yield put(backdropToggle());
+  } catch (error) {
+    yield put(backdropToggle());
+    yield call(ErrorHandling, error);
+  }
+}
+export function* workerSubmitLogin() {
+  try {
+    yield put(backdropToggle());
+    yield put(submitLoginFormStart());
+    const LoginValues = yield select(getLoginValues);
+    let {
+      data: { data },
+    } = yield call(submitLoginForm, LoginValues);
+    yield call(setAuthToken, data.access_token);
+    yield call(setTimeLifeToken);
+    yield put(submitLoginFormSuccess(data));
+    yield put(backdropToggle());
+  } catch (error) {
+    yield put(backdropToggle());
+    yield call(ErrorHandling, error);
+  }
+}
 export function* workerAuthMe() {
   try {
     yield put(backdropToggle());
@@ -235,10 +260,9 @@ export function* workerAuthMe() {
     yield put(backdropToggle());
   } catch (error) {
     yield put(backdropToggle());
-    console.log(error);
+    yield call(ErrorHandling, error);
   }
 }
-
 export function* workerLogout() {
   try {
     yield put(backdropToggle());
@@ -249,6 +273,6 @@ export function* workerLogout() {
     yield put(backdropToggle());
   } catch (error) {
     yield put(backdropToggle());
-    console.log(error);
+    yield call(ErrorHandling, error);
   }
 }

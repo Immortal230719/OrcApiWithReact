@@ -8,6 +8,7 @@ import { routerMiddleware, ConnectedRouter } from "connected-react-router";
 import { composeWithDevTools } from "redux-devtools-extension";
 import createSagaMiddleware from "redux-saga";
 import { Provider } from "react-redux";
+import { YMaps } from "react-yandex-maps";
 
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
@@ -17,14 +18,14 @@ import Routes from "routes";
 
 const theme = createMuiTheme({
   typography: {
-    fontFamily: ["Ubuntu, Montserrat"].join(",")
+    fontFamily: ["Ubuntu, Montserrat"].join(","),
   },
   palette: {
     type: "dark",
     primary: {
-      main: "#ddd"
-    }
-  }
+      main: "#ddd",
+    },
+  },
 });
 
 const history = createBrowserHistory();
@@ -39,12 +40,14 @@ const store = createStore(
 sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <Routes />
-      </ConnectedRouter>
-    </Provider>
-  </ThemeProvider>,
+  <YMaps>
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <Routes />
+        </ConnectedRouter>
+      </Provider>
+    </ThemeProvider>
+  </YMaps>,
   document.getElementById("root")
 );
