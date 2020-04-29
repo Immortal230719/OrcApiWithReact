@@ -9,6 +9,7 @@ import { useSpring, animated } from "react-spring";
 
 import SignUpComponent from "components/Forms/SignUpForm/index";
 import BackBtn from "components/Buttons/BackBtn";
+import ErrorBoundary from "components/ErrorBoundary";
 import { loadSignUpForm } from "actions/sagaWatcherActions";
 import { animateTrans, animateColor } from "utils/animation";
 import { getError } from "selectors";
@@ -72,68 +73,72 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className={styles.wrapper}>
-      <div>
-        <animated.div
-          className={styles.animatedBox}
-          style={{
-            transform: trans.interpolate(
-              (x, y, z) => `skew(${x}deg) scale(${y}) rotate(${z}deg)`
-            ),
-            boxShadow: shadow.interpolate(
-              (x, y, z) => `2px 10px 25px rgb(${x}, ${y}, ${z})`
-            ),
-            background: back.interpolate((x, y, z) => `rgb(${x}, ${y}, ${z})`),
-          }}
-        />
-      </div>
-      {!submitSucceeded && !error ? (
-        <div className={styles.formWrapper}>
-          <Typography
-            align="center"
-            variant="h3"
-            component="h1"
-            gutterBottom={true}
-          >
-            Sign Up
-          </Typography>
-          <Typography
-            align="center"
-            gutterBottom={true}
-            variant="subtitle1"
-            component="p"
-          >
-            Please, enter all Fields
-          </Typography>
-          <SignUpComponent
-            animate1={() => setAnimate("animate1")}
-            animate2={() => setAnimate("animate2")}
-            animate3={() => setAnimate("animate3")}
-            animate4={() => setAnimate("animate4")}
-            onSubmit={submitHandler}
+    <ErrorBoundary>
+      <div className={styles.wrapper}>
+        <div>
+          <animated.div
+            className={styles.animatedBox}
+            style={{
+              transform: trans.interpolate(
+                (x, y, z) => `skew(${x}deg) scale(${y}) rotate(${z}deg)`
+              ),
+              boxShadow: shadow.interpolate(
+                (x, y, z) => `2px 10px 25px rgb(${x}, ${y}, ${z})`
+              ),
+              background: back.interpolate(
+                (x, y, z) => `rgb(${x}, ${y}, ${z})`
+              ),
+            }}
           />
-          <Link className={styles.linkBtn} to="/">
-            <BackBtn>Back</BackBtn>
-          </Link>
         </div>
-      ) : (
-        <div className={styles.formWrapper}>
-          <Typography
-            align="center"
-            gutterBottom={true}
-            variant="h5"
-            component="h3"
-          >
-            Successfully registered. <br />
-            Confirmation link has been sent to specified email. <br />
-            Please, check your email.
-          </Typography>
-          <Link className={styles.linkBtn} to="/">
-            <BackBtn>Back</BackBtn>
-          </Link>
-        </div>
-      )}
-    </div>
+        {!submitSucceeded && !error ? (
+          <div className={styles.formWrapper}>
+            <Typography
+              align="center"
+              variant="h3"
+              component="h1"
+              gutterBottom={true}
+            >
+              Sign Up
+            </Typography>
+            <Typography
+              align="center"
+              gutterBottom={true}
+              variant="subtitle1"
+              component="p"
+            >
+              Please, enter all Fields
+            </Typography>
+            <SignUpComponent
+              animate1={() => setAnimate("animate1")}
+              animate2={() => setAnimate("animate2")}
+              animate3={() => setAnimate("animate3")}
+              animate4={() => setAnimate("animate4")}
+              onSubmit={submitHandler}
+            />
+            <Link className={styles.linkBtn} to="/">
+              <BackBtn>Back</BackBtn>
+            </Link>
+          </div>
+        ) : (
+          <div className={styles.formWrapper}>
+            <Typography
+              align="center"
+              gutterBottom={true}
+              variant="h5"
+              component="h3"
+            >
+              Successfully registered. <br />
+              Confirmation link has been sent to specified email. <br />
+              Please, check your email.
+            </Typography>
+            <Link className={styles.linkBtn} to="/">
+              <BackBtn>Back</BackBtn>
+            </Link>
+          </div>
+        )}
+      </div>
+    </ErrorBoundary>
   );
 };
 

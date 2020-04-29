@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { Switch, Route, Redirect } from "react-router";
 
 import Main from "containers/Main";
@@ -13,8 +13,22 @@ const Owner = lazy(() => import("containers/Owner"));
 const SingleProduct = lazy(() => import("containers/SingleProduct"));
 
 const Routes = () => {
+  const [scrollTop, setScrollTop] = useState(0);
+  useEffect(() => {
+    window.addEventListener("scroll", scrollHandler, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", scrollHandler);
+    };
+  });
+
+  const scrollHandler = (e) => {
+    let scrollTop = window.pageYOffset;
+    setScrollTop(scrollTop);
+  };
+
   return (
     <ErrorBoundary>
+      <div style={{ position: "fixed", top: 20 }}>{scrollTop}</div>
       <Suspense fallback={<CastomBackdrop />}>
         <Switch>
           <Route path="/" component={Main} exact />

@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import LoginComponent from "components/Forms/LoginForm";
 import BackBtn from "components/Buttons/BackBtn";
+import ErrorBoundary from "components/ErrorBoundary";
 import { loadLoginForm } from "actions/sagaWatcherActions";
 import { getLoggedIn } from "selectors";
 
@@ -50,32 +51,34 @@ const LoginForm = () => {
   }
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.formWrapper}>
-        <Typography
-          color="primary"
-          align="center"
-          variant="h3"
-          component="h1"
-          gutterBottom={true}
-        >
-          Login
-        </Typography>
-        <Typography
-          color="primary"
-          align="center"
-          gutterBottom={true}
-          variant="subtitle1"
-          component="p"
-        >
-          Please, enter all Fields
-        </Typography>
-        <LoginComponent onSubmit={submitHandler} />
-        <Link className={styles.linkBtn} to="/">
-          <BackBtn>Back</BackBtn>
-        </Link>
+    <ErrorBoundary>
+      <div className={styles.wrapper}>
+        <div className={styles.formWrapper}>
+          <Typography
+            color="primary"
+            align="center"
+            variant="h3"
+            component="h1"
+            gutterBottom={true}
+          >
+            Login
+          </Typography>
+          <Typography
+            color="primary"
+            align="center"
+            gutterBottom={true}
+            variant="subtitle1"
+            component="p"
+          >
+            Please, enter all Fields
+          </Typography>
+          <LoginComponent onSubmit={submitHandler} />
+          <Link className={styles.linkBtn} to="/">
+            <BackBtn>Back</BackBtn>
+          </Link>
+        </div>
       </div>
-    </div>
+    </ErrorBoundary>
   );
 };
 

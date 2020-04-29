@@ -62,8 +62,7 @@ const Main = () => {
     dispatch(resetDeletedProduct());
   });
 
-  const handleChange = (event, page) => {
-    event.preventDefault();
+  const handleChange = (e, page) => {
     dispatch(loadProductsPage(page));
   };
 

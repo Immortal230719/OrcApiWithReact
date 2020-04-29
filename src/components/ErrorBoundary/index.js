@@ -1,34 +1,31 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
-export default class ErrorBoundary extends Component {
+import Alert from "components/Alert";
+import { errorAction } from "reducers/error";
+// import { Redirect } from "react-router";
+
+class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      error: null,
-      errorInfo: null
-    };
+    this.state = { hasError: false };
   }
 
-  componentDidCatch(error, errorInfo) {
-    this.setState(state => ({
-      error: error,
-      errorInfo: errorInfo
-    }));
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+  componentDidCatch(error) {
+    const message =
+      "Sorry! Something went wrong. Plaese, try to reload Application";
+    this.props.dispatch(errorAction({ error: true, message: message }));
   }
 
   render() {
-    if (this.state.errorInfo) {
-      return (
-        <div>
-          <h2>Something went wrong.</h2>
-          <details>
-            {this.state.error && this.state.error.toString()}
-            <br />
-            {this.state.errorInfo.componentStack}
-          </details>
-        </div>
-      );
+    if (this.state.hasError) {
+      return <Alert />;
     }
-    return this.props.children;
+    return <>{this.props.children}</>;
   }
 }
+
+export default connect(null, null)(ErrorBoundary);

@@ -36,7 +36,7 @@ function* watchPatchProduct() {
 }
 
 function* watchDeleteProduct() {
-  yield takeEvery(DELETE_PRODUCT, workerDeleteProduct);
+  yield takeLeading(DELETE_PRODUCT, workerDeleteProduct);
 }
 
 function* watchLoadSingleProducts() {

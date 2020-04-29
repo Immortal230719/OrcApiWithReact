@@ -28,7 +28,7 @@ const PatchProduct = () => {
 
   return (
     <>
-      <PatchProductForm handleSubmit={submitHandler} />
+      <PatchProductForm className="marginBorder" handleSubmit={submitHandler} />
     </>
   );
 };

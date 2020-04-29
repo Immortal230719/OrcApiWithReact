@@ -13,6 +13,7 @@ const useStyles = makeStyles({
     flexDirection: "column",
     width: "100%",
     margin: "0 auto",
+    padding: "15px",
   },
   flex: {
     display: "flex",
@@ -36,12 +37,19 @@ const validate = (values) => {
 //Validate functions
 
 const PatchProductForm = (props) => {
-  const { handleSubmit, pristine, reset, submitting, invalid } = props;
+  const {
+    handleSubmit,
+    pristine,
+    reset,
+    submitting,
+    invalid,
+    className,
+  } = props;
   const styles = useStyles();
 
   return (
     <>
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form className={`${styles.form} ${className}`} onSubmit={handleSubmit}>
         <Field
           margin="dense"
           id="Title"

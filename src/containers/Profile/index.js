@@ -12,7 +12,8 @@ import BackBtn from "components/Buttons/BackBtn";
 import Layout from "components/Layout";
 import Header from "containers/Header";
 import CreateProduct from "containers/Forms/CreateProduct";
-import { Map, Placemark, SearchControl, RouteButton } from "react-yandex-maps";
+import Ymap from "components/Ymap";
+import ErrorBoundary from "components/ErrorBoundary";
 
 import { getUser } from "selectors";
 import { getAuthToken } from "utils/tokenUtils";
@@ -77,94 +78,84 @@ const Profile = () => {
   }
 
   return (
-    <Layout>
-      <Header />
-      <Grid container spacing={3}>
-        <Grid item sm={4} xs={12} md={3}>
-          <AvatarUploader src={avatar} />
+    <ErrorBoundary>
+      <Layout>
+        <Header />
+        <Grid container spacing={3}>
+          <Grid item sm={4} xs={12} md={3}>
+            <AvatarUploader src={avatar} />
+          </Grid>
+          <Grid item sm={8} xs={12} md={9}>
+            <Typography
+              color="primary"
+              gutterBottom={true}
+              align="left"
+              variant="h3"
+              component="h1"
+            >
+              {name}
+            </Typography>
+            <Typography
+              color="primary"
+              paragraph={true}
+              variant="h5"
+              component="strong"
+            >
+              {email}
+            </Typography>
+            <Typography
+              className={styles.title}
+              paragraph={true}
+              variant="body2"
+              component="p"
+            >
+              "Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+              accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
+              quae ab illo inventore veritatis et quasi architecto beatae vitae
+              dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
+              aspernatur aut odit aut fugit, sed quia consequuntur
+            </Typography>
+          </Grid>
         </Grid>
-        <Grid item sm={8} xs={12} md={9}>
-          <Typography
-            color="primary"
-            gutterBottom={true}
-            align="left"
-            variant="h3"
-            component="h1"
-          >
-            {name}
-          </Typography>
-          <Typography
-            color="primary"
-            paragraph={true}
-            variant="h5"
-            component="strong"
-          >
-            {email}
-          </Typography>
-          <Typography
-            className={styles.title}
-            paragraph={true}
-            variant="body2"
-            component="p"
-          >
-            "Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-            accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-            quae ab illo inventore veritatis et quasi architecto beatae vitae
-            dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-            aspernatur aut odit aut fugit, sed quia consequuntur
-          </Typography>
-        </Grid>
-      </Grid>
-      <Grid container spacing={3}>
-        <Grid item sm={4} xs={12} md={6}>
-          <Typography
-            color="primary"
-            paragraph={true}
-            variant="h5"
-            component="strong"
-          >
-            Create new Product
-          </Typography>
-          <CreateProduct />
-          {created ? (
-            <ClickAwayListener onClickAway={closeHandler}>
-              <Typography
-                className={styles.successCreate}
-                color="primary"
-                variant="h5"
-                component="strong"
-              >
-                Thank You! <br /> Product has been created!
+        <Grid container spacing={3}>
+          <Grid className="marginBorder" item sm={4} xs={12} md={6}>
+            <Typography
+              color="primary"
+              paragraph={true}
+              variant="h5"
+              component="strong"
+            >
+              Create new Product
+            </Typography>
+            <CreateProduct />
+            {created ? (
+              <ClickAwayListener onClickAway={closeHandler}>
                 <Typography
-                  onClick={closeHandler}
-                  component="span"
+                  className={styles.successCreate}
+                  color="primary"
                   variant="h5"
+                  component="strong"
                 >
-                  OK
-                  <DoneOutlineRoundedIcon className={styles.icon} />
+                  Thank You! <br /> Product has been created!
+                  <Typography
+                    onClick={closeHandler}
+                    component="span"
+                    variant="h5"
+                  >
+                    OK
+                    <DoneOutlineRoundedIcon className={styles.icon} />
+                  </Typography>
                 </Typography>
-              </Typography>
-            </ClickAwayListener>
-          ) : null}
+              </ClickAwayListener>
+            ) : null}
+          </Grid>
         </Grid>
-      </Grid>
-      <Map
-        className={styles.map}
-        defaultState={{
-          center: [lat, long],
-          zoom: 13,
-          controls: ["zoomControl", "fullscreenControl"],
-        }}
-        modules={["control.ZoomControl", "control.FullscreenControl"]}
-      >
-        <Placemark geometry={[lat, long]} />
-        <SearchControl options={{ float: "right" }} />
-        <RouteButton options={{ float: "right" }} />
-      </Map>
-      <Link className={styles.wrapper} to="/">
-        <BackBtn>Go to Products</BackBtn>
-      </Link>
-    </Layout>
+        <Ymap className={styles.map} lat={lat} long={long} name={name} />
+        <Link className={styles.wrapper} to="/">
+          <BackBtn>Go to Products</BackBtn>
+        </Link>
+      </Layout>
+    </ErrorBoundary>
   );
 };
 

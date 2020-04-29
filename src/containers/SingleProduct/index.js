@@ -26,6 +26,7 @@ import { getProduct, getUser } from "selectors";
 import { deleteProduct } from "actions/sagaWatcherActions";
 import { productHasOwnerId } from "utils/filters";
 import { getAuthToken } from "utils/tokenUtils";
+import ErrorBoundary from "components/ErrorBoundary";
 
 const useStyles = makeStyles({
   wrapper: {
@@ -56,7 +57,7 @@ const SingleProduct = () => {
 
   let { title, description, owners, deleted } = useSelector(getProduct);
   const { id, loggedIn } = useSelector(getUser);
-  let token = getAuthToken();
+  const token = getAuthToken();
   const hasOwnerId = productHasOwnerId(owners, id);
 
   useEffect(() => {
@@ -74,7 +75,7 @@ const SingleProduct = () => {
   };
 
   const showHandler = () => {
-    setShow(true);
+    setShow(!show);
   };
 
   const renderOwners = (owners, styles) => {
@@ -97,81 +98,83 @@ const SingleProduct = () => {
 
   return (
     <>
-      <Header />
-      {!deleted ? (
-        <Layout>
-          <Typography
-            color="primary"
-            align="center"
-            variant="h3"
-            component="h1"
-            gutterBottom={true}
-          >
-            {title}
-          </Typography>
-          <Typography
-            color="primary"
-            paragraph={true}
-            align="center"
-            variant="body2"
-            component="p"
-          >
-            {description}
-          </Typography>
-          <List
-            aria-labelledby="nested-list-subheader"
-            subheader={
-              <ListSubheader
-                className={styles.subTitle}
-                component="h2"
-                id="nested-list-subheader"
-              >
-                <Grid container>
-                  <Grid item md={9}>
-                    Owners
-                  </Grid>
-                  {hasOwnerId ? (
-                    <Grid className={styles.flex} item md={3}>
-                      <Tooltip title="Change Product" arrow>
-                        <BuildIcon
-                          onClick={showHandler}
-                          className={styles.delete}
-                        />
-                      </Tooltip>
-                      <Tooltip title="Delete Product" arrow>
-                        <DeleteForeverIcon
-                          onClick={deleteHandler}
-                          className={styles.delete}
-                        />
-                      </Tooltip>
+      <ErrorBoundary>
+        <Header />
+        {!deleted ? (
+          <Layout>
+            <Typography
+              color="primary"
+              align="center"
+              variant="h3"
+              component="h1"
+              gutterBottom={true}
+            >
+              {title}
+            </Typography>
+            <Typography
+              color="primary"
+              paragraph={true}
+              align="center"
+              variant="body2"
+              component="p"
+            >
+              {description}
+            </Typography>
+            <List
+              aria-labelledby="owners"
+              subheader={
+                <ListSubheader
+                  className={styles.subTitle}
+                  component="h2"
+                  id="owners"
+                >
+                  <Grid container>
+                    <Grid item md={9}>
+                      Owners
                     </Grid>
-                  ) : null}
-                </Grid>
-              </ListSubheader>
-            }
-          >
-            {renderOwners(owners, styles)}
-            {show ? <PatchProduct /> : null}
-            <Link className={styles.wrapper} to="/">
-              <BackBtn>Back</BackBtn>
-            </Link>
-          </List>
-        </Layout>
-      ) : (
-        <Layout>
-          <Alert className={styles.alert} variant="filled" severity="info">
-            Product had Deleted!
-          </Alert>
-          <Grid container>
-            <Grid item xs={1} md={8}></Grid>
-            <Grid item xs={11} md={4}>
+                    {hasOwnerId ? (
+                      <Grid className={styles.flex} item md={3}>
+                        <Tooltip title="Change Product" arrow>
+                          <BuildIcon
+                            onClick={showHandler}
+                            className={styles.delete}
+                          />
+                        </Tooltip>
+                        <Tooltip title="Delete Product" arrow>
+                          <DeleteForeverIcon
+                            onClick={deleteHandler}
+                            className={styles.delete}
+                          />
+                        </Tooltip>
+                      </Grid>
+                    ) : null}
+                  </Grid>
+                </ListSubheader>
+              }
+            >
+              {renderOwners(owners, styles)}
+              {show ? <PatchProduct /> : null}
               <Link className={styles.wrapper} to="/">
-                <BackBtn>Go to Products</BackBtn>
+                <BackBtn>Back</BackBtn>
               </Link>
+            </List>
+          </Layout>
+        ) : (
+          <Layout>
+            <Alert className={styles.alert} variant="filled" severity="info">
+              Product had Deleted!
+            </Alert>
+            <Grid container>
+              <Grid item xs={1} md={8}></Grid>
+              <Grid item xs={11} md={4}>
+                <Link className={styles.wrapper} to="/">
+                  <BackBtn>Go to Products</BackBtn>
+                </Link>
+              </Grid>
             </Grid>
-          </Grid>
-        </Layout>
-      )}
+          </Layout>
+        )}
+      </ErrorBoundary>
     </>
   );
 };

@@ -9,6 +9,7 @@ import { getLoggedIn } from "selectors";
 import Logo from "components/Logo";
 import Sign from "components/Sign";
 import User from "containers/Header/User";
+import ErrorBoundary from "components/ErrorBoundary";
 
 const useStyles = makeStyles({
   header: {
@@ -22,29 +23,31 @@ const Header = () => {
   const styles = useStyles();
 
   return (
-    <header>
-      <Container className={styles.header} maxWidth="lg">
-        <Grid
-          container
-          direction="row"
-          justify="space-between"
-          alignItems="center"
-        >
-          <Grid item>
-            <Logo />
+    <ErrorBoundary>
+      <header>
+        <Container className={styles.header} maxWidth="lg">
+          <Grid
+            container
+            direction="row"
+            justify="space-between"
+            alignItems="center"
+          >
+            <Grid item>
+              <Logo />
+            </Grid>
+            {loggedIn ? (
+              <Grid item>
+                <User />
+              </Grid>
+            ) : (
+              <Grid item>
+                <Sign />
+              </Grid>
+            )}
           </Grid>
-          {loggedIn ? (
-            <Grid item>
-              <User />
-            </Grid>
-          ) : (
-            <Grid item>
-              <Sign />
-            </Grid>
-          )}
-        </Grid>
-      </Container>
-    </header>
+        </Container>
+      </header>
+    </ErrorBoundary>
   );
 };
 
