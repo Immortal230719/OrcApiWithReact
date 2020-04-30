@@ -13,6 +13,8 @@ import ErrorBoundary from "components/ErrorBoundary";
 
 const useStyles = makeStyles({
   header: {
+    position: "relative",
+    zIndex: 1,
     maxHeight: "200px",
     padding: "30px 0",
   },

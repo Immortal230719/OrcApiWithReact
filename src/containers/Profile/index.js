@@ -33,6 +33,10 @@ const useStyles = makeStyles({
     position: "relative",
     top: "4px",
   },
+  relative: {
+    zIndex: 1,
+    position: "relative",
+  },
   successCreate: {
     display: "flex",
     alignItems: "center",
@@ -79,7 +83,7 @@ const Profile = () => {
 
   return (
     <ErrorBoundary>
-      <Layout>
+      <Layout className={styles.relative}>
         <Header />
         <Grid container spacing={3}>
           <Grid item sm={4} xs={12} md={3}>

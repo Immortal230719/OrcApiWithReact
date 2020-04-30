@@ -17,6 +17,8 @@ const useStyles = makeStyles((theme) => ({
   gridList: {
     width: "100%",
     height: "fitcontent",
+    zIndex: 1,
+    position: "relative",
   },
   title: {
     fontFamily: "Ubuntu",

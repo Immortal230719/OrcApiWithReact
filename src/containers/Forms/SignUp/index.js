@@ -22,14 +22,14 @@ const useStyles = makeStyles({
     alignItems: "center",
   },
   wrapper: {
-    position: "fixed",
+    zIndex: 1,
+    position: "relative",
     top: "0",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
     height: "100vh",
-    background: "linear-gradient(120deg, rgb(22, 22, 22), rgb(0, 0, 0))",
   },
   formWrapper: {
     position: "relative",
@@ -48,13 +48,20 @@ const useStyles = makeStyles({
     top: "0",
     left: "0",
   },
+  animatedWrapper: {
+    position: "fixed",
+    zIndex: 0,
+    top: 0,
+    height: "100vh",
+    width: "100%",
+    overflow: "hidden",
+  },
 });
 
 const SignUpForm = () => {
   const styles = useStyles();
   const dispatch = useDispatch();
   const { error, submitSucceeded } = useSelector(getError);
-  console.log(submitSucceeded, error);
 
   const [animate, setAnimate] = useState("animate");
   const { trans, shadow, back } = useSpring({
@@ -75,23 +82,21 @@ const SignUpForm = () => {
 
   return (
     <ErrorBoundary>
+      <div className={styles.animatedWrapper}>
+        <animated.div
+          className={styles.animatedBox}
+          style={{
+            transform: trans.interpolate(
+              (x, y, z) => `skew(${x}deg) scale(${y}) rotate(${z}deg)`
+            ),
+            boxShadow: shadow.interpolate(
+              (x, y, z) => `2px 10px 25px rgb(${x}, ${y}, ${z})`
+            ),
+            background: back.interpolate((x, y, z) => `rgb(${x}, ${y}, ${z})`),
+          }}
+        />
+      </div>
       <div className={styles.wrapper}>
-        <div>
-          <animated.div
-            className={styles.animatedBox}
-            style={{
-              transform: trans.interpolate(
-                (x, y, z) => `skew(${x}deg) scale(${y}) rotate(${z}deg)`
-              ),
-              boxShadow: shadow.interpolate(
-                (x, y, z) => `2px 10px 25px rgb(${x}, ${y}, ${z})`
-              ),
-              background: back.interpolate(
-                (x, y, z) => `rgb(${x}, ${y}, ${z})`
-              ),
-            }}
-          />
-        </div>
         {!submitSucceeded && !error && (
           <div className={styles.formWrapper}>
             <Typography

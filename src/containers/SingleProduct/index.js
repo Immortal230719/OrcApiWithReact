@@ -48,6 +48,10 @@ const useStyles = makeStyles({
     fontSize: "40px",
     cursor: "pointer",
   },
+  relative: {
+    zIndex: 1,
+    position: "relative",
+  },
 });
 
 const SingleProduct = () => {
@@ -67,9 +71,7 @@ const SingleProduct = () => {
   }, [dispatch, loggedIn, id, token]);
 
   useEffect(() => {
-    if (!title) {
-      dispatch(loadSingleProduct());
-    }
+    dispatch(loadSingleProduct());
   }, [dispatch, title, description]);
 
   const deleteHandler = () => {
@@ -130,7 +132,7 @@ const SingleProduct = () => {
                   component="h2"
                   id="owners"
                 >
-                  <Grid container>
+                  <Grid className={styles.relative} container>
                     <Grid item md={9}>
                       Owners
                     </Grid>

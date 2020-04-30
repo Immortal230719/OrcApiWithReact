@@ -8,6 +8,7 @@ import ErrorBoundary from "components/ErrorBoundary";
 import LoginForm from "containers/Forms/Login";
 import SignUpForm from "containers/Forms/SignUp";
 import Profile from "containers/Profile";
+import BackgroundAnimation from "components/BackgroundAnimation";
 
 const Owner = lazy(() => import("containers/Owner"));
 const SingleProduct = lazy(() => import("containers/SingleProduct"));
@@ -42,6 +43,7 @@ const Routes = () => {
       </Suspense>
       <CastomBackdrop />
       <MyAlert />
+      <BackgroundAnimation scrollTop={scrollTop} />
     </ErrorBoundary>
   );
 };

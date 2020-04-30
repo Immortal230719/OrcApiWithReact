@@ -19,14 +19,14 @@ const useStyles = makeStyles({
     alignItems: "center",
   },
   wrapper: {
-    position: "fixed",
+    zIndex: 1,
+    position: "relative",
     top: "0",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
     height: "100vh",
-    background: "linear-gradient(45deg, #111, #000)",
   },
   formWrapper: {
     position: "relative",

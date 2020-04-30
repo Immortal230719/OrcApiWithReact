@@ -8,6 +8,8 @@ import { memoProducts, getPage } from "selectors";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
+    zIndex: 1,
+    position: "relative",
     "& ul": {
       justifyContent: "center",
     },
@@ -20,7 +22,7 @@ const Paginator = ({ onChange }) => {
   const page = useSelector(getPage);
 
   return (
-    <div>
+    <div className={styles.wrapper}>
       <Pagination
         color="primary"
         className={`${styles.wrapper} ${styles.root}`}
