@@ -18,6 +18,7 @@ import {
   DELETE_PRODUCT_SUCCESS,
   PATCH_PRODUCT_START,
   PATCH_PRODUCT_SUCCESS,
+  SET_SUBMIT_SUCCESSED,
 } from "actionTypes";
 
 //Products actions
@@ -117,6 +118,12 @@ export const submitSignUpFormStart = () => {
     type: SUBMIT_SIGN_UP_FORM_START,
   };
 };
+export const setSubmitSuccessed = () => {
+  return {
+    type: SET_SUBMIT_SUCCESSED,
+  };
+};
+
 export const submitLoginFormSuccess = (response) => {
   return {
     type: SUBMIT_LOGIN_FORM_SUCCESS,

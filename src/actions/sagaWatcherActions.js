@@ -33,15 +33,17 @@ export const loadProductsPage = (page) => {
   };
 };
 
-export const loadSignUpForm = () => {
+export const loadSignUpForm = (values) => {
   return {
     type: LOAD_SIGN_UP_FORM,
+    payload: values,
   };
 };
 
-export const loadLoginForm = () => {
+export const loadLoginForm = (values) => {
   return {
     type: LOAD_LOGIN_FORM,
+    payload: values,
   };
 };
 
@@ -76,15 +78,17 @@ export const deleteAvatar = () => {
   };
 };
 
-export const loadCreateProductForm = () => {
+export const loadCreateProductForm = (values) => {
   return {
     type: CREATE_PRODUCT,
+    payload: values,
   };
 };
 
-export const loadPatchProductForm = () => {
+export const loadPatchProductForm = (values) => {
   return {
     type: PATCH_PRODUCT,
+    payload: values,
   };
 };
 

@@ -41,8 +41,8 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const loggedIn = useSelector(getLoggedIn);
 
-  const submitHandler = () => {
-    dispatch(loadLoginForm());
+  const submitHandler = (values) => {
+    dispatch(loadLoginForm(values));
     dispatch(reset("login"));
   };
 

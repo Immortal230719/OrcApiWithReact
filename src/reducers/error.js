@@ -1,6 +1,6 @@
 import * as R from "ramda";
 
-import { ERROR, ERROR_RESET } from "actionTypes";
+import { ERROR, ERROR_RESET, SET_SUBMIT_SUCCESSED } from "actionTypes";
 
 const initialState = {
   error: false,
@@ -35,6 +35,8 @@ export default (state = initialState, { type, payload, error }) => {
       });
     case ERROR_RESET:
       return R.merge(state, initialState);
+    case SET_SUBMIT_SUCCESSED:
+      return R.merge(state, { submitSucceeded: true });
     default:
       return state;
   }

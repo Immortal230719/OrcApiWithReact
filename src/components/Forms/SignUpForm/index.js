@@ -1,12 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Field, reduxForm } from "redux-form";
 import { makeStyles } from "@material-ui/core/styles";
-import { useDispatch } from "react-redux";
 
 import SubmitBtn from "components/Buttons/SubmitBtn";
 import ResetBtn from "components/Buttons/ResetBtn";
 import renderTextField from "components/InputText";
-import { setSubmitSuccessed } from "actions/syncActions";
 
 const useStyles = makeStyles({
   form: {
@@ -61,7 +59,6 @@ const validate = (values) => {
 //Validate functions
 
 const SignUpComponent = (props) => {
-  const dispatch = useDispatch();
   const {
     animate1,
     animate2,
@@ -72,15 +69,8 @@ const SignUpComponent = (props) => {
     reset,
     submitting,
     invalid,
-    submitSucceeded,
   } = props;
   const styles = useStyles();
-
-  useEffect(() => {
-    if (submitSucceeded) {
-      dispatch(setSubmitSuccessed());
-    }
-  }, [dispatch, submitSucceeded]);
 
   return (
     <>

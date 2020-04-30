@@ -34,14 +34,6 @@ export const getPage = (state) => {
   return R.prop("page", state.paginator);
 };
 
-export const getSignUpValues = (state) => {
-  return R.prop("values", state.form.signUp);
-};
-
-export const getLoginValues = (state) => {
-  return R.prop("values", state.form.login);
-};
-
 export const getLoggedIn = (state) => {
   return R.prop("loggedIn", state.user);
 };
@@ -56,12 +48,4 @@ export const getUser = (state) => {
 
 export const getExpires = (state) => {
   return R.prop("expires_in", state.user);
-};
-
-export const getCreateProductForm = (state) => {
-  return R.prop("values", state.form.createP);
-};
-
-export const getPatchProductForm = (state) => {
-  return R.prop("values", state.form.patchP);
 };

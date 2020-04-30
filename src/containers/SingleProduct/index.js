@@ -67,8 +67,10 @@ const SingleProduct = () => {
   }, [dispatch, loggedIn, id, token]);
 
   useEffect(() => {
-    dispatch(loadSingleProduct());
-  }, [dispatch]);
+    if (!title) {
+      dispatch(loadSingleProduct());
+    }
+  }, [dispatch, title, description]);
 
   const deleteHandler = () => {
     dispatch(deleteProduct());

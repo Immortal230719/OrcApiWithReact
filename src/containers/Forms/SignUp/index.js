@@ -54,6 +54,7 @@ const SignUpForm = () => {
   const styles = useStyles();
   const dispatch = useDispatch();
   const { error, submitSucceeded } = useSelector(getError);
+  console.log(submitSucceeded, error);
 
   const [animate, setAnimate] = useState("animate");
   const { trans, shadow, back } = useSpring({
@@ -67,8 +68,8 @@ const SignUpForm = () => {
     config: { duration: 1300 },
   });
 
-  const submitHandler = () => {
-    dispatch(loadSignUpForm());
+  const submitHandler = (values) => {
+    dispatch(loadSignUpForm(values));
     dispatch(reset("signUp"));
   };
 
@@ -91,7 +92,7 @@ const SignUpForm = () => {
             }}
           />
         </div>
-        {!submitSucceeded && !error ? (
+        {!submitSucceeded && !error && (
           <div className={styles.formWrapper}>
             <Typography
               align="center"
@@ -120,7 +121,8 @@ const SignUpForm = () => {
               <BackBtn>Back</BackBtn>
             </Link>
           </div>
-        ) : (
+        )}
+        {submitSucceeded && (
           <div className={styles.formWrapper}>
             <Typography
               align="center"

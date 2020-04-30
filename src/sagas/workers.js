@@ -8,16 +8,7 @@ import {
   checkTimeLifeToken,
 } from "utils/tokenUtils";
 
-import {
-  getUrl,
-  getPage,
-  getSignUpValues,
-  getLoginValues,
-  getUser,
-  getCreateProductForm,
-  getProduct,
-  getPatchProductForm,
-} from "selectors";
+import { getUrl, getPage, getUser, getProduct } from "selectors";
 import {
   fetchSingleProduct,
   fetchProductsPage,
@@ -52,6 +43,7 @@ import {
   deleteProductSuccess,
   patchProductStart,
   patchProductSuccess,
+  setSubmitSuccessed,
 } from "actions/sagaWorkerActions";
 
 import { errorAction } from "reducers/error";
@@ -91,16 +83,15 @@ function* ErrorHandling(error) {
 
 //Products workers
 
-export function* workerPatchProduct() {
+export function* workerPatchProduct({ payload }) {
   try {
     yield put(backdropToggle());
     yield put(patchProductStart());
-    const values = yield select(getPatchProductForm);
     const product = yield select(getProduct);
     const token = yield call(getAuthToken);
     const {
       data: { data },
-    } = yield call(fetchPatchProduct, values, token, product.slug);
+    } = yield call(fetchPatchProduct, payload, token, product.slug);
     yield put(patchProductSuccess(data));
     yield put(backdropToggle());
   } catch (error) {
@@ -122,14 +113,13 @@ export function* workerDeleteProduct() {
     yield call(ErrorHandling, error);
   }
 }
-export function* workerCreateProduct() {
+export function* workerCreateProduct({ payload }) {
   try {
     yield put(createProductStart());
-    const values = yield select(getCreateProductForm);
     const token = yield call(getAuthToken);
     const {
       data: { data },
-    } = yield call(submitCreateProductForm, values, token);
+    } = yield call(submitCreateProductForm, payload, token);
     yield put(createProductSuccess(data));
   } catch (error) {
     yield call(ErrorHandling, error);
@@ -216,29 +206,28 @@ export function* workerRefreshToken() {
     yield call(ErrorHandling, error);
   }
 }
-export function* workerSubmitSignUp() {
+export function* workerSubmitSignUp({ payload }) {
   try {
     yield put(backdropToggle());
     yield put(submitSignUpFormStart());
-    const signUpValues = yield select(getSignUpValues);
     const {
       data: { data },
-    } = yield call(submitSignUpForm, signUpValues);
+    } = yield call(submitSignUpForm, payload);
     yield put(submitSignUpFormSuccess(data.message));
+    yield put(setSubmitSuccessed());
     yield put(backdropToggle());
   } catch (error) {
     yield put(backdropToggle());
     yield call(ErrorHandling, error);
   }
 }
-export function* workerSubmitLogin() {
+export function* workerSubmitLogin({ payload }) {
   try {
     yield put(backdropToggle());
     yield put(submitLoginFormStart());
-    const LoginValues = yield select(getLoginValues);
     let {
       data: { data },
-    } = yield call(submitLoginForm, LoginValues);
+    } = yield call(submitLoginForm, payload);
     yield call(setAuthToken, data.access_token);
     yield call(setTimeLifeToken);
     yield put(submitLoginFormSuccess(data));

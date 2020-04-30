@@ -1,6 +1,7 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
 import { makeStyles } from "@material-ui/core/styles";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import SubmitBtn from "components/Buttons/SubmitBtn";
 import ResetBtn from "components/Buttons/ResetBtn";
@@ -65,6 +66,7 @@ const CreateProductForm = (props) => {
           <ResetBtn disabled={pristine || submitting} onClick={reset}>
             Reset
           </ResetBtn>
+          {submitting && <CircularProgress />}
           <SubmitBtn disabled={pristine || submitting || invalid}>
             Create
           </SubmitBtn>

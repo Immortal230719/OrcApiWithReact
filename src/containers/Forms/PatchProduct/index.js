@@ -14,10 +14,8 @@ const PatchProduct = () => {
 
   const [submitted, setSubmitted] = useState(false);
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-
-    dispatch(loadPatchProductForm());
+  const submitHandler = (data) => {
+    dispatch(loadPatchProductForm(data));
     dispatch(reset("patchP"));
     setSubmitted(true);
   };
@@ -28,7 +26,7 @@ const PatchProduct = () => {
 
   return (
     <>
-      <PatchProductForm className="marginBorder" handleSubmit={submitHandler} />
+      <PatchProductForm className="marginBorder" onSubmit={submitHandler} />
     </>
   );
 };

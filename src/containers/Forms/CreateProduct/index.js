@@ -8,8 +8,8 @@ import { loadCreateProductForm } from "actions/sagaWatcherActions";
 const CreateProduct = () => {
   const dispatch = useDispatch();
 
-  const submitHandler = () => {
-    dispatch(loadCreateProductForm());
+  const submitHandler = (values) => {
+    dispatch(loadCreateProductForm(values));
     dispatch(reset("createP"));
   };
 
