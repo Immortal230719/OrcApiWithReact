@@ -20,9 +20,16 @@ const useStyles = makeStyles({
   },
 });
 
+const valueTrim = (value) => value && value.trim();
+
 const validate = (values) => {
   const errors = {};
   const requiredFields = ["email", "password"];
+  for (let key in values) {
+    key = values[key].trim();
+  }
+
+  console.log(values);
 
   requiredFields.forEach((field) => {
     if (!values[field]) {
@@ -57,6 +64,7 @@ const LoginComponent = (props) => {
           label="Email"
           variant="outlined"
           component={renderTextField}
+          normalize={valueTrim}
         />
         <Field
           margin="dense"

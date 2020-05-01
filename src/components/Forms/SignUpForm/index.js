@@ -32,6 +32,8 @@ const useStyles = makeStyles({
   },
 });
 
+const valueTrim = (value) => value && value.trim();
+
 const validate = (values) => {
   const errors = {};
   const requiredFields = ["name", "email", "password", "password_confirmation"];
@@ -94,6 +96,7 @@ const SignUpComponent = (props) => {
           variant="outlined"
           onBlur={animate2}
           component={renderTextField}
+          normalize={valueTrim}
         />
         <Field
           className={styles.inputText}

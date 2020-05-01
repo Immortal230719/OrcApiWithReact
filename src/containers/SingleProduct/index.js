@@ -59,7 +59,7 @@ const SingleProduct = () => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
 
-  let { title, description, owners, deleted } = useSelector(getProduct);
+  let { title, description, owners, deleted, status } = useSelector(getProduct);
   const { id, loggedIn } = useSelector(getUser);
   const token = getAuthToken();
   const hasOwnerId = productHasOwnerId(owners, id);
@@ -157,7 +157,16 @@ const SingleProduct = () => {
               }
             >
               {renderOwners(owners, styles)}
-              {show ? <PatchProduct /> : null}
+              {
+                //Patch form
+              }
+              {show ? (
+                <PatchProduct
+                  title={title}
+                  description={description}
+                  status={status}
+                />
+              ) : null}
               <Link className={styles.wrapper} to="/">
                 <BackBtn>Back</BackBtn>
               </Link>

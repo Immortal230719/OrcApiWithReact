@@ -53,7 +53,7 @@ import { deleteFromProductsStore } from "actions/syncActions";
 //Error workers
 
 function* ErrorHandling(error) {
-  const status = error.response.status;
+  let status = error.response.status;
   let message = error.response.data.error;
   switch (status) {
     case 404:
@@ -164,6 +164,8 @@ export function* workerUploadAvatar({ payload }) {
     if (!payload.type.match("image.*")) {
       return;
     }
+    console.log(payload);
+
     let formData = new FormData();
     formData.append("avatar", payload);
     const token = yield call(getAuthToken);

@@ -7,7 +7,7 @@ import PatchProductForm from "components/Forms/PatchProductForm";
 import { loadPatchProductForm } from "actions/sagaWatcherActions";
 import { getProduct } from "selectors";
 
-const PatchProduct = () => {
+const PatchProduct = ({ title, description, status }) => {
   const dispatch = useDispatch();
   let { slug } = useParams();
   let product = useSelector(getProduct);
@@ -26,7 +26,16 @@ const PatchProduct = () => {
 
   return (
     <>
-      <PatchProductForm className="marginBorder" onSubmit={submitHandler} />
+      <PatchProductForm
+        className="marginBorder"
+        enableReinitialize
+        onSubmit={submitHandler}
+        initialValues={{
+          title: title,
+          description: description,
+          status: status,
+        }}
+      />
     </>
   );
 };

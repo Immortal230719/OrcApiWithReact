@@ -21,6 +21,8 @@ const useStyles = makeStyles({
   },
 });
 
+const valueTrim = (value) => value && value.trim();
+
 const validate = (values) => {
   const errors = {};
   const requiredFields = ["title", "description"];

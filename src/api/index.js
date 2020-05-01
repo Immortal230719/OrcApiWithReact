@@ -36,7 +36,7 @@ export const submitCreateProductForm = async (data, token) => {
 
 //Avatar API
 const avatar = axios.create({
-  baseURL: `${baseUrl}/avatars`,
+  baseURL: `${baseUrl}/avatars/`,
 });
 
 export const fetchUploadAvatar = async (file, token) => {

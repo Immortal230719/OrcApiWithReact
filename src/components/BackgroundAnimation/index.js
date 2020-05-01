@@ -30,7 +30,7 @@ const BackgroundAnimation = ({ scrollTop }) => {
     from: {
       transform: "scale(1)",
     },
-    config: { duration: 0 },
+    config: { duration: 1000 },
   });
 
   return (
