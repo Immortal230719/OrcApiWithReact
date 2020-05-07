@@ -14,7 +14,7 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 import createRootReducer from "reducers";
 import rootSaga from "sagas/watchers";
-import Routes from "routes";
+import App from "App";
 
 const theme = createMuiTheme({
   typography: {
@@ -44,7 +44,7 @@ ReactDOM.render(
     <ThemeProvider theme={theme}>
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <Routes />
+          <App />
         </ConnectedRouter>
       </Provider>
     </ThemeProvider>
