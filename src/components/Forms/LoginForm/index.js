@@ -29,8 +29,6 @@ const validate = (values) => {
     key = values[key].trim();
   }
 
-  console.log(values);
-
   requiredFields.forEach((field) => {
     if (!values[field]) {
       errors[field] = "Required";

@@ -17,7 +17,7 @@ import ErrorBoundary from "components/ErrorBoundary";
 
 import { getUser } from "selectors";
 import { getAuthToken } from "utils/tokenUtils";
-import { loadAuthMe } from "actions/sagaWatcherActions";
+import { refreshToken } from "actions/sagaWatcherActions";
 import { setCreatedToFalse } from "actions/syncActions";
 
 const useStyles = makeStyles({
@@ -69,7 +69,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (token && !id) {
-      dispatch(loadAuthMe());
+      dispatch(refreshToken());
     }
   }, [dispatch, loggedIn, id, token]);
 

@@ -6,6 +6,7 @@ import {
   removeAuthToken,
   setTimeLifeToken,
   checkTimeLifeToken,
+  parseJwt,
 } from "utils/tokenUtils";
 
 import { getUrl, getPage, getUser, getProduct } from "selectors";
@@ -14,7 +15,6 @@ import {
   fetchProductsPage,
   submitSignUpForm,
   submitLoginForm,
-  authMe,
   logout,
   refresh,
   fetchUploadAvatar,
@@ -33,7 +33,6 @@ import {
   submitSignUpFormSuccess,
   submitLoginFormStart,
   submitLoginFormSuccess,
-  authMeSuccess,
   logoutSuccess,
   uploadAvatar,
   deleteAvatarSuccess,
@@ -86,6 +85,7 @@ function* ErrorHandling(error) {
 export function* workerPatchProduct({ payload }) {
   try {
     yield put(backdropToggle());
+    yield call(checkRefresh);
     yield put(patchProductStart());
     const product = yield select(getProduct);
     const token = yield call(getAuthToken);
@@ -101,6 +101,7 @@ export function* workerPatchProduct({ payload }) {
 }
 export function* workerDeleteProduct() {
   try {
+    yield call(checkRefresh);
     yield put(deleteProductStart());
     const product = yield select(getProduct);
     const token = yield call(getAuthToken);
@@ -115,6 +116,7 @@ export function* workerDeleteProduct() {
 }
 export function* workerCreateProduct({ payload }) {
   try {
+    yield call(checkRefresh);
     yield put(createProductStart());
     const token = yield call(getAuthToken);
     const {
@@ -152,6 +154,7 @@ export function* workerLoadProductsPage() {
 
 export function* workerDeleteAvatar() {
   try {
+    yield call(checkRefresh);
     const token = yield call(getAuthToken);
     yield call(fetchDeleteAvatar, token);
     yield put(deleteAvatarSuccess());
@@ -161,11 +164,10 @@ export function* workerDeleteAvatar() {
 }
 export function* workerUploadAvatar({ payload }) {
   try {
+    yield call(checkRefresh);
     if (!payload.type.match("image.*")) {
       return;
     }
-    console.log(payload);
-
     let formData = new FormData();
     formData.append("avatar", payload);
     const token = yield call(getAuthToken);
@@ -183,7 +185,7 @@ export function* workerUploadAvatar({ payload }) {
 function* checkRefresh() {
   try {
     const { expires_in } = yield select(getUser);
-    let expired = checkTimeLifeToken(expires_in);
+    let expired = yield call(checkTimeLifeToken, expires_in);
     if (expired) {
       yield call(workerRefreshToken);
       return;
@@ -200,10 +202,9 @@ export function* workerRefreshToken() {
       data: { data },
     } = yield call(refresh, token);
     yield call(setAuthToken, data.access_token);
-    const {
-      data: { user },
-    } = yield call(authMe, data.access_token);
-    yield put(authMeSuccess(user));
+    yield call(setTimeLifeToken);
+    const { user } = parseJwt(data.access_token);
+    yield put(submitLoginFormSuccess(user));
   } catch (error) {
     yield call(ErrorHandling, error);
   }
@@ -230,24 +231,10 @@ export function* workerSubmitLogin({ payload }) {
     let {
       data: { data },
     } = yield call(submitLoginForm, payload);
+    const { user } = parseJwt(data.access_token);
     yield call(setAuthToken, data.access_token);
     yield call(setTimeLifeToken);
-    yield put(submitLoginFormSuccess(data));
-    yield put(backdropToggle());
-  } catch (error) {
-    yield put(backdropToggle());
-    yield call(ErrorHandling, error);
-  }
-}
-export function* workerAuthMe() {
-  try {
-    yield put(backdropToggle());
-    yield call(checkRefresh);
-    let token = yield call(getAuthToken);
-    const {
-      data: { data },
-    } = yield call(authMe, token);
-    yield put(authMeSuccess(data));
+    yield put(submitLoginFormSuccess(user));
     yield put(backdropToggle());
   } catch (error) {
     yield put(backdropToggle());
@@ -257,6 +244,7 @@ export function* workerAuthMe() {
 export function* workerLogout() {
   try {
     yield put(backdropToggle());
+    yield call(checkRefresh);
     let token = yield call(getAuthToken);
     yield call(logout, token);
     yield call(removeAuthToken);

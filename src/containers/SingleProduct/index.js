@@ -17,9 +17,9 @@ import BuildIcon from "@material-ui/icons/Build";
 import { useDispatch, useSelector } from "react-redux";
 import Layout from "components/Layout";
 import PatchProduct from "containers/Forms/PatchProduct";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
-import { loadSingleProduct, loadAuthMe } from "actions/sagaWatcherActions";
+import { loadSingleProduct, refreshToken } from "actions/sagaWatcherActions";
 import Header from "containers/Header";
 import BackBtn from "components/Buttons/BackBtn";
 import { getProduct, getUser } from "selectors";
@@ -56,6 +56,7 @@ const useStyles = makeStyles({
 
 const SingleProduct = () => {
   const styles = useStyles();
+  let { slug } = useParams();
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
 
@@ -66,13 +67,15 @@ const SingleProduct = () => {
 
   useEffect(() => {
     if (token && !id) {
-      dispatch(loadAuthMe());
+      dispatch(refreshToken());
     }
   }, [dispatch, loggedIn, id, token]);
 
   useEffect(() => {
-    dispatch(loadSingleProduct());
-  }, [dispatch, title, description]);
+    if (slug !== title) {
+      dispatch(loadSingleProduct());
+    }
+  }, [dispatch, title, slug]);
 
   const deleteHandler = () => {
     dispatch(deleteProduct());

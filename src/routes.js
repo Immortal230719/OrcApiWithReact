@@ -9,19 +9,19 @@ import LoginForm from "containers/Forms/Login";
 import SignUpForm from "containers/Forms/SignUp";
 import Profile from "containers/Profile";
 import BackgroundAnimation from "components/BackgroundAnimation";
+import SingleProduct from "containers/SingleProduct";
 
 const Owner = lazy(() => import("containers/Owner"));
-const SingleProduct = lazy(() => import("containers/SingleProduct"));
 
 const Routes = () => {
   const [scrollTop, setScrollTop] = useState(0);
+
   useEffect(() => {
     window.addEventListener("scroll", scrollHandler, { passive: true });
     return () => {
       window.removeEventListener("scroll", scrollHandler);
     };
   });
-
   const scrollHandler = (e) => {
     let scrollTop = window.pageYOffset;
     setScrollTop(scrollTop);

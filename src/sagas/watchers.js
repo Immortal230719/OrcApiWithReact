@@ -4,13 +4,13 @@ import {
   LOAD_PRODUCTS_PAGE,
   LOAD_SIGN_UP_FORM,
   LOAD_LOGIN_FORM,
-  LOAD_AUTH_ME,
   LOGOUT,
   REQUEST_UPLOAD_AVATAR,
   DELETE_AVATAR,
   CREATE_PRODUCT,
   DELETE_PRODUCT,
   PATCH_PRODUCT,
+  REFRESH_TOKEN,
 } from "actionTypes";
 
 import {
@@ -18,13 +18,13 @@ import {
   workerLoadProductsPage,
   workerSubmitSignUp,
   workerSubmitLogin,
-  workerAuthMe,
   workerLogout,
   workerUploadAvatar,
   workerDeleteAvatar,
   workerCreateProduct,
   workerDeleteProduct,
   workerPatchProduct,
+  workerRefreshToken,
 } from "sagas/workers";
 
 function* watchLoadCreateProduct() {
@@ -63,8 +63,8 @@ function* watchLoadLoginForm() {
   yield takeEvery(LOAD_LOGIN_FORM, workerSubmitLogin);
 }
 
-function* watchLoadAuthMe() {
-  yield takeEvery(LOAD_AUTH_ME, workerAuthMe);
+function* watchRefreshToken() {
+  yield takeEvery(REFRESH_TOKEN, workerRefreshToken);
 }
 
 function* watchLogout() {
@@ -78,11 +78,11 @@ export default function* rootSaga() {
     watchLoadSignUpForm(),
     watchLoadLoginForm(),
     watchLogout(),
-    watchLoadAuthMe(),
     watchLoadAvatar(),
     watchDeleteAvatar(),
     watchLoadCreateProduct(),
     watchDeleteProduct(),
     watchPatchProduct(),
+    watchRefreshToken(),
   ]);
 }

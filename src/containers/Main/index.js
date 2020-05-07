@@ -8,7 +8,7 @@ import Product from "components/Product";
 import Paginator from "components/Pagination";
 import Header from "containers/Header";
 
-import { loadAuthMe, loadProductsPage } from "actions/sagaWatcherActions";
+import { refreshToken, loadProductsPage } from "actions/sagaWatcherActions";
 import { resetDeletedProduct } from "actions/syncActions";
 import { getProducts, getUser, getPage } from "selectors";
 import { getAuthToken } from "utils/tokenUtils";
@@ -56,7 +56,7 @@ const Main = () => {
 
   useEffect(() => {
     if (token && !id) {
-      dispatch(loadAuthMe());
+      dispatch(refreshToken());
     }
   }, [dispatch, loggedIn, id, token]);
 

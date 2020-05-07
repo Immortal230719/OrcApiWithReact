@@ -4,7 +4,6 @@ import {
   LOAD_PRODUCTS_PAGE,
   LOAD_SIGN_UP_FORM,
   LOAD_LOGIN_FORM,
-  LOAD_AUTH_ME,
   LOGOUT,
   REFRESH_TOKEN,
   REQUEST_UPLOAD_AVATAR,
@@ -44,12 +43,6 @@ export const loadLoginForm = (values) => {
   return {
     type: LOAD_LOGIN_FORM,
     payload: values,
-  };
-};
-
-export const loadAuthMe = () => {
-  return {
-    type: LOAD_AUTH_ME,
   };
 };
 

@@ -8,7 +8,6 @@ import {
   SUBMIT_LOGIN_FORM_START,
   SUBMIT_LOGIN_FORM_SUCCESS,
   BACKDROP_TOGGLE,
-  AUTH_ME_SUCCESS,
   LOGOUT_SUCCESS,
   UPLOAD_AVATAR_SUCCESS,
   DELETE_AVATAR_SUCCESS,
@@ -133,13 +132,6 @@ export const submitLoginFormSuccess = (response) => {
 export const submitLoginFormStart = () => {
   return {
     type: SUBMIT_LOGIN_FORM_START,
-  };
-};
-
-export const authMeSuccess = (data) => {
-  return {
-    type: AUTH_ME_SUCCESS,
-    payload: data,
   };
 };
 

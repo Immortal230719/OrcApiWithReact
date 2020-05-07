@@ -1,7 +1,7 @@
 import * as R from "ramda";
 
 import {
-  AUTH_ME_SUCCESS,
+  // AUTH_ME_SUCCESS,
   SUBMIT_LOGIN_FORM_SUCCESS,
   LOGOUT_SUCCESS,
   UPLOAD_AVATAR_SUCCESS,
@@ -15,7 +15,7 @@ const initialState = {
   name: "",
   email: "",
   loggedIn: false,
-  expires_in: 3600,
+  expires_in: 120,
   avatar: "",
   created: false,
   office_coords: {
@@ -27,9 +27,9 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case SUBMIT_LOGIN_FORM_SUCCESS:
-      return R.merge(state, { loggedIn: true });
-    case AUTH_ME_SUCCESS:
       return R.mergeAll([state, payload, { loggedIn: true }]);
+    // case AUTH_ME_SUCCESS:
+    //   return R.mergeAll([state, payload, { loggedIn: true }]);
     case LOGOUT_SUCCESS:
       return R.merge(state, initialState);
     case UPLOAD_AVATAR_SUCCESS:
