@@ -17,7 +17,7 @@ import BuildIcon from '@material-ui/icons/Build';
 import { useDispatch, useSelector } from 'react-redux';
 import Layout from 'components/Layout';
 import PatchProduct from 'containers/Forms/PatchProduct';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import {
   loadSingleProduct,
@@ -59,7 +59,6 @@ const useStyles = makeStyles({
 
 const SingleProduct = () => {
   const styles = useStyles();
-  const { slug } = useParams();
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
 
@@ -77,10 +76,8 @@ const SingleProduct = () => {
   }, [dispatch, loggedIn, id, token]);
 
   useEffect(() => {
-    if (slug !== title) {
-      dispatch(loadSingleProduct());
-    }
-  }, [dispatch, title, slug]);
+    dispatch(loadSingleProduct());
+  }, [dispatch]);
 
   const deleteHandler = () => {
     dispatch(deleteProduct());

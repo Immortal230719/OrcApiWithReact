@@ -62,7 +62,7 @@ const Main = () => {
 
   useEffect(() => {
     dispatch(resetDeletedProduct());
-  });
+  }, [dispatch]);
 
   const handleChange = (e, numberOfPage) => {
     dispatch(loadProductsPage(numberOfPage));
