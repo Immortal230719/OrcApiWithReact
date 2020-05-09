@@ -1,4 +1,4 @@
-import { takeEvery, all, takeLeading } from "redux-saga/effects";
+import { takeEvery, takeLatest, all, takeLeading } from 'redux-saga/effects';
 import {
   LOAD_SINGLE_PRODUCT,
   LOAD_PRODUCTS_PAGE,
@@ -11,7 +11,7 @@ import {
   DELETE_PRODUCT,
   PATCH_PRODUCT,
   REFRESH_TOKEN,
-} from "actionTypes";
+} from 'actionTypes';
 
 import {
   workerLoadSingleProducts,
@@ -25,14 +25,14 @@ import {
   workerDeleteProduct,
   workerPatchProduct,
   workerRefreshToken,
-} from "sagas/workers";
+} from 'sagas/workers';
 
 function* watchLoadCreateProduct() {
-  yield takeEvery(CREATE_PRODUCT, workerCreateProduct);
+  yield takeLeading(CREATE_PRODUCT, workerCreateProduct);
 }
 
 function* watchPatchProduct() {
-  yield takeEvery(PATCH_PRODUCT, workerPatchProduct);
+  yield takeLeading(PATCH_PRODUCT, workerPatchProduct);
 }
 
 function* watchDeleteProduct() {
@@ -40,7 +40,7 @@ function* watchDeleteProduct() {
 }
 
 function* watchLoadSingleProducts() {
-  yield takeLeading(LOAD_SINGLE_PRODUCT, workerLoadSingleProducts);
+  yield takeLatest(LOAD_SINGLE_PRODUCT, workerLoadSingleProducts);
 }
 
 function* watchLoadAvatar() {
@@ -56,7 +56,7 @@ function* watchLoadProductsPage() {
 }
 
 function* watchLoadSignUpForm() {
-  yield takeEvery(LOAD_SIGN_UP_FORM, workerSubmitSignUp);
+  yield takeLeading(LOAD_SIGN_UP_FORM, workerSubmitSignUp);
 }
 
 function* watchLoadLoginForm() {
@@ -64,7 +64,7 @@ function* watchLoadLoginForm() {
 }
 
 function* watchRefreshToken() {
-  yield takeEvery(REFRESH_TOKEN, workerRefreshToken);
+  yield takeLeading(REFRESH_TOKEN, workerRefreshToken);
 }
 
 function* watchLogout() {

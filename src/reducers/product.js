@@ -3,8 +3,9 @@ import {
   DELETE_PRODUCT_SUCCESS,
   RESET_DELETED_PRODUCT,
   PATCH_PRODUCT_SUCCESS,
-} from "actionTypes";
-import * as R from "ramda";
+} from 'actionTypes';
+import * as R from 'ramda';
+
 const initialState = {
   deleted: false,
 };

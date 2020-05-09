@@ -1,36 +1,36 @@
-import React, { Suspense, useEffect, useState } from "react";
-import { Switch, Route, Redirect } from "react-router";
+import React, { Suspense, useEffect, useState } from 'react';
+import { Switch, Route, Redirect } from 'react-router';
 
-import CastomBackdrop from "components/Backdrop";
-import MyAlert from "components/Alert";
-import ErrorBoundary from "components/ErrorBoundary";
-import BackgroundAnimation from "components/BackgroundAnimation";
+import CastomBackdrop from 'components/Backdrop';
+import MyAlert from 'components/Alert';
+import ErrorBoundary from 'components/ErrorBoundary';
+import BackgroundAnimation from 'components/BackgroundAnimation';
+import useRoutes from 'routes';
 
-import { routes } from "routes";
+const routes = useRoutes();
 
 const Routes = () => {
   const [scrollTop, setScrollTop] = useState(0);
 
+  const scrollHandler = () => {
+    const scroll = window.pageYOffset;
+    setScrollTop(scroll);
+  };
   useEffect(() => {
-    window.addEventListener("scroll", scrollHandler, { passive: true });
+    window.addEventListener('scroll', scrollHandler, { passive: true });
     return () => {
-      window.removeEventListener("scroll", scrollHandler);
+      window.removeEventListener('scroll', scrollHandler);
     };
   });
-  const scrollHandler = (e) => {
-    let scrollTop = window.pageYOffset;
-    setScrollTop(scrollTop);
-  };
-
-  const renderRoutes = (routes) => {
+  const renderRoutes = (arrOfRoutes) => {
     return (
       <Switch>
-        {routes.map(({ path, exact, component }) => {
+        {arrOfRoutes.map(({ path, exact, component }) => {
           return (
             <Route key={path} path={path} component={component} exact={exact} />
           );
         })}
-        <Redirect to="/" />
+        <Redirect to='/' />
       </Switch>
     );
   };

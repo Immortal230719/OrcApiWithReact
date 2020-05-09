@@ -1,75 +1,87 @@
-import axios from "axios";
+import axios from 'axios';
 
-const baseUrl = "https://api.app2000.host/api/v1";
+const baseUrl = 'https://api.app2000.host/api/v1';
 const headers = (token) => {
   return {
     Authorization: `Bearer ${token}`,
   };
 };
 
-//Products API
+// Products API
 const products = axios.create({
   baseURL: `${baseUrl}/products`,
 });
 
 export const fetchProductsPage = async (numOfPage) => {
-  return await products.get(`?page=${numOfPage}`);
+  const response = await products.get(`?page=${numOfPage}`);
+  return response;
 };
 export const fetchSingleProduct = async (slug) => {
-  return await products.get(slug);
+  const response = await products.get(slug);
+  return response;
 };
 export const fetchDeleteProduct = async (slug, token) => {
-  return await products.delete(slug, {
+  const response = await products.delete(slug, {
     headers: headers(token),
   });
+  return response;
 };
 export const fetchPatchProduct = async (data, token, slug) => {
-  return await products.patch(slug, data, {
+  const response = await products.patch(slug, data, {
     headers: headers(token),
   });
+  return response;
 };
 export const submitCreateProductForm = async (data, token) => {
-  return await products.post("", data, {
+  const response = await products.post('', data, {
     headers: headers(token),
   });
+  return response;
 };
 
-//Avatar API
+// Avatar API
 const avatar = axios.create({
   baseURL: `${baseUrl}/avatars/`,
 });
 
 export const fetchUploadAvatar = async (file, token) => {
-  return await avatar.post("", file, {
+  const response = await avatar.post('', file, {
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
+      'Content-Type': 'multipart/form-data',
     },
   });
+  return response;
 };
 export const fetchDeleteAvatar = async (token) => {
-  return await avatar.delete("", {
+  const response = await avatar.delete('', {
     headers: headers(token),
   });
+  return response;
 };
 
-//Auth API
+// Auth API
 const auth = axios.create({
   baseURL: `${baseUrl}/auth`,
 });
 
 export const submitSignUpForm = async (data) => {
-  return await auth.post("signup", data);
+  const response = await auth.post('signup', data);
+  return response;
 };
 export const submitLoginForm = async (data) => {
-  return await auth.post("login", data);
+  const response = await auth.post('login', data);
+  return response;
 };
 export const authMe = async (token) => {
-  return await auth.post("me", {}, { headers: headers(token) });
+  const response = await auth.post('me', {}, { headers: headers(token) });
+  return response;
 };
 export const logout = async (token) => {
-  return await auth.post("logout", {}, { headers: headers(token) });
+  const response = await auth.post('logout', {}, { headers: headers(token) });
+  return response;
 };
 export const refresh = async (token) => {
-  return await auth.post("refresh", {}, { headers: headers(token) });
+  const response = await auth.post('refresh', {}, { headers: headers(token) });
+  return response;
 };

@@ -1,32 +1,33 @@
-import React from "react";
-import { Field, reduxForm } from "redux-form";
-import { makeStyles } from "@material-ui/core/styles";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Field, reduxForm } from 'redux-form';
+import { makeStyles } from '@material-ui/core/styles';
 
-import SubmitBtn from "components/Buttons/SubmitBtn";
-import ResetBtn from "components/Buttons/ResetBtn";
-import renderTextField from "components/InputText";
+import SubmitBtn from 'components/Buttons/SubmitBtn';
+import ResetBtn from 'components/Buttons/ResetBtn';
+import renderTextField from 'components/InputText';
 
 const useStyles = makeStyles({
   form: {
-    display: "flex",
-    flexDirection: "column",
-    width: "100%",
-    margin: "0 auto",
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    margin: '0 auto',
   },
   flex: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginTop: "15px",
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginTop: '15px',
   },
   inputText: {
-    "& label": {
-      color: "#fff",
+    '& label': {
+      color: '#fff',
     },
-    "& div": {
-      color: "#fff",
-      "& fieldset": {
-        border: "none",
-        background: "inherit",
+    '& div': {
+      color: '#fff',
+      '& fieldset': {
+        border: 'none',
+        background: 'inherit',
       },
     },
   },
@@ -36,29 +37,29 @@ const valueTrim = (value) => value && value.trim();
 
 const validate = (values) => {
   const errors = {};
-  const requiredFields = ["name", "email", "password", "password_confirmation"];
+  const requiredFields = ['name', 'email', 'password', 'password_confirmation'];
 
   requiredFields.forEach((field) => {
     if (!values[field]) {
-      errors[field] = "Required";
+      errors[field] = 'Required';
     }
   });
   if (values.name && values.name.length < 2) {
-    errors.name = "Your name must be more than two character";
+    errors.name = 'Your name must be more than two character';
   }
   if (
     values.email &&
     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
   ) {
-    errors.email = "Invalid email address";
+    errors.email = 'Invalid email address';
   }
   if (values.password !== values.password_confirmation) {
-    errors.password_confirmation = "Passwords entered do not match";
+    errors.password_confirmation = 'Passwords entered do not match';
   }
   return errors;
 };
 
-//Validate functions
+// Validate functions
 
 const SignUpComponent = (props) => {
   const {
@@ -79,44 +80,44 @@ const SignUpComponent = (props) => {
       <form className={styles.form} onSubmit={handleSubmit}>
         <Field
           className={styles.inputText}
-          margin="dense"
-          id="Name"
-          name="name"
-          label="Name"
-          variant="outlined"
+          margin='dense'
+          id='Name'
+          name='name'
+          label='Name'
+          variant='outlined'
           onBlur={animate1}
           component={renderTextField}
         />
         <Field
           className={styles.inputText}
-          margin="dense"
-          id="Email"
-          name="email"
-          label="Email"
-          variant="outlined"
+          margin='dense'
+          id='Email'
+          name='email'
+          label='Email'
+          variant='outlined'
           onBlur={animate2}
           component={renderTextField}
           normalize={valueTrim}
         />
         <Field
           className={styles.inputText}
-          margin="dense"
-          id="Password"
-          name="password"
-          label="Password"
-          variant="outlined"
-          type="password"
+          margin='dense'
+          id='Password'
+          name='password'
+          label='Password'
+          variant='outlined'
+          type='password'
           onBlur={animate3}
           component={renderTextField}
         />
         <Field
           className={styles.inputText}
-          margin="dense"
-          id="ConfirmPassword"
-          name="password_confirmation"
-          label="ConfirmPassword"
-          variant="outlined"
-          type="password"
+          margin='dense'
+          id='ConfirmPassword'
+          name='password_confirmation'
+          label='ConfirmPassword'
+          variant='outlined'
+          type='password'
           onBlur={animate4}
           component={renderTextField}
         />
@@ -134,6 +135,18 @@ const SignUpComponent = (props) => {
 };
 
 export default reduxForm({
-  form: "signUp",
+  form: 'signUp',
   validate,
 })(SignUpComponent);
+
+SignUpComponent.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  reset: PropTypes.func.isRequired,
+  pristine: PropTypes.bool.isRequired,
+  submitting: PropTypes.bool.isRequired,
+  invalid: PropTypes.bool.isRequired,
+  animate1: PropTypes.func.isRequired,
+  animate2: PropTypes.func.isRequired,
+  animate3: PropTypes.func.isRequired,
+  animate4: PropTypes.func.isRequired,
+};

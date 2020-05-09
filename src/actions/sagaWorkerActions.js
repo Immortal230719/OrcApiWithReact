@@ -18,9 +18,9 @@ import {
   PATCH_PRODUCT_START,
   PATCH_PRODUCT_SUCCESS,
   SET_SUBMIT_SUCCESSED,
-} from "actionTypes";
+} from 'actionTypes';
 
-//Products actions
+// Products actions
 
 export const patchProductStart = () => {
   return {
@@ -81,7 +81,7 @@ export const fetchProductsPageSuccess = (product) => {
   };
 };
 
-//Avatar actions
+// Avatar actions
 
 export const uploadAvatar = (img) => {
   return {
@@ -92,11 +92,11 @@ export const uploadAvatar = (img) => {
 export const deleteAvatarSuccess = (payload) => {
   return {
     type: DELETE_AVATAR_SUCCESS,
-    payload: payload,
+    payload,
   };
 };
 
-//Backdrop toggle action
+// Backdrop toggle action
 
 export const backdropToggle = () => {
   return {
@@ -104,7 +104,7 @@ export const backdropToggle = () => {
   };
 };
 
-//Auth actions
+// Auth actions
 
 export const submitSignUpFormSuccess = (response) => {
   return {

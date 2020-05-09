@@ -2,7 +2,7 @@ import {
   SET_CREATED_TO_FALSE,
   RESET_DELETED_PRODUCT,
   DELETE_FROM_PRODUCTS_STORE,
-} from "actionTypes";
+} from 'actionTypes';
 
 export const setCreatedToFalse = () => {
   return {

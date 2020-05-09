@@ -1,4 +1,4 @@
-import { put, call, select } from "redux-saga/effects";
+import { put, call, select } from 'redux-saga/effects';
 
 import {
   getAuthToken,
@@ -7,9 +7,9 @@ import {
   setTimeLifeToken,
   checkTimeLifeToken,
   parseJwt,
-} from "utils/tokenUtils";
+} from 'utils/tokenUtils';
 
-import { getUrl, getPage, getUser, getProduct } from "selectors";
+import { getUrl, getPage, getUser, getProduct } from 'selectors';
 import {
   fetchSingleProduct,
   fetchProductsPage,
@@ -22,7 +22,7 @@ import {
   submitCreateProductForm,
   fetchDeleteProduct,
   fetchPatchProduct,
-} from "api";
+} from 'api';
 import {
   fetchSingleProductSuccess,
   fetchSingleProductStart,
@@ -43,16 +43,18 @@ import {
   patchProductStart,
   patchProductSuccess,
   setSubmitSuccessed,
-} from "actions/sagaWorkerActions";
+} from 'actions/sagaWorkerActions';
 
-import { errorAction } from "reducers/error";
+import { errorAction } from 'reducers/error';
 
-import { deleteFromProductsStore } from "actions/syncActions";
+import { deleteFromProductsStore } from 'actions/syncActions';
 
-//Error workers
+// Error workers
 
 function* ErrorHandling(error) {
-  let status = error.response.status;
+  const {
+    response: { status },
+  } = error;
   let message = error.response.data.error;
   switch (status) {
     case 404:
@@ -67,20 +69,102 @@ function* ErrorHandling(error) {
     case 403:
       yield put(errorAction({ error: true, message }));
       break;
-    case 422:
-      message = "";
-      let errors = error.response.data.errors;
-      for (let key in errors) {
-        message += `${errors[key]} `;
-      }
+    case 422: {
+      message = '';
+      const {
+        response: {
+          data: { errors },
+        },
+      } = error;
+      Object.values(errors).forEach((value) => {
+        message += value;
+        return message;
+      });
       yield put(errorAction({ error: true, message }));
       break;
+    }
     default:
       throw error;
   }
 }
 
-//Products workers
+// Auth workers
+
+export function* workerRefreshToken() {
+  try {
+    const token = yield call(getAuthToken);
+    const {
+      data: { data },
+    } = yield call(refresh, token);
+    yield call(setAuthToken, data.access_token);
+    yield call(setTimeLifeToken);
+    const { user } = parseJwt(data.access_token);
+    yield put(submitLoginFormSuccess(user));
+  } catch (error) {
+    yield call(ErrorHandling, error);
+  }
+}
+function* checkRefresh() {
+  try {
+    const { expiresIn } = yield select(getUser);
+    const expired = yield call(checkTimeLifeToken, expiresIn);
+    if (expired) {
+      yield call(workerRefreshToken);
+      return;
+    }
+  } catch (error) {
+    yield call(ErrorHandling, error);
+  }
+}
+
+export function* workerSubmitSignUp({ payload }) {
+  try {
+    yield put(backdropToggle());
+    yield put(submitSignUpFormStart());
+    const {
+      data: { data },
+    } = yield call(submitSignUpForm, payload);
+    yield put(submitSignUpFormSuccess(data.message));
+    yield put(setSubmitSuccessed());
+    yield put(backdropToggle());
+  } catch (error) {
+    yield put(backdropToggle());
+    yield call(ErrorHandling, error);
+  }
+}
+export function* workerSubmitLogin({ payload }) {
+  try {
+    yield put(backdropToggle());
+    yield put(submitLoginFormStart());
+    const {
+      data: { data },
+    } = yield call(submitLoginForm, payload);
+    const { user } = parseJwt(data.access_token);
+    yield call(setAuthToken, data.access_token);
+    yield call(setTimeLifeToken);
+    yield put(submitLoginFormSuccess(user));
+    yield put(backdropToggle());
+  } catch (error) {
+    yield put(backdropToggle());
+    yield call(ErrorHandling, error);
+  }
+}
+export function* workerLogout() {
+  try {
+    yield put(backdropToggle());
+    yield call(checkRefresh);
+    const token = yield call(getAuthToken);
+    yield call(logout, token);
+    yield call(removeAuthToken);
+    yield put(logoutSuccess());
+    yield put(backdropToggle());
+  } catch (error) {
+    yield put(backdropToggle());
+    yield call(ErrorHandling, error);
+  }
+}
+
+// Products workers
 
 export function* workerPatchProduct({ payload }) {
   try {
@@ -150,7 +234,7 @@ export function* workerLoadProductsPage() {
   }
 }
 
-//Avatar workers
+// Avatar workers
 
 export function* workerDeleteAvatar() {
   try {
@@ -165,93 +249,17 @@ export function* workerDeleteAvatar() {
 export function* workerUploadAvatar({ payload }) {
   try {
     yield call(checkRefresh);
-    if (!payload.type.match("image.*")) {
+    if (!payload.type.match('image.*')) {
       return;
     }
-    let formData = new FormData();
-    formData.append("avatar", payload);
+    const formData = new FormData();
+    formData.append('avatar', payload);
     const token = yield call(getAuthToken);
     const {
       data: { data },
     } = yield call(fetchUploadAvatar, formData, token);
     yield put(uploadAvatar(data.avatar));
   } catch (error) {
-    yield call(ErrorHandling, error);
-  }
-}
-
-// Auth workers
-
-function* checkRefresh() {
-  try {
-    const { expires_in } = yield select(getUser);
-    let expired = yield call(checkTimeLifeToken, expires_in);
-    if (expired) {
-      yield call(workerRefreshToken);
-      return;
-    }
-  } catch (error) {
-    yield call(ErrorHandling, error);
-  }
-}
-
-export function* workerRefreshToken() {
-  try {
-    let token = yield call(getAuthToken);
-    const {
-      data: { data },
-    } = yield call(refresh, token);
-    yield call(setAuthToken, data.access_token);
-    yield call(setTimeLifeToken);
-    const { user } = parseJwt(data.access_token);
-    yield put(submitLoginFormSuccess(user));
-  } catch (error) {
-    yield call(ErrorHandling, error);
-  }
-}
-export function* workerSubmitSignUp({ payload }) {
-  try {
-    yield put(backdropToggle());
-    yield put(submitSignUpFormStart());
-    const {
-      data: { data },
-    } = yield call(submitSignUpForm, payload);
-    yield put(submitSignUpFormSuccess(data.message));
-    yield put(setSubmitSuccessed());
-    yield put(backdropToggle());
-  } catch (error) {
-    yield put(backdropToggle());
-    yield call(ErrorHandling, error);
-  }
-}
-export function* workerSubmitLogin({ payload }) {
-  try {
-    yield put(backdropToggle());
-    yield put(submitLoginFormStart());
-    let {
-      data: { data },
-    } = yield call(submitLoginForm, payload);
-    const { user } = parseJwt(data.access_token);
-    yield call(setAuthToken, data.access_token);
-    yield call(setTimeLifeToken);
-    yield put(submitLoginFormSuccess(user));
-    yield put(backdropToggle());
-  } catch (error) {
-    yield put(backdropToggle());
-    yield call(ErrorHandling, error);
-  }
-}
-export function* workerLogout() {
-  try {
-    yield put(backdropToggle());
-    yield call(checkRefresh);
-    let token = yield call(getAuthToken);
-    yield call(logout, token);
-    yield call(removeAuthToken);
-    yield put(logoutSuccess());
-    yield put(backdropToggle());
-  } catch (error) {
-    yield put(backdropToggle());
     yield call(ErrorHandling, error);
   }
 }

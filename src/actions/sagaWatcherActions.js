@@ -11,7 +11,7 @@ import {
   CREATE_PRODUCT,
   DELETE_PRODUCT,
   PATCH_PRODUCT,
-} from "actionTypes";
+} from 'actionTypes';
 
 export const loadProducts = () => {
   return {

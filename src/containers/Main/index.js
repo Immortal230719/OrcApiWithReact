@@ -1,36 +1,36 @@
-import React, { useEffect } from "react";
-import { Typography, GridList, GridListTile } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from 'react';
+import { Typography, GridList, GridListTile } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch, useSelector } from 'react-redux';
 
-import Layout from "components/Layout";
-import Product from "components/Product";
-import Paginator from "components/Pagination";
-import Header from "containers/Header";
+import Layout from 'components/Layout';
+import Product from 'components/Product';
+import Paginator from 'components/Pagination';
+import Header from 'containers/Header';
 
-import { refreshToken, loadProductsPage } from "actions/sagaWatcherActions";
-import { resetDeletedProduct } from "actions/syncActions";
-import { getProducts, getUser, getPage } from "selectors";
-import { getAuthToken } from "utils/tokenUtils";
+import { refreshToken, loadProductsPage } from 'actions/sagaWatcherActions';
+import { resetDeletedProduct } from 'actions/syncActions';
+import { getProducts, getUser, getPage } from 'selectors';
+import { getAuthToken } from 'utils/tokenUtils';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   gridList: {
-    width: "100%",
-    height: "fitcontent",
+    width: '100%',
+    height: 'fitcontent',
     zIndex: 1,
-    position: "relative",
+    position: 'relative',
   },
   title: {
-    fontFamily: "Ubuntu",
-    textShadow: "2px 2px 5px #acacac",
-    color: "#cecece",
-    padding: "100px 0 0 0",
+    fontFamily: 'Ubuntu',
+    textShadow: '2px 2px 5px #acacac',
+    color: '#cecece',
+    padding: '100px 0 0 0',
   },
   progress: {
-    width: "100%",
-    height: "6px",
+    width: '100%',
+    height: '6px',
   },
-}));
+});
 
 const Main = () => {
   const styles = useStyles();
@@ -40,7 +40,7 @@ const Main = () => {
   const products = useSelector(getProducts);
   const { id, loggedIn } = useSelector(getUser);
   const { data } = products;
-  let token = getAuthToken();
+  const token = getAuthToken();
 
   useEffect(() => {
     if (page === 1) {
@@ -64,12 +64,12 @@ const Main = () => {
     dispatch(resetDeletedProduct());
   });
 
-  const handleChange = (e, page) => {
-    dispatch(loadProductsPage(page));
+  const handleChange = (e, numberOfPage) => {
+    dispatch(loadProductsPage(numberOfPage));
   };
 
-  const renderProducts = (data) => {
-    if (data) {
+  const renderProducts = (arrOfData) => {
+    if (arrOfData) {
       return (
         <>
           <Header />
@@ -92,17 +92,18 @@ const Main = () => {
         </>
       );
     }
+    return null;
   };
 
   return (
     <Layout>
       <Typography
         className={styles.title}
-        color="textSecondary"
-        variant="h2"
-        component="h2"
-        align="center"
-        gutterBottom={true}
+        color='textSecondary'
+        variant='h2'
+        component='h2'
+        align='center'
+        gutterBottom
       >
         Products
       </Typography>

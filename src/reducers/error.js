@@ -1,14 +1,14 @@
-import * as R from "ramda";
+import * as R from 'ramda';
 
-import { ERROR, ERROR_RESET, SET_SUBMIT_SUCCESSED } from "actionTypes";
+import { ERROR, ERROR_RESET, SET_SUBMIT_SUCCESSED } from 'actionTypes';
 
 const initialState = {
   error: false,
-  message: "",
+  message: '',
   submitSucceeded: false,
 };
 
-//error actions
+// error actions
 
 export const resetError = () => {
   return {
@@ -24,13 +24,13 @@ export const errorAction = (error) => {
   };
 };
 
-//reducer
+// reducer
 
 export default (state = initialState, { type, payload, error }) => {
   switch (type) {
     case ERROR:
       return R.merge(state, {
-        error: error,
+        error,
         message: payload.message,
       });
     case ERROR_RESET:

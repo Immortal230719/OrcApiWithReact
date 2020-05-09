@@ -1,32 +1,32 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import Menu from "@material-ui/core/Menu";
-import Button from "@material-ui/core/Button";
-import MenuItem from "@material-ui/core/MenuItem";
-import Avatar from "@material-ui/core/Avatar";
-import Fade from "@material-ui/core/Fade";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import AccountBoxIcon from "@material-ui/icons/AccountBox";
-import { Link } from "react-router-dom";
+import Menu from '@material-ui/core/Menu';
+import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
+import Avatar from '@material-ui/core/Avatar';
+import Fade from '@material-ui/core/Fade';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import { Link } from 'react-router-dom';
 
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/core/styles';
 
-import { logoutAction } from "actions/sagaWatcherActions";
-import { getUser } from "selectors";
+import { logoutAction } from 'actions/sagaWatcherActions';
+import { getUser } from 'selectors';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   link: {
-    textDecoration: "none",
-    color: "#ddd",
+    textDecoration: 'none',
+    color: '#ddd',
   },
   marginR: {
-    marginRight: "12px",
+    marginRight: '12px',
   },
   padding: {
-    padding: "20px 40px",
+    padding: '20px 40px',
   },
-}));
+});
 
 const User = () => {
   const styles = useStyles();
@@ -51,28 +51,28 @@ const User = () => {
     <div>
       <Button
         className={styles.padding}
-        aria-controls="fade-menu"
-        aria-haspopup="true"
+        aria-controls='fade-menu'
+        aria-haspopup='true'
         onClick={handleClick}
       >
-        <Avatar className={styles.marginR} src={avatar} alt="avatar" />
+        <Avatar className={styles.marginR} src={avatar} alt='avatar' />
         {name}
       </Button>
       <Menu
-        id="user-menu"
+        id='user-menu'
         anchorEl={anchorEl}
         elevation={0}
         getContentAnchorEl={null}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
+          vertical: 'bottom',
+          horizontal: 'center',
         }}
         keepMounted
         open={open}
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <Link className={styles.link} to={"/profile/"}>
+        <Link className={styles.link} to='/profile'>
           <MenuItem onClick={handleClose}>
             <AccountBoxIcon className={styles.marginR} />
             Profile

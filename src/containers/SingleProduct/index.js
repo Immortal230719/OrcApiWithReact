@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useEffect, useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   Typography,
   List,
@@ -10,57 +10,62 @@ import {
   ListSubheader,
   Tooltip,
   Grid,
-} from "@material-ui/core";
-import Alert from "@material-ui/lab/Alert";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import BuildIcon from "@material-ui/icons/Build";
-import { useDispatch, useSelector } from "react-redux";
-import Layout from "components/Layout";
-import PatchProduct from "containers/Forms/PatchProduct";
-import { Link, useParams } from "react-router-dom";
+} from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import BuildIcon from '@material-ui/icons/Build';
+import { useDispatch, useSelector } from 'react-redux';
+import Layout from 'components/Layout';
+import PatchProduct from 'containers/Forms/PatchProduct';
+import { Link, useParams } from 'react-router-dom';
 
-import { loadSingleProduct, refreshToken } from "actions/sagaWatcherActions";
-import Header from "containers/Header";
-import BackBtn from "components/Buttons/BackBtn";
-import { getProduct, getUser } from "selectors";
-import { deleteProduct } from "actions/sagaWatcherActions";
-import { productHasOwnerId } from "utils/filters";
-import { getAuthToken } from "utils/tokenUtils";
-import ErrorBoundary from "components/ErrorBoundary";
+import {
+  loadSingleProduct,
+  refreshToken,
+  deleteProduct,
+} from 'actions/sagaWatcherActions';
+import Header from 'containers/Header';
+import BackBtn from 'components/Buttons/BackBtn';
+import { getProduct, getUser } from 'selectors';
+import productHasOwnerId from 'utils/filters';
+import { getAuthToken } from 'utils/tokenUtils';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 const useStyles = makeStyles({
   wrapper: {
-    textDecoration: "none",
-    color: "#ddd",
+    textDecoration: 'none',
+    color: '#ddd',
   },
   text: {
-    width: "50%",
-    margin: "0 auto",
+    width: '50%',
+    margin: '0 auto',
   },
   subTitle: {
-    fontSize: "25px",
+    fontSize: '25px',
   },
   flex: {
-    display: "flex",
-    justifyContent: "space-around",
+    display: 'flex',
+    justifyContent: 'space-around',
   },
   delete: {
-    fontSize: "40px",
-    cursor: "pointer",
+    fontSize: '40px',
+    cursor: 'pointer',
   },
   relative: {
     zIndex: 1,
-    position: "relative",
+    position: 'relative',
   },
 });
 
 const SingleProduct = () => {
   const styles = useStyles();
-  let { slug } = useParams();
+  const { slug } = useParams();
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
 
-  let { title, description, owners, deleted, status } = useSelector(getProduct);
+  const { title, description, owners, deleted, status } = useSelector(
+    getProduct
+  );
   const { id, loggedIn } = useSelector(getUser);
   const token = getAuthToken();
   const hasOwnerId = productHasOwnerId(owners, id);
@@ -85,14 +90,18 @@ const SingleProduct = () => {
     setShow(!show);
   };
 
-  const renderOwners = (owners, styles) => {
+  const renderOwners = (arrOfOwners, objOfStyles) => {
     if (Array.isArray(owners)) {
-      return owners.map(({ id, name, email, avatar }) => {
+      return arrOfOwners.map(({ ownerId, name, email, avatar }) => {
         return (
-          <Link className={styles.wrapper} key={email} to={`/owners/${id}`}>
+          <Link
+            className={objOfStyles.wrapper}
+            key={email}
+            to={`/owners/${ownerId}`}
+          >
             <ListItem button>
               <ListItemIcon>
-                <Avatar variant="rounded" src={avatar} />
+                <Avatar variant='rounded' src={avatar} />
               </ListItemIcon>
               <ListItemText primary={name} />
               <ListItemText primary={email} />
@@ -100,7 +109,8 @@ const SingleProduct = () => {
           </Link>
         );
       });
-    } else return null;
+    }
+    return null;
   };
 
   return (
@@ -110,30 +120,30 @@ const SingleProduct = () => {
         {!deleted ? (
           <Layout>
             <Typography
-              color="primary"
-              align="center"
-              variant="h3"
-              component="h1"
-              gutterBottom={true}
+              color='primary'
+              align='center'
+              variant='h3'
+              component='h1'
+              gutterBottom
             >
               {title}
             </Typography>
             <Typography
-              color="primary"
-              paragraph={true}
-              align="center"
-              variant="body2"
-              component="p"
+              color='primary'
+              paragraph
+              align='center'
+              variant='body2'
+              component='p'
             >
               {description}
             </Typography>
             <List
-              aria-labelledby="owners"
+              aria-labelledby='owners'
               subheader={
                 <ListSubheader
                   className={styles.subTitle}
-                  component="h2"
-                  id="owners"
+                  component='h2'
+                  id='owners'
                 >
                   <Grid className={styles.relative} container>
                     <Grid item md={9}>
@@ -141,13 +151,13 @@ const SingleProduct = () => {
                     </Grid>
                     {hasOwnerId ? (
                       <Grid className={styles.flex} item md={3}>
-                        <Tooltip title="Change Product" arrow>
+                        <Tooltip title='Change Product' arrow>
                           <BuildIcon
                             onClick={showHandler}
                             className={styles.delete}
                           />
                         </Tooltip>
-                        <Tooltip title="Delete Product" arrow>
+                        <Tooltip title='Delete Product' arrow>
                           <DeleteForeverIcon
                             onClick={deleteHandler}
                             className={styles.delete}
@@ -161,7 +171,7 @@ const SingleProduct = () => {
             >
               {renderOwners(owners, styles)}
               {
-                //Patch form
+                // Patch form
               }
               {show ? (
                 <PatchProduct
@@ -170,20 +180,20 @@ const SingleProduct = () => {
                   status={status}
                 />
               ) : null}
-              <Link className={styles.wrapper} to="/">
+              <Link className={styles.wrapper} to='/'>
                 <BackBtn>Back</BackBtn>
               </Link>
             </List>
           </Layout>
         ) : (
           <Layout>
-            <Alert className={styles.alert} variant="filled" severity="info">
+            <Alert className={styles.alert} variant='filled' severity='info'>
               Product had Deleted!
             </Alert>
             <Grid container>
-              <Grid item xs={1} md={8}></Grid>
+              <Grid item xs={1} md={8} />
               <Grid item xs={11} md={4}>
-                <Link className={styles.wrapper} to="/">
+                <Link className={styles.wrapper} to='/'>
                   <BackBtn>Go to Products</BackBtn>
                 </Link>
               </Grid>

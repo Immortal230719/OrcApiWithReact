@@ -1,29 +1,29 @@
-import "./main.scss";
+import './main.scss';
 
-import React from "react";
-import ReactDOM from "react-dom";
-import { createBrowserHistory } from "history";
-import { createStore, applyMiddleware } from "redux";
-import { routerMiddleware, ConnectedRouter } from "connected-react-router";
-import { composeWithDevTools } from "redux-devtools-extension";
-import createSagaMiddleware from "redux-saga";
-import { Provider } from "react-redux";
-import { YMaps } from "react-yandex-maps";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { createBrowserHistory } from 'history';
+import { createStore, applyMiddleware } from 'redux';
+import { routerMiddleware, ConnectedRouter } from 'connected-react-router';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import createSagaMiddleware from 'redux-saga';
+import { Provider } from 'react-redux';
+import { YMaps } from 'react-yandex-maps';
 
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
-import createRootReducer from "reducers";
-import rootSaga from "sagas/watchers";
-import App from "App";
+import createRootReducer from 'reducers';
+import rootSaga from 'sagas/watchers';
+import App from 'App';
 
 const theme = createMuiTheme({
   typography: {
-    fontFamily: ["Ubuntu, Montserrat"].join(","),
+    fontFamily: ['Ubuntu, Montserrat'].join(','),
   },
   palette: {
-    type: "dark",
+    type: 'dark',
     primary: {
-      main: "#ddd",
+      main: '#ddd',
     },
   },
 });
@@ -49,5 +49,5 @@ ReactDOM.render(
       </Provider>
     </ThemeProvider>
   </YMaps>,
-  document.getElementById("root")
+  document.getElementById('root')
 );

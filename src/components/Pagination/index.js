@@ -1,40 +1,54 @@
-import React from "react";
-import Pagination from "@material-ui/lab/Pagination";
-import PaginationItem from "@material-ui/lab/PaginationItem";
-import { makeStyles } from "@material-ui/core/styles";
-import { useSelector } from "react-redux";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Pagination from '@material-ui/lab/Pagination';
+import PaginationItem from '@material-ui/lab/PaginationItem';
+import { makeStyles } from '@material-ui/core/styles';
+import { useSelector } from 'react-redux';
 
-import { memoProducts, getPage } from "selectors";
+import { memoProducts, getPage } from 'selectors';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   wrapper: {
     zIndex: 1,
-    position: "relative",
-    "& ul": {
-      justifyContent: "center",
+    position: 'relative',
+    '& ul': {
+      justifyContent: 'center',
     },
   },
-}));
+});
 
 const Paginator = ({ onChange }) => {
   const styles = useStyles();
   const { meta } = useSelector(memoProducts);
-  const page = useSelector(getPage);
+  const currentPage = useSelector(getPage);
 
   return (
     <div className={styles.wrapper}>
       <Pagination
-        color="primary"
+        color='primary'
         className={`${styles.wrapper} ${styles.root}`}
         count={meta.last_page}
-        shape="rounded"
+        shape='rounded'
         hidePrevButton
         hideNextButton
         onChange={onChange}
         renderItem={(item) => {
-          item.selected = item.page === page ? true : false;
+          const { color, onClick, disabled, page, shape, type, variant } = item;
+          let { selected } = item;
+          selected = Boolean(page === currentPage);
           return (
-            <PaginationItem size="large" selected={item.selected} {...item} />
+            <PaginationItem
+              aria-label={item['aria-label']}
+              size='large'
+              selected={selected}
+              color={color}
+              onClick={onClick}
+              disabled={disabled}
+              page={page}
+              shape={shape}
+              type={type}
+              variant={variant}
+            />
           );
         }}
       />
@@ -43,3 +57,7 @@ const Paginator = ({ onChange }) => {
 };
 
 export default Paginator;
+
+Paginator.propTypes = {
+  onChange: PropTypes.func.isRequired,
+};

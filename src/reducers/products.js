@@ -1,9 +1,9 @@
-import * as R from "ramda";
+import * as R from 'ramda';
 
 import {
   FETCH_PRODUCTS_PAGE_SUCCESS,
   DELETE_FROM_PRODUCTS_STORE,
-} from "actionTypes";
+} from 'actionTypes';
 
 const initialState = [];
 

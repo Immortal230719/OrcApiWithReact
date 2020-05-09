@@ -1,5 +1,6 @@
-import React from "react";
-import Container from "@material-ui/core/Container";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Container from '@material-ui/core/Container';
 
 const Layout = ({ children, className, ...props }) => {
   return (
@@ -8,9 +9,9 @@ const Layout = ({ children, className, ...props }) => {
       className={className}
       style={{
         zIndex: 1,
-        position: "relative",
+        position: 'relative',
       }}
-      maxWidth="lg"
+      maxWidth='lg'
     >
       {children}
     </Container>
@@ -18,3 +19,12 @@ const Layout = ({ children, className, ...props }) => {
 };
 
 export default Layout;
+
+Layout.defaultProps = {
+  className: '',
+};
+
+Layout.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+};

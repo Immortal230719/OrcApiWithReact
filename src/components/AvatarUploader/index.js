@@ -1,97 +1,100 @@
-import React, { useRef } from "react";
-import { useDispatch } from "react-redux";
+import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 
-import DeleteForeverOutlinedIcon from "@material-ui/icons/DeleteForeverOutlined";
-import AddAPhotoOutlinedIcon from "@material-ui/icons/AddAPhotoOutlined";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Tooltip from "@material-ui/core/Tooltip";
+import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
+import AddAPhotoOutlinedIcon from '@material-ui/icons/AddAPhotoOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
 
-import { deleteAvatar } from "actions/sagaWatcherActions";
-import { requestUploadAvatar } from "actions/sagaWatcherActions";
+import { deleteAvatar, requestUploadAvatar } from 'actions/sagaWatcherActions';
+import { errorAction } from 'reducers/error';
 
 const useStyles = makeStyles({
   wrapper: {
-    position: "relative",
+    position: 'relative',
   },
   tooltip: {
-    zIndex: "1000",
-    fontSize: "30px",
+    zIndex: '1000',
+    fontSize: '30px',
   },
   fileInput: {
-    opacity: "0",
-    height: "100%",
-    width: "100%",
+    opacity: '0',
+    height: '100%',
+    width: '100%',
   },
   hoverWrapper: {
-    position: "absolute",
-    zIndex: "10",
-    top: "0",
-    width: "100%",
-    height: "100%",
-    background: "rgba(42, 42, 42, 0.831)",
-    borderRadius: "10px",
-    transition: "all 1.5s",
+    position: 'absolute',
+    zIndex: '10',
+    top: '0',
+    width: '100%',
+    height: '100%',
+    background: 'rgba(42, 42, 42, 0.831)',
+    borderRadius: '10px',
+    transition: 'all 1.5s',
   },
   avatar: {
-    height: "300px",
-    width: "100%",
-    maxHeight: "300px",
-    borderRadius: "10px",
-    transition: "all 1.5s",
-    "&:hover": {
-      "& div": {
-        display: "block",
+    height: '300px',
+    width: '100%',
+    maxHeight: '300px',
+    borderRadius: '10px',
+    transition: 'all 1.5s',
+    '&:hover': {
+      '& div': {
+        display: 'block',
       },
     },
   },
   deleteIcon: {
-    position: "absolute",
-    top: "15px",
-    left: "15px",
-    "&:hover": {
-      cursor: "pointer",
+    position: 'absolute',
+    top: '15px',
+    left: '15px',
+    '&:hover': {
+      cursor: 'pointer',
     },
   },
   uploadIcon: {
-    position: "absolute",
-    bottom: "15px",
-    right: "15px",
-    "&:hover": {
-      cursor: "pointer",
+    position: 'absolute',
+    bottom: '15px',
+    right: '15px',
+    '&:hover': {
+      cursor: 'pointer',
     },
   },
   text: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    fontSize: "18px",
-    transform: "translate(-50%, -50%)",
-    userSelect: "none",
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    fontSize: '18px',
+    transform: 'translate(-50%, -50%)',
+    userSelect: 'none',
   },
   hoverEffect: {
-    display: "none",
+    display: 'none',
   },
 });
 
-const AvatarUploader = ({ hovered, className, src, ...props }) => {
+const AvatarUploader = ({ src }) => {
   const styles = useStyles();
   const fileInput = useRef(null);
   const dispatch = useDispatch();
 
-  let fileReader = new FileReader();
-
   const dropHandler = (e) => {
-    const files = e.currentTarget.files;
+    const fileReader = new FileReader();
+    const message =
+      'Sorry! Something went wrong. Plaese, try to reload Application';
+
+    const { files } = e.currentTarget;
     fileReader.onabort = () => {
-      console.log("File reading error!");
+      dispatch(errorAction({ error: true, message }));
     };
     fileReader.onerror = () => {
-      console.log("Reading error!");
+      dispatch(errorAction({ error: true, message }));
     };
     if (files.length === 1) {
       dispatch(requestUploadAvatar(files[0]));
-      e.currentTarget.value = "";
+      e.currentTarget.value = '';
     }
   };
 
@@ -105,17 +108,16 @@ const AvatarUploader = ({ hovered, className, src, ...props }) => {
         className={styles.avatar}
         style={{
           backgroundImage: `url(${src})`,
-          backgroundSize: "100%",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
+          backgroundSize: '100%',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
         }}
-        {...props}
       >
         <input
           className={styles.fileInput}
-          type="file"
-          id="fileInput"
-          name="fileInput"
+          type='file'
+          id='fileInput'
+          name='fileInput'
           ref={fileInput}
           onDragOver={(e) => {
             e.preventDefault();
@@ -128,8 +130,8 @@ const AvatarUploader = ({ hovered, className, src, ...props }) => {
           <div className={styles.hoverWrapper}>
             <Tooltip
               className={styles.tooltip}
-              title="Delete Avatar"
-              aria-label="Delete Avatar"
+              title='Delete Avatar'
+              aria-label='Delete Avatar'
               arrow
             >
               <DeleteForeverOutlinedIcon
@@ -137,14 +139,14 @@ const AvatarUploader = ({ hovered, className, src, ...props }) => {
                 className={styles.deleteIcon}
               />
             </Tooltip>
-            <Typography className={styles.text} variant="h3" color="inherit">
+            <Typography className={styles.text} variant='h3' color='inherit'>
               Drag & Drop <br />
               Your Photo
             </Typography>
             <Tooltip
               className={styles.tooltip}
-              title="Add New Avatar"
-              aria-label="Add New Avatar"
+              title='Add New Avatar'
+              aria-label='Add New Avatar'
               arrow
             >
               <AddAPhotoOutlinedIcon
@@ -160,3 +162,7 @@ const AvatarUploader = ({ hovered, className, src, ...props }) => {
 };
 
 export default AvatarUploader;
+
+AvatarUploader.propTypes = {
+  src: PropTypes.string.isRequired,
+};

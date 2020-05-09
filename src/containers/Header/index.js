@@ -1,22 +1,22 @@
-import React from "react";
-import Container from "@material-ui/core/Container";
-import { makeStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
-import { useSelector } from "react-redux";
+import React from 'react';
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
+import { Grid } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 
-import { getLoggedIn } from "selectors";
+import { getLoggedIn } from 'selectors';
 
-import Logo from "components/Logo";
-import Sign from "components/Sign";
-import User from "containers/Header/User";
-import ErrorBoundary from "components/ErrorBoundary";
+import Logo from 'components/Logo';
+import Sign from 'components/Sign';
+import User from 'containers/Header/User';
+import ErrorBoundary from 'components/ErrorBoundary';
 
 const useStyles = makeStyles({
   header: {
-    position: "relative",
+    position: 'relative',
     zIndex: 1,
-    maxHeight: "200px",
-    padding: "30px 0",
+    maxHeight: '200px',
+    padding: '30px 0',
   },
 });
 
@@ -27,12 +27,12 @@ const Header = () => {
   return (
     <ErrorBoundary>
       <header>
-        <Container className={styles.header} maxWidth="lg">
+        <Container className={styles.header} maxWidth='lg'>
           <Grid
             container
-            direction="row"
-            justify="space-between"
-            alignItems="center"
+            direction='row'
+            justify='space-between'
+            alignItems='center'
           >
             <Grid item>
               <Logo />

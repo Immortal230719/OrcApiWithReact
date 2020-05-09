@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import Alert from "components/Alert";
-import { errorAction } from "reducers/error";
-// import { Redirect } from "react-router";
+import Alert from 'components/Alert';
+import { errorAction } from 'reducers/error';
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -11,21 +11,30 @@ class ErrorBoundary extends Component {
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError() {
     return { hasError: true };
   }
-  componentDidCatch(error) {
+
+  componentDidCatch() {
+    const { dispatch } = this.props;
     const message =
-      "Sorry! Something went wrong. Plaese, try to reload Application";
-    this.props.dispatch(errorAction({ error: true, message: message }));
+      'Sorry! Something went wrong. Plaese, try to reload Application';
+    dispatch(errorAction({ error: true, message }));
   }
 
   render() {
-    if (this.state.hasError) {
+    const { hasError } = this.state;
+    const { children } = this.props;
+    if (hasError) {
       return <Alert />;
     }
-    return <>{this.props.children}</>;
+    return <>{children}</>;
   }
 }
 
 export default connect(null, null)(ErrorBoundary);
+
+ErrorBoundary.propTypes = {
+  children: PropTypes.node.isRequired,
+  dispatch: PropTypes.func.isRequired,
+};
